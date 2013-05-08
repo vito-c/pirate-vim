@@ -1,0 +1,8 @@
+.DS_Store
+*.pyc
+*._*
+*.*~
+.vim/
+vim/*
+vim
+vim/bundle/vundle

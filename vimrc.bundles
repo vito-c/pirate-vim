@@ -1,0 +1,103 @@
+"--------------------------------------------------------------------------------
+" Information {
+"--------------------------------------------------------------------------------
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldmethod=marker :
+" 
+" By: Vito C.
+"                       .ed'''' '''$$$$be.                     
+"                     -'           ^''**$$$e.                  
+"                   .'                   '$$$c                 
+"                  /                      '4$$b                
+"                 d  3                     $$$$                
+"                 $  *                   .$$$$$$               
+"                .$  ^c           $$$$$e$$$$$$$$.              
+"                d$L  4.         4$$$$$$$$$$$$$$b              
+"                $$$$b ^ceeeee.  4$$ECL.F*$$$$$$$              
+"    e$''=.      $$$$P d$$$$F $ $$$$$$$$$- $$$$$$              
+"   z$$b. ^c     3$$$F '$$$$b   $'$$$$$$$  $$$$*'      .=''$c  
+"  4$$$$L   \     $$P'  '$$b   .$ $$$$$...e$$        .=  e$$$. 
+"  ^*$$$$$c  %..   *c    ..    $$ 3$$$$$$$$$$eF     zP  d$$$$$ 
+"    '**$$$ec   '\   %ce''    $$$  $$$$$$$$$$*    .r' =$$$$P'' 
+"          '*$b.  'c  *$e.    *** d$$$$$'L$$    .d'  e$$***'   
+"            ^*$$c ^$c $$$      4J$$$$$% $$$ .e*'.eeP'         
+"               '$$$$$$''$=e....$*$$**$cz$$' '..d$*'           
+"                 '*$$$  *=%4.$ L L$ P3$$$F $$$P'              
+"                    '$   '%*ebJLzb$e$$$$$b $P'                
+"                      %..      4$$$$$$$$$$ '                  
+"                       $$$e   z$$$$$$$$$$%                    
+"                        '*$c  '$$$$$$$P'                      
+"                         .'''*$$$$$$$$bc                      
+"                      .-'    .$***$$$'''*e.                   
+"                   .-'    .e$'     '*$c  ^*b.                 
+"            .=*''''    .e$*'          '*bc  '*$e..            
+"          .$'        .z*'               ^*$e.   '*****e.      
+"          $$ee$c   .d'                     '*$.        3.     
+"          ^*$E')$..$'                         *   .ee==d%     
+"             $.d$$$*                           *  J$$$e*      
+"              '''''                             '$$$'   
+" }
+"--------------------------------------------------------------------------------
+" Environment {
+"--------------------------------------------------------------------------------
+    " Basics {
+        set nocompatible        " must be first line
+        set background=dark     " Assume a dark background
+    " }
+    " Windows Compatible {
+        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
+        " across (heterogeneous) systems easier.
+        if has('win32') || has('win64')
+          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+        endif
+    " }
+    " Setup Bundle Support {
+    " The next three lines ensure that the ~/.vim/bundle/ system works
+        filetype off
+        set rtp+=~/.vim/bundle/vundle
+        call vundle#rc()
+    " }
+" }
+"--------------------------------------------------------------------------------
+" Bundles {
+    " Deps {
+        Bundle 'gmarik/vundle'
+        Bundle 'dahu/vimple'
+        if executable('ack-grep')
+            let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+            Bundle 'mileszs/ack.vim'
+        elseif executable('ack')
+            Bundle 'mileszs/ack.vim'
+        elseif executable('ag')
+            Bundle 'mileszs/ack.vim'
+            let g:ackprg = 'ag --nogroup --nocolor --column'
+        endif
+	" }
+    " General {
+	    Bundle 'spf13/vim-colors'
+	    Bundle 'tpope/vim-surround'
+	    Bundle 'kien/ctrlp.vim'
+"		Bundle 'vim-scripts/sessionman.vim' "umm what's this do
+"		Bundle 'matchit.zip' "umm what's this do
+	    Bundle 'Lokaltog/powerline'
+	    Bundle 'godlygeek/csapprox'
+	    Bundle 'tpope/vim-unimpaired'
+	    Bundle 'flazz/vim-colorschemes'
+		Bundle 'sjl/gundo.vim'
+	    Bundle 'Raimondi/vim-buffalo'
+	    Bundle 'tpope/vim-abolish.git'
+	" }
+    " General Programming {
+	    Bundle 'scrooloose/syntastic'
+	    Bundle 'vito-c/vim-pirate-scope'
+	    Bundle 'tpope/vim-fugitive'
+		 "wtf does this one do
+		Bundle 'mattn/webapi-vim'
+	    Bundle 'mattn/gist-vim'
+	    "Bundle 'scrooloose/nerdcommenter' "TODO: need a better commenter
+	    Bundle 'godlygeek/tabular'
+	    if executable('ctags')
+		    Bundle 'majutsushi/tagbar'
+	    endif
+	" }
+"}
+"--------------------------------------------------------------------------------
