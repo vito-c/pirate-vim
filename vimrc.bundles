@@ -95,6 +95,7 @@
 	    Bundle 'mattn/gist-vim'
 	    "Bundle 'scrooloose/nerdcommenter' "TODO: need a better commenter
 	    Bundle 'godlygeek/tabular'
+        Bundle 'Valloric/YouCompleteMe'
 	    if executable('ctags')
 		    Bundle 'majutsushi/tagbar'
 	    endif
