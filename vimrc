@@ -82,8 +82,8 @@
     set background=dark         " Assume a dark background
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
-    set mouse=a                 " Automatically enable mouse usage
-    set mousehide               " Hide the mouse cursor while typing
+    "set mouse=a                 " Automatically enable mouse usage
+    "set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
     " Auto Commands {
 		if has("autocmd")
@@ -276,10 +276,13 @@
             set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
         endif
     " }
+    " Netrw Ignore {
+        let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
+    " }
     " Setup Misc {
         set backspace=indent,eol,start  " Backspace for dummies
         set linespace=0                 " No extra spaces between rows
-        set number                      " Line numbers on
+        set relativenumber              " Line numbers on
         set showmatch                   " Show matching brackets/parenthesis
         set incsearch                   " Find as you type search
         set hlsearch                    " Highlight search terms
@@ -418,6 +421,11 @@
         nmap <leader>f7 :set foldlevel=7<CR>
         nmap <leader>f8 :set foldlevel=8<CR>
         nmap <leader>f9 :set foldlevel=9<CR>
+    " }
+    " Path Editing {
+        map <leader>nw :<C-U>e %%<CR>
+        map <leader>ns :<C-U>sp %%<CR>
+        map <leader>nv :<C-U>vsp %%<CR>
     " }
     " File Editing {
         " Some helpers to edit mode

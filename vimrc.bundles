@@ -78,7 +78,7 @@
 	    Bundle 'kien/ctrlp.vim'
 "		Bundle 'vim-scripts/sessionman.vim' "umm what's this do
 "		Bundle 'matchit.zip' "umm what's this do
-	    Bundle 'Lokaltog/powerline'
+	    Bundle 'Lokaltog/vim-powerline'
 	    Bundle 'godlygeek/csapprox'
 	    Bundle 'tpope/vim-unimpaired'
 	    Bundle 'flazz/vim-colorschemes'
@@ -96,6 +96,7 @@
 	    "Bundle 'scrooloose/nerdcommenter' "TODO: need a better commenter
 	    Bundle 'godlygeek/tabular'
         Bundle 'Valloric/YouCompleteMe'
+        Bundle 'nosami/Omnisharp'
 	    if executable('ctags')
 		    Bundle 'majutsushi/tagbar'
 	    endif
