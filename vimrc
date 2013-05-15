@@ -390,6 +390,10 @@
         " Easier horizontal scrolling
         map zl zL
         map zh zH
+        " saving 
+        noremap <leader>ss :w<CR>
+        noremap <leader>sa :wa<CR>
+        noremap <leader>sq :wqa<CR>
         noremap <leader><leader>l :set list!<CR>
         map <leader>; mcA;<ESC>'c
     " }
@@ -537,11 +541,6 @@
         nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
         vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     " }
-    " Session List {
-        set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-        nmap <leader>sl :SessionList<CR>
-        nmap <leader>ss :SessionSave<CR>
-    " }
     " JSON {
         nmap <leader><leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
     " }
@@ -554,10 +553,10 @@
         let g:ctrlp_working_path_mode = 2
         nnoremap <silent> <D-t> :CtrlP<CR>
         nnoremap <silent> <D-r> :CtrlPMRU<CR>
-		set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.meta,*.prefab,*.png,*.jpg,*~
+		set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~
 		let g:ctrlp_custom_ignore = {
-		  \ 'dir':  '\v[\/]\.(git|hg|svn|neocon|vimswap|vimundo|vimgolf)$',
-		  \ 'file': '\v\.(exe|so|dll|meta|prefab|sln|jpg|png)$'
+		  \ 'dir':  '\v[\/]\.(git|hg|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf)$',
+		  \ 'file': '\v\.(exe|csproj|anim|mat|unity|pidb|so|dll|meta|mdpolicy|userprefs|swp|fbx|zip|prefab|sln|jpg|png)$'
 		  \ }
     "}
     " TagBar {

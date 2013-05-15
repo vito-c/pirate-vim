@@ -76,7 +76,6 @@
 	    Bundle 'spf13/vim-colors'
 	    Bundle 'tpope/vim-surround'
 	    Bundle 'kien/ctrlp.vim'
-"		Bundle 'vim-scripts/sessionman.vim' "umm what's this do
 "		Bundle 'matchit.zip' "umm what's this do
 	    Bundle 'Lokaltog/vim-powerline'
 	    Bundle 'godlygeek/csapprox'
