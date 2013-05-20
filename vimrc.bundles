@@ -77,7 +77,6 @@
 	    Bundle 'tpope/vim-surround'
 	    Bundle 'kien/ctrlp.vim'
 "		Bundle 'matchit.zip' "umm what's this do
-	    Bundle 'Lokaltog/vim-powerline'
 	    Bundle 'godlygeek/csapprox'
 	    Bundle 'tpope/vim-unimpaired'
 	    Bundle 'flazz/vim-colorschemes'
@@ -86,6 +85,8 @@
 	    Bundle 'tpope/vim-abolish.git'
 	" }
     " General Programming {
+        Bundle 'dhruvasagar/vim-table-mode'
+        Bundle 'terryma/vim-multiple-cursors'
 	    Bundle 'scrooloose/syntastic'
 	    Bundle 'vito-c/vim-pirate-scope'
 	    Bundle 'tpope/vim-fugitive'
