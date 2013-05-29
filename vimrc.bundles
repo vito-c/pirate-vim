@@ -62,6 +62,7 @@
     " Deps {
         Bundle 'gmarik/vundle'
         Bundle 'dahu/vimple'
+	    Bundle 'tpope/vim-repeat'
         if executable('ack-grep')
             let g:ackprg="ack-grep -H --nocolor --nogroup --column"
             Bundle 'mileszs/ack.vim'

@@ -164,7 +164,6 @@
         " custom shell options
         "set shell=/usr/local/bin/bash\ --rcfile\ ~/.pirate-vim/vim-bashrc\ -i
     " }
-    set background=dark         " Assume a dark background
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
     "set mouse=a                 " Automatically enable mouse usage
@@ -328,7 +327,10 @@
 "--------------------------------------------------------------------------------
 " Vim UI {
 "--------------------------------------------------------------------------------
-    color molokai                    " Load a colorscheme
+    "set background=dark         " Assume a dark background
+    "color molokai                    " Load a colorscheme
+    color default
+    set background=light
     "color default "Load a colorscheme
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
@@ -338,6 +340,8 @@
             set clipboard=unnamedplus
         elseif has ('gui')          " On mac and Windows, use * register for copy-paste
             set clipboard=unnamed
+        elseif has('x11')
+            set clipboard=unnamedplus
         endif
     " }
     " Status Line {
