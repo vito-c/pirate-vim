@@ -327,10 +327,10 @@
 "--------------------------------------------------------------------------------
 " Vim UI {
 "--------------------------------------------------------------------------------
-    "set background=dark         " Assume a dark background
-    "color molokai                    " Load a colorscheme
-    color default
-    set background=light
+    set background=dark         " Assume a dark background
+    color molokai                    " Load a colorscheme
+    "color default
+    "set background=light
     "color default "Load a colorscheme
     set tabpagemax=15               " Only show 15 tabs
     set showmode                    " Display the current mode
