@@ -166,8 +166,8 @@
     " }
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
-    "set mouse=a                 " Automatically enable mouse usage
-    "set mousehide               " Hide the mouse cursor while typing
+    set mouse=a                 " Automatically enable mouse usage
+    set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
     " Auto Commands {
 		if has("autocmd")
@@ -364,7 +364,7 @@
         set hlsearch                    " Highlight search terms
         set winminheight=0              " Windows can be 0 line high
         set ignorecase                  " Case insensitive search
-        set smartcase                   " Case sensitive when uc present
+        "set smartcase                   " Case sensitive when uc present
         set wildmenu                    " Show list instead of just completing
         set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
         set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
