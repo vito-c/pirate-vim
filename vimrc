@@ -516,7 +516,8 @@
         map <leader>es :<C-U>sp %%
         map <leader>ev :<C-U>vsp %%
         map <leader>et :<C-U>tabe %%
-        map <leader>v :<C-U>tabedit $MYVIMRC<CR>
+        map <leader>vv :<C-U>tabedit $MYVIMRC<CR>
+        map <leader>vb :<C-U>tabedit /Users/$USER/.pirate-setup/bashrc<CR>
     " }
     " Better */# Search {
         vnoremap <silent> * :<C-U>
