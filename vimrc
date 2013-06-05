@@ -637,13 +637,18 @@
         let g:pymode_options = 0
     " }
     " ctrlp {
-        let g:ctrlp_working_path_mode = 2
+        let g:ctrlp_working_path_mode = 'ra'
+        let g:ctrlp_max_files = 12000
+        let g:ctrlp_max_depth = 50
         nnoremap <silent> <D-t> :CtrlP<CR>
         nnoremap <silent> <D-r> :CtrlPMRU<CR>
-		set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~
+        " This is filetype ignores
+		set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib
+        " This is directory ignores
+		set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/nouveau/*,*/Library/*,*/Temp/*,*/svn/*,*/neocon/*,*/vimswap/*,*/vimundo/*,*/vimgolf/*,*/AssetsSrc)$',
 		let g:ctrlp_custom_ignore = {
-		  \ 'dir':  '\v[\/]\.(git|hg|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf)$',
-		  \ 'file': '\v\.(exe|csproj|anim|mat|unity|pidb|so|dll|meta|mdpolicy|userprefs|swp|fbx|zip|prefab|sln|jpg|png)$'
+		  \ 'dir': '\v[\/]\.(git|hg|svn|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf|AssetsSrc)$',
+		  \ 'file': '\v\.(exe|csproj|anim|mat|unity|pidb|so|dll|meta|mdpolicy|userprefs|swp|fbx|zip|prefab|sln|jpg|png|PNG|asset)$'
 		  \ }
     "}
     " TagBar {
