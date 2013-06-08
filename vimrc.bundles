@@ -98,8 +98,8 @@
 	    ""Bundle 'scrooloose/nerdcommenter' "TODO: need a better commenter
 	    Bundle 'godlygeek/tabular'
         Bundle 'Valloric/YouCompleteMe'
-        Bundle 'nosami/Omnisharp'
         Bundle 'tpope/vim-fugitive'
+        Bundle 'nosami/Omnisharp'
 	    if executable('ctags')
 		    Bundle 'majutsushi/tagbar'
 	    endif
