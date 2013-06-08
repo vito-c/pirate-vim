@@ -645,7 +645,7 @@
         " This is filetype ignores
 		set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib
         " This is directory ignores
-		set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/nouveau/*,*/Library/*,*/Temp/*,*/svn/*,*/neocon/*,*/vimswap/*,*/vimundo/*,*/vimgolf/*,*/AssetsSrc)$',
+		set wildignore+=*/.svn/*,*/nouveau/*,*/Library/*,*/Temp/*,*/svn/*,*/neocon/*,*/vimswap/*,*/vimundo/*,*/vimgolf/*,*/AssetsSrc)$',
 		let g:ctrlp_custom_ignore = {
 		  \ 'dir': '\v[\/]\.(git|hg|svn|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf|AssetsSrc)$',
 		  \ 'file': '\v\.(exe|csproj|anim|mat|unity|pidb|so|dll|meta|mdpolicy|userprefs|swp|fbx|zip|prefab|sln|jpg|png|PNG|asset)$'
