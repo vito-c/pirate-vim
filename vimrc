@@ -772,6 +772,4 @@
     endfunction
     " }
 " }
-"
-"
 
