@@ -162,7 +162,7 @@
     "Setup Shell {
 	" seems to break vimdiff sometimes
         " custom shell options
-        "set shell=/usr/local/bin/bash\ --rcfile\ ~/.pirate-vim/vim-bashrc\ -i
+        set shell=/usr/local/bin/bash\ --rcfile\ ~/.pirate-vim/vim-bashrc\ -i
     " }
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
