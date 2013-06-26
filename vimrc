@@ -158,6 +158,8 @@
         iabbrev teh the
         iabbrev ehco echo
         cabbrev ehco echo
+        iabbrev <expr> dtl strftime("%c")
+        iabbrev <expr> dts strftime("%m/%d/%Y")
     " }
     "Setup Shell {
 	" seems to break vimdiff sometimes
