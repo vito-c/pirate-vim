@@ -410,8 +410,8 @@
     " Custom Function calls {
         noremap <F5> :call RefreshTags()<CR>
         noremap <leader><leader>t :echo "<C-R>=expand("<cword>")<CR>"<CR>
-        "nmap <silent> <leader>o :call ToggleList("Location List", 'l')<CR>
-        nmap <silent> <leader>o :call ToggleList("Quickfix List", 'c')<CR>
+        nmap <silent> <leader>ol :call ToggleList("Location List", 'l')<CR>
+        nmap <silent> <leader>oq :call ToggleList("Quickfix List", 'c')<CR>
     " }
     " Number toggles {
         nnoremap <leader>no :call NumberOff()<CR>
@@ -586,6 +586,10 @@
 		let g:gist_detect_filetype = 1
 		let g:gist_open_browser_after_post = 1
 	" }
+    " OmniSharp {
+        let g:OmniSharp_sln_list_name = "/Users/redhand/workrepos/farm-mobile/FarmMobile/FarmMobile.sln"
+        let g:OmniSharp_populate_quickfix_list = 0
+    " }
     " OmniComplete {
 
     "    if has("autocmd") && exists("+omnifunc")
@@ -726,6 +730,11 @@
     "}
     " Gundo {
 		nnoremap <Leader>u :GundoToggle<CR>
+    " }
+    " Syntastic {
+        let g:syntastic_always_populate_loc_list=1
+        let g:syntastic_auto_jump=1
+        let g:syntastic_check_on_open = 1
     " }
     " YCM {
         let g:ycm_autoclose_preview_window_after_completion = 1
