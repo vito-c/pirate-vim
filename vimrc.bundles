@@ -75,10 +75,11 @@
         endif
 	" }
     " General {
+        Bundle 'bling/vim-airline'
 	    Bundle 'spf13/vim-colors'
 	    Bundle 'tpope/vim-surround'
 	    Bundle 'kien/ctrlp.vim'
-        Bundle 'Lokaltog/vim-powerline'
+        "Bundle 'Lokaltog/vim-powerline'
 "		Bundle 'matchit.zip' "umm what's this do
 	    Bundle 'godlygeek/csapprox'
 	    Bundle 'tpope/vim-unimpaired'
@@ -90,6 +91,7 @@
     " General Programming {
         Bundle 'dhruvasagar/vim-table-mode'
         Bundle 'terryma/vim-multiple-cursors'
+        Bundle 'SirVer/ultisnips'
 	    Bundle 'scrooloose/syntastic'
 	    Bundle 'vito-c/vim-pirate-scope'
 		 "wtf does this one do

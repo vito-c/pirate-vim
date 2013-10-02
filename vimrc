@@ -156,6 +156,7 @@
     " }
     " Abbrevs {
         iabbrev teh the
+        iabbrev chomd chmod
         iabbrev ehco echo
         cabbrev ehco echo
         iabbrev <expr> dtl strftime("%c")
@@ -545,6 +546,9 @@
 "--------------------------------------------------------------------------------
 " Plugins {
 "--------------------------------------------------------------------------------
+    " Airline {
+        let g:airline_powerline_fonts = 1 
+    " }
     " CScope {
         if has("cscope")
             " add any cscope database in current directory
@@ -639,6 +643,7 @@
         let g:pymode_options = 0
     " }
     " ctrlp {
+        let g:ctrlp_working_path_mode = 0
         let g:ctrlp_working_path_mode = 'ra'
         let g:ctrlp_max_files = 12000
         let g:ctrlp_max_depth = 50
@@ -729,6 +734,11 @@
     " }
     " YCM {
         let g:ycm_autoclose_preview_window_after_completion = 1
+    " }
+    " UltiSnips {
+        let g:UltiSnipsExpandTrigger="<c-j>"
+        let g:UltiSnipsJumpForwardTrigger="<c-j>"
+        let g:UltiSnipsJumpBackwardTrigger="<c-k>"
     " }
 " }
 "--------------------------------------------------------------------------------
