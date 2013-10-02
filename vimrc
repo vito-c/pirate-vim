@@ -411,8 +411,8 @@
     " Custom Function calls {
         noremap <F5> :call RefreshTags()<CR>
         noremap <leader><leader>t :echo "<C-R>=expand("<cword>")<CR>"<CR>
-        "nmap <silent> <leader>o :call ToggleList("Location List", 'l')<CR>
-        nmap <silent> <leader>o :call ToggleList("Quickfix List", 'c')<CR>
+        nmap <silent> <leader>ol :call ToggleList("Location List", 'l')<CR>
+        nmap <silent> <leader>oq :call ToggleList("Quickfix List", 'c')<CR>
     " }
     " Number toggles {
         nnoremap <leader>no :call NumberOff()<CR>
@@ -562,7 +562,7 @@
 "            endif
 			if !exists("cscope_test_loaded")
 				let cscope_test_loaded = 1
-				cs add /Users/$USER/workrepos/farm-mobile/.git/cscope.out
+				cs add $HOME.'/workrepos/farm-mobile/.git/cscope.out'
 			endif
             " show msg when any other cscope db added
             set cscopeverbose  
@@ -590,6 +590,10 @@
 		let g:gist_detect_filetype = 1
 		let g:gist_open_browser_after_post = 1
 	" }
+    " OmniSharp {
+        let g:OmniSharp_sln_list_name = $HOME.'/farm-mobile/FarmMobile/FarmMobile.sln'
+        let g:OmniSharp_BufWritePreSyntaxCheck = 0
+    " }
     " OmniComplete {
 
     "    if has("autocmd") && exists("+omnifunc")
@@ -652,9 +656,9 @@
         " This is filetype ignores
 		set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib
         " This is directory ignores
-		set wildignore+=*/.svn/*,*/nouveau/*,*/Library/*,*/Temp/*,*/svn/*,*/neocon/*,*/vimswap/*,*/vimundo/*,*/vimgolf/*,*/AssetsSrc)$',
+		set wildignore+=*/.svn/*,*/nouveau/*,*/Library/*,*/Temp/*,*/svn/*,*/neocon/*,*/vimswap/*,*/vimundo/*,*/vimgolf/*,*/AssetsSrc/*,*/FarmMobile/Assets/Plugins/ZDK/*
 		let g:ctrlp_custom_ignore = {
-		  \ 'dir': '\v[\/]\.(git|hg|svn|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf|AssetsSrc)$',
+		  \ 'dir': '\v[\/]\.(git|hg|svn|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf|AssetsSrc|FarmMobile/Assets/Plugins/ZDK)',
 		  \ 'file': '\v\.(exe|csproj|anim|mat|unity|pidb|so|dll|meta|mdpolicy|userprefs|swp|fbx|zip|prefab|sln|jpg|png|PNG|asset)$'
 		  \ }
     "}
@@ -731,6 +735,11 @@
     "}
     " Gundo {
 		nnoremap <Leader>u :GundoToggle<CR>
+    " }
+    " Syntastic {
+        let g:syntastic_always_populate_loc_list=1
+        let g:syntastic_auto_jump=1
+        let g:syntastic_check_on_open = 1
     " }
     " YCM {
         let g:ycm_autoclose_preview_window_after_completion = 1
