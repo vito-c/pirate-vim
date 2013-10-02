@@ -558,7 +558,7 @@
 "            endif
 			if !exists("cscope_test_loaded")
 				let cscope_test_loaded = 1
-				cs add /Users/$USER/workrepos/farm-mobile/.git/cscope.out
+				cs add $HOME.'/workrepos/farm-mobile/.git/cscope.out'
 			endif
             " show msg when any other cscope db added
             set cscopeverbose  
@@ -587,7 +587,7 @@
 		let g:gist_open_browser_after_post = 1
 	" }
     " OmniSharp {
-        let g:OmniSharp_sln_list_name = '/Users/'.$USER.'/workrepos/farm-mobile/FarmMobile/FarmMobile.sln'
+        let g:OmniSharp_sln_list_name = $HOME.'/farm-mobile/FarmMobile/FarmMobile.sln'
         let g:OmniSharp_BufWritePreSyntaxCheck = 0
     " }
     " OmniComplete {
