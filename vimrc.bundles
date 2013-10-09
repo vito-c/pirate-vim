@@ -61,7 +61,7 @@
 " Bundles {
     " Deps {
         Bundle 'gmarik/vundle'
-        Bundle 'dahu/vimple'
+        "Bundle 'dahu/vimple'
 	    Bundle 'tpope/vim-repeat'
         Bundle 'tpope/vim-dispatch'
         if executable('ack-grep')
@@ -85,7 +85,7 @@
 	    Bundle 'tpope/vim-unimpaired'
 	    Bundle 'flazz/vim-colorschemes'
 		Bundle 'sjl/gundo.vim'
-	    Bundle 'Raimondi/vim-buffalo'
+	    "Bundle 'Raimondi/vim-buffalo'
 	    Bundle 'tpope/vim-abolish.git'
 	" }
     " General Programming {
