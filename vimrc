@@ -70,6 +70,9 @@
 	" Fix indenting of html files
 	autocmd FileType html setlocal indentkeys-=*<Return>
 	autocmd FileType cs setlocal efm=%*\\s%f\(%l\\,%c\):\ error\ CS%n:\ %m
+    " add some quick leader stuff
+    " vsp|next buffer - new vertical window
+
 " }
 "--------------------------------------------------------------------------------
 " General { 
@@ -165,7 +168,7 @@
     "Setup Shell {
 	" seems to break vimdiff sometimes
         " custom shell options
-        set shell=/usr/local/bin/bash\ --rcfile\ ~/.pirate-setup/pirate-vim/vim-bashrc\ -i
+        "set shell=/usr/local/bin/bash\ --rcfile\ ~/.pirate-setup/pirate-vim/vim-bashrc\ -i
     " }
     filetype plugin indent on   " Automatically detect file types.
     syntax on                   " Syntax highlighting
@@ -312,17 +315,20 @@
 	"endfunction
 
     function! NumberToggle()
-        if(&nu == 1)
+        if(&nu == 1 && &rnu == 0 || &nu == 0 )
             set relativenumber
-        else
+            set number
+        elseif(&nu == 1 && &ru == 1)
+            set norelativenumber
             set number
         endif
     endfunc
 
     function! NumberOff()
-        if(&nu == 1)
+        if(&nu)
             set nonu
-        elseif(&rnu)
+        endif
+        if(&rnu)
             set nornu
         endif
     endfunc
@@ -362,6 +368,7 @@
         set backspace=indent,eol,start  " Backspace for dummies
         set linespace=0                 " No extra spaces between rows
         set relativenumber              " Line numbers on
+        set number
         set showmatch                   " Show matching brackets/parenthesis
         set incsearch                   " Find as you type search
         set hlsearch                    " Highlight search terms
@@ -398,6 +405,7 @@
 " Key (re)Mappings {
 "--------------------------------------------------------------------------------
     let mapleader = ' '
+    noremap ZA :wqa<CR>
 	
     " Searching {
         nnoremap <leader>ff :call FindInFile()<CR>
@@ -438,21 +446,28 @@
         " For when you forget to sudo.. Really Write the file.
         cmap w!! w !sudo tee % >/dev/null
     " }
-    " Windows/Tabs {
+    " Windows/Tabs { : use <leader>w for window commands
         " Easier moving in tabs and windows
         " The lines conflict with the default digraph mapping of <C-K>
         " If you prefer that functionality, add let g:spf13_no_easyWindows = 1
         " in your .vimrc.bundles.local file
-        map <C-J> <C-W>j
-        map <C-K> <C-W>k
-        map <C-L> <C-W>l
-        map <C-H> <C-W>h
-        map <leader>w= <C-W>=
-        map <leader>w+ <C-W>+
-        map <leader>w_ <C-W>_
-        map <leader>w- <C-W>-
-        map <leader>wc <C-W>c
-        map <leader>wo <C-W>o
+        nnoremap <C-J> <C-W>j
+        nnoremap <C-K> <C-W>k
+        nnoremap <C-L> <C-W>l
+        nnoremap <C-H> <C-W>h
+        nnoremap <leader>wj <C-W>j
+        nnoremap <leader>wk <C-W>k
+        nnoremap <leader>wl <C-W>l
+        nnoremap <leader>wh <C-W>h
+        nnoremap <leader>w= <C-W>=
+        nnoremap <leader>w+ <C-W>+
+        nnoremap <leader>w_ <C-W>_
+        nnoremap <leader>w- <C-W>-
+        nnoremap <leader>wc <C-W>c
+        nnoremap <leader>wo <C-W>o
+        nnoremap <leader>wv :vsp<Bar>bn <CR>
+        nnoremap <leader>ws :sp<Bar>bn <CR>
+        nnoremap <leader>wt <C-W>T
         " Adjust viewports to the same size
         map <Leader>= <C-w>=
     " }
@@ -505,12 +520,13 @@
         nmap <leader>f8 :set foldlevel=8<CR>
         nmap <leader>f9 :set foldlevel=9<CR>
     " }
-    " Path Editing {
-        map <leader>nw :<C-U>e %%<CR>
-        map <leader>ns :<C-U>sp %%<CR>
-        map <leader>nv :<C-U>vsp %%<CR>
+    " Path Editing { : use leader n to open 
+        " uses the current file name as the path to browse for a file to open
+        "map <leader>nw :<C-U>e %%<CR>
+        "map <leader>ns :<C-U>sp %%<CR>
+        "map <leader>nv :<C-U>vsp %%<CR>
     " }
-    " File Editing {
+    " File Editing { : use <leader>e to edit files
         " Some helpers to edit mode
         " http://vimcasts.org/e/14
         cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -651,8 +667,8 @@
         "let g:ctrlp_user_command = 'find %s -type f' i'd have to grab all the
         "wilds
         let g:ctrlp_working_path_mode = 'ra'
-        let g:ctrlp_max_files = 20000
-        let g:ctrlp_max_depth = 60
+        let g:ctrlp_max_files = 0
+        "let g:ctrlp_max_depth = 60
         " This is filetype ignores
         let g:wild_file='*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib'
         let g:wild_dirs='.svn,nouveau,Library,Temp,svn,neocon,vimswap,vimundo,vimgolf,AssetsSrc'
@@ -666,7 +682,9 @@
         " Use The Silver Searcher
         if executable('ag')
             " Use Ag over Grep
-            set grepprg=ag\ --nogroup\ --nocolor
+            "set grepprg=ag\ --nogroup\ --nocolor
+            "set grepprg=bash\ -c\ \'shopt\ -s\ globstar;\shopt\ -s\ extglob;\ ag\ --nogroup\ --nocolor\ \"$*\"\'\ null
+            set grepprg=shopt\ -s\ globstar;\ shopt\ -s\ ext\ glob;\ grep\ -n\ $*\ /dev/null
             
             " Use ag in CtrlP for listing files. Lightning fast and respects
             " this is slower than find and you lose wild cards
@@ -809,3 +827,31 @@
     " }
 " }
 
+nmap <leader><CR> :call CustomCompileFile()<CR>
+"TODO: move these to file types
+function! CustomCompileFile()
+    echom "file type ".&ft
+  if( &ft == "php" )
+	set makeprg=php\ \%
+	mak
+    ":!php %:p
+  elseif( &ft == "xml" )
+	set makeprg=xmllint\ \--noout\ \%
+	mak
+  elseif( &ft == "applescript" )
+    set makeprg=osascript\ \%
+    update %  
+    make
+  else
+	set makeprg=bash\ %
+    update %  
+    make
+	"set makeprg=exec\ \.expand('%:p')
+    "make
+    ":make
+  	" elseif( &ft == "sh" )
+	"set makeprg=exec\ \%
+    "make
+    "execute '!'.expand('%:p')
+  endif
+endfunc
