@@ -531,7 +531,7 @@
         " http://vimcasts.org/e/14
         cnoremap %% <C-R>=expand('%:h').'/'<cr>
         map <leader>ef :<C-U>find
-        map <leader>ew :<C-U>e %%
+        map <leader>ew :<C-U>e <C-R>=expand('%:h').'/'<cr>
         map <leader>es :<C-U>sp %%
         map <leader>ev :<C-U>vsp %%
         map <leader>et :<C-U>tabe %%
@@ -607,7 +607,7 @@
 		let g:gist_open_browser_after_post = 1
 	" }
     " OmniSharp {
-        let g:OmniSharp_sln_list_name = $HOME.'/farm-mobile/FarmMobile/FarmMobile.sln'
+        let g:OmniSharp_sln_list_name = $HOME.'/workrepos/farm-mobile/FarmMobile/FarmMobile.sln'
         let g:OmniSharp_BufWritePreSyntaxCheck = 0
     " }
     " OmniComplete {
