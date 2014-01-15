@@ -58,8 +58,8 @@
     " }
 	" Bundles {
 	    " Use bundles config {
-		if filereadable(expand("~/.vimrc.bundles"))
-		    source ~/.vimrc.bundles
+		if filereadable(expand("~/.vim/vimrc.bundles"))
+		    source ~/.vim/vimrc.bundles
 		endif
 	    " }
 	" }
@@ -825,33 +825,34 @@
         endif
     endfunction
     " }
+    " Custom Compile {
+    nmap <leader><CR> :call CustomCompileFile()<CR>
+    "TODO: move these to file types
+    function! CustomCompileFile()
+        echom "file type ".&ft
+      if( &ft == "php" )
+        set makeprg=php\ \%
+        mak
+        ":!php %:p
+      elseif( &ft == "xml" )
+        set makeprg=xmllint\ \--noout\ \%
+        mak
+      elseif( &ft == "applescript" )
+        set makeprg=osascript\ \%
+        update %  
+        make
+      else
+        set makeprg=bash\ %
+        update %  
+        make
+        "set makeprg=exec\ \.expand('%:p')
+        "make
+        ":make
+        " elseif( &ft == "sh" )
+        "set makeprg=exec\ \%
+        "make
+        "execute '!'.expand('%:p')
+      endif
+    endfunc
+    " }
 " }
-
-nmap <leader><CR> :call CustomCompileFile()<CR>
-"TODO: move these to file types
-function! CustomCompileFile()
-    echom "file type ".&ft
-  if( &ft == "php" )
-	set makeprg=php\ \%
-	mak
-    ":!php %:p
-  elseif( &ft == "xml" )
-	set makeprg=xmllint\ \--noout\ \%
-	mak
-  elseif( &ft == "applescript" )
-    set makeprg=osascript\ \%
-    update %  
-    make
-  else
-	set makeprg=bash\ %
-    update %  
-    make
-	"set makeprg=exec\ \.expand('%:p')
-    "make
-    ":make
-  	" elseif( &ft == "sh" )
-	"set makeprg=exec\ \%
-    "make
-    "execute '!'.expand('%:p')
-  endif
-endfunc
