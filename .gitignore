@@ -6,4 +6,5 @@ bundle/**
 .vim/
 vim/*
 vim
-vim/bundle/vundle.netrwhist
+vim/bundle/vundle
+.netrwhist
