@@ -1,0 +1,4 @@
+{
+	"filetypes": ["meta","dll","png","anim","unity","jpg","wav","prefab","fbx","asset","mp3","tga","psd","mat"],
+	"directories": ["Temp", "metadata"]
+}

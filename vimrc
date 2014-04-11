@@ -58,6 +58,9 @@
     " }
 	" Bundles {
 	    " Use bundles config {
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
 		if filereadable(expand("~/.vim/vimrc.bundles"))
 		    source ~/.vim/vimrc.bundles
 		endif
@@ -210,7 +213,7 @@
         set path=~/workrepos/vito-funtime/**/src/**
         "set path+=~/workrepos/farmville2-main/Client/**/src/**
         "set path+=~/workrepos/farmville2-main/shared/**
-        set path+=~/workrepos/farm-mobile/**
+        set path+=~/workrepos/farm3/branches/dev/src/**
     " }
     " Setting up the directories {
 	"TODO: just set this variable via a flag
@@ -438,6 +441,8 @@
     " Instert mode maps {
         inoremap <C-E> <ESC>A
         inoremap <C-B> <ESC>I
+        inoremap ☠ <ESC>o
+        inoremap 🍺 <ESC>O
         "inoremap <C-;> <ESC>mcA;<ESC>`ca
     " }
     " Command mode maps {
@@ -578,14 +583,14 @@
 "            endif
 			if !exists("cscope_test_loaded")
 				let cscope_test_loaded = 1
-				cs add $HOME.'/workrepos/farm-mobile/.git/cscope.out'
+				cs add $HOME.'/workrepos/mobile/cscope.out'
 			endif
             " show msg when any other cscope db added
             set cscopeverbose  
             set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
             " search tag files first
             set csto=1
-            nmap <leader>fs :execute 'cs find s <C-R>=expand("<cword>")<CR>' <Bar> copen <Bar> wincmd J <CR>
+            noremap <leader>fs :execute 'cs find s <C-R>=expand("<cword>")<CR>' <Bar> copen <Bar> wincmd J <CR>
         endif
     " }
     " Buffalo {
@@ -607,8 +612,10 @@
 		let g:gist_open_browser_after_post = 1
 	" }
     " OmniSharp {
-        let g:OmniSharp_sln_list_name = $HOME.'/workrepos/farm-mobile/FarmMobile/FarmMobile.sln'
+        "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/mobile/FarmMobile/FarmMobile.sln'
+        "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/farm3/branches/dev/src/FarmMobile/FarmMobile.sln'
         let g:OmniSharp_BufWritePreSyntaxCheck = 0
+        let g:OmniSharp_timeout = 100
     " }
     " OmniComplete {
 
@@ -641,6 +648,8 @@
     " Tabularize {
         nmap <Leader>a& :Tabularize /&<CR>
         vmap <Leader>a& :Tabularize /&<CR>
+        nmap <Leader>a+ :Tabularize /+<CR>
+        vmap <Leader>a+ :Tabularize /+<CR>
         nmap <Leader>a= :Tabularize /=<CR>
         vmap <Leader>a= :Tabularize /=<CR>
         nmap <Leader>a: :Tabularize /:<CR>
@@ -670,8 +679,8 @@
         let g:ctrlp_max_files = 0
         "let g:ctrlp_max_depth = 60
         " This is filetype ignores
-        let g:wild_file='*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib'
-        let g:wild_dirs='.svn,nouveau,Library,Temp,svn,neocon,vimswap,vimundo,vimgolf,AssetsSrc'
+        "let g:wild_file='*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib'
+        "let g:wild_dirs='.svn,nouveau,Library,Temp,svn,neocon,vimswap,vimundo,vimgolf,AssetsSrc'
         noremap <leader>k :CtrlP <CR>
         noremap <leader>l :CtrlPBuffer <CR>
 		"set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib
@@ -781,6 +790,48 @@
         let g:UltiSnipsExpandTrigger="<c-j>"
         let g:UltiSnipsJumpForwardTrigger="<c-j>"
         let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+    " }
+    " unite {
+        "let g:pirate_vim_find_ignores=system('cat ~/.pirate-setup/find-ignores.json | jq '.commands = ["-iname *." + .filetypes[] + " -prune -o"] + ["-type d -iname " + .directories[] + " -prune -o"] | .commands[]' | tr -d '"' | tr '\n' ' '
+        let g:pirate_raw_params="cat ~/.vim/find-ignores.json | " .
+                        \"jq -c '.commands = [\"-iname *.\" + .filetypes[] + \" -prune -o\"] + " .
+                        \"[\"-type d -iname \" + .directories[] + \" -prune -o\"] " .
+                        \"| .commands[]' " .
+                        \"| tr -d '\"' | tr '\n' ' '"
+        let g:pirate_find_params=system(g:pirate_raw_params)
+        let g:unite_winheight = 20
+
+        "let g:unite_source_rec_async_command="find . -iname *.meta -prune -o -type f -print"
+        "let g:unite_source_find_default_opts=" . -iname *.meta -prune -type f -print"
+        let g:unite_source_rec_async_command="find . " . g:pirate_find_params . " -type f -print"
+		let g:unite_source_file_rec_max_cache_files = 20000
+        call unite#filters#matcher_default#use(['matcher_fuzzy'])
+        "call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
+        "call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(\.anim$\|\.mat$\|\.unity$\|\.mdpolicy$\|\.userprefs$\|\.so$\|\.swp$\|\.exe$\|\.pidb$\|\.csproj$\|\.zip$\|\.fbx$\|\.meta$\|\.prefab$\|\.png$\|\.jpg$\|\~$\|\.PNG$\|\.asset$\|\.nib$\|\.svn$\|nouveau\|Library\|Temp\|svn\|neocon\|vimswap\|vimundo\|vimgolf\|AssetsSrc\)')
+        "call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(\.anim$\|\.mat$\|\.unity$\|\.mdpolicy$\|\.userprefs$\|\.so$\|\.swp$\|\.exe$\|\.pidb$\|\.csproj$\|\.zip$\|\.fbx$\|\.meta$\|\.prefab$\|\.png$\|\.jpg$\|\~$\|\.PNG$\|\.asset$\|\.nib$\|\.svn$\|nouveau\|Library\|Temp\|svn\|neocon\|vimswap\|vimundo\|vimgolf\|AssetsSrc\)')
+
+        "call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\.meta$')
+
+        let g:unite_source_history_yank_enable = 1
+        nnoremap <leader>r :<C-u>Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        nnoremap <leader>l :<C-u>Unite -start-insert -winheight=60 buffer:!<CR>
+        "TODO: buffer map dd to exit (trust me this makes sense)
+        "nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+        "nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
+        "nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
+        "nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
+        "nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
+        "nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+
+        " Custom mappings for the unite buffer
+        "autocmd FileType unite call s:unite_settings()
+        "function! s:unite_settings()
+        "  " Play nice with supertab
+        "  let b:SuperTabDisabled=1
+        "  " Enable navigation with control-j and control-k in insert mode
+        "  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+        "  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+        "endfunction
     " }
 " }
 "--------------------------------------------------------------------------------

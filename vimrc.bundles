@@ -60,10 +60,10 @@
 "--------------------------------------------------------------------------------
 " Bundles {
     " Deps {
-        Bundle 'gmarik/vundle'
         "Bundle 'dahu/vimple'
 	    Bundle 'tpope/vim-repeat'
         Bundle 'tpope/vim-dispatch'
+        Bundle 'Shougo/vimproc.vim'
         if executable('ack-grep')
             let g:ackprg="ack-grep -H --nocolor --nogroup --column"
             Bundle 'mileszs/ack.vim'
@@ -75,12 +75,12 @@
         endif
 	" }
     " General {
-        Bundle 'bling/vim-airline'
+        "Bundle 'bling/vim-airline'
 	    Bundle 'spf13/vim-colors'
 	    Bundle 'tpope/vim-surround'
-	    Bundle 'kien/ctrlp.vim'
+	    "Bundle 'kien/ctrlp.vim'
         "Bundle 'Lokaltog/vim-powerline'
-"		Bundle 'matchit.zip' "umm what's this do
+		"Bundle 'matchit.zip' "umm what's this do
 	    Bundle 'godlygeek/csapprox'
 	    Bundle 'tpope/vim-unimpaired'
 	    Bundle 'flazz/vim-colorschemes'
@@ -95,13 +95,15 @@
 	    Bundle 'scrooloose/syntastic'
 	    Bundle 'vito-c/vim-pirate-scope'
 		 "wtf does this one do
-		Bundle 'mattn/webapi-vim'
+		"Bundle 'mattn/webapi-vim'
 	    Bundle 'mattn/gist-vim'
 	    ""Bundle 'scrooloose/nerdcommenter' "TODO: need a better commenter
 	    Bundle 'godlygeek/tabular'
+        Bundle 'nosami/Omnisharp'
         Bundle 'Valloric/YouCompleteMe'
         Bundle 'tpope/vim-fugitive'
-        Bundle 'nosami/Omnisharp'
+        Bundle 'Shougo/unite.vim'
+        Bundle 'gmarik/vundle'
 	    if executable('ctags')
 		    Bundle 'majutsushi/tagbar'
 	    endif
