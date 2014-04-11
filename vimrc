@@ -213,7 +213,7 @@ python del powerline_setup
         set path=~/workrepos/vito-funtime/**/src/**
         "set path+=~/workrepos/farmville2-main/Client/**/src/**
         "set path+=~/workrepos/farmville2-main/shared/**
-        set path+=~/workrepos/farm3/branches/dev/src/**
+        set path+=~/workrepos/farm3/dev/src/**
     " }
     " Setting up the directories {
 	"TODO: just set this variable via a flag
