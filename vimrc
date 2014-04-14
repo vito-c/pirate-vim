@@ -1,7 +1,7 @@
 "--------------------------------------------------------------------------------
 " Information {
 "--------------------------------------------------------------------------------
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldmethod=marker :
+" vim: set sw=4 ts=4 sts=4 et tw=100 foldmarker={,} foldmethod=marker :
 " 
 " By: Vito C.
 "                       .ed'''' '''$$$$be.                     
@@ -174,6 +174,8 @@ python del powerline_setup
         "set shell=/usr/local/bin/bash\ --rcfile\ ~/.pirate-setup/pirate-vim/vim-bashrc\ -i
     " }
     filetype plugin indent on   " Automatically detect file types.
+    autocmd BufRead *.as set filetype=actionscript 
+    autocmd BufRead *.mxml set filetype=mxml 
     syntax on                   " Syntax highlighting
     set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
@@ -181,8 +183,13 @@ python del powerline_setup
     " Auto Commands {
 		if has("autocmd")
 			" Source the vimrc file after saving it
-			autocmd bufwritepost .vimrc source $MYVIMRC
-			autocmd bufwritepost vimrc sourc $MYVIMRC
+            augroup vimsource 
+                autocmd! 
+                autocmd bufwritepost .vimrc source $MYVIMRC 
+                autocmd bufwritepost vimrc source $MYVIMRC 
+            augroup END
+			"autocmd bufwritepost .vimrc source $MYVIMRC
+			"autocmd bufwritepost vimrc sourc $MYVIMRC
 			au BufReadPost quickfix setlocal modifiable
 			" Map ☠ (U+???) to <Esc> as <S-CR> is mapped to ☠ in iTerm2.
 			"if has ('gui')          " On mac and Windows, use * register for copy-paste
@@ -532,16 +539,85 @@ python del powerline_setup
         "map <leader>nv :<C-U>vsp %%<CR>
     " }
     " File Editing { : use <leader>e to edit files
+        function! FastVFind(name)
+            let list_cmd="find . -name '*.meta' -prune -o -iname " . a:name . " -type f -print" . g:pirate_unite_fsorter
+            let flist=system( list_cmd . "| perl -ne 'print \"$.\\ $_\"'")
+            call DisplayFindResults(flist, a:name, "vsp")
+        endfunction
+        command! -nargs=1 FastVFind :call FastVFind("<args>")
+        function! FastFind(name)
+            let list_cmd="find . -name '*.meta' -prune -o -iname " . a:name . " -type f -print" . g:pirate_unite_fsorter
+            let flist=system( list_cmd . "| perl -ne 'print \"$.\\ $_\"'")
+            call DisplayFindResults(flist, a:name, "e")
+        endfunction
+        command! -nargs=1 FastFind :call FastFind("<args>")
+
+        function! FindGenerated( edittype )
+            let current_file=expand('%:t')
+            let current_ext=expand('%:t:e')
+            let current_root=expand('%:t:r')
+            let target_ext="as"
+            let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src/FV3Flash"
+            if current_ext == "as"
+                let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src/FarmMobile"
+                let target_ext="cs"
+            endif
+
+            let name = current_root . "." . target_ext 
+            let flist=system("find " . target_dir . " -name " . name . " | perl -ne 'print \"$.\\ $_\"'" )
+            call DisplayFindResults( flist, name, a:edittype )
+        endfunction
+        command! -nargs=1 FindGenerated :call FindGenerated("<args>")
+
+        function! DisplayFindResults(flist, name, edittype)
+            if a:edittype == "" 
+                let editor = ":e"
+            else
+                let editor = ":" . a:edittype
+            endif
+            let l:num=strlen(substitute(a:flist, "[^\n]", "", "g"))
+            if l:num < 1
+                echo "'".a:name."' not found"
+                return
+            endif
+            if l:num != 1
+                echo a:flist
+                let l:input=input("Select One: (CR=nothing)\n")
+            if strlen(l:input)==0
+                return
+            endif
+            if strlen(substitute(l:input, "[0-9]", "", "g"))>0
+                echo "Not a number"
+                return
+            endif
+            if l:input<1 || l:input>l:num
+                echo "Out of range"
+                return
+            endif
+                let l:line=matchstr("\n".a:flist, "\n".l:input." [^\n]*")
+            else
+                let l:line=a:flist
+            endif
+
+            let l:line=substitute(l:line, "^[^ ]* ", "", "")
+            execute editor . " " . l:line
+        endfunction
+
+        noremap <leader>eg :<C-U>FindGenerated e<CR>
+        noremap <leader>ef :<C-U>FastFind 
+
         " Some helpers to edit mode
         " http://vimcasts.org/e/14
         cnoremap %% <C-R>=expand('%:h').'/'<cr>
-        map <leader>ef :<C-U>find
-        map <leader>ew :<C-U>e <C-R>=expand('%:h').'/'<cr>
-        map <leader>es :<C-U>sp %%
-        map <leader>ev :<C-U>vsp %%
-        map <leader>et :<C-U>tabe %%
-        map <leader>vv :<C-U>tabedit $MYVIMRC<CR>
-        map <leader>vb :<C-U>tabedit /Users/$USER/.pirate-setup/bashrc<CR>
+        noremap <leader>ew :<C-U>e <C-R>=expand('%:h').'/'<cr>
+        noremap <leader>es :<C-U>sp %%
+        noremap <leader>ev :<C-U>vsp %%
+        noremap <leader>et :<C-U>tabe %%
+        noremap <leader>ev :<C-U>tabedit $MYVIMRC<CR>
+        noremap <leader>eb :<C-U>tabedit /Users/$USER/.pirate-setup/bashrc<CR>
+        noremap <leader>vb :<C-U>vsp<Bar>bn<CR>
+        noremap <leader>vg :<C-U>FindGenerated vsp<CR>
+        noremap <leader>vf :<C-U>FastVFind 
     " }
     " Better */# Search {
         vnoremap <silent> * :<C-U>
@@ -671,39 +747,6 @@ python del powerline_setup
         let g:pymode_utils_whitespaces = 0
         let g:pymode_options = 0
     " }
-    " ctrlp {
-        "let g:ctrlp_working_path_mode = 0
-        "let g:ctrlp_user_command = 'find %s -type f' i'd have to grab all the
-        "wilds
-        let g:ctrlp_working_path_mode = 'ra'
-        let g:ctrlp_max_files = 0
-        "let g:ctrlp_max_depth = 60
-        " This is filetype ignores
-        "let g:wild_file='*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib'
-        "let g:wild_dirs='.svn,nouveau,Library,Temp,svn,neocon,vimswap,vimundo,vimgolf,AssetsSrc'
-        noremap <leader>k :CtrlP <CR>
-        noremap <leader>l :CtrlPBuffer <CR>
-		"set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib
-        " This is directory ignores
-		"set wildignore+=*/.svn/*,*/nouveau/*,*/Library/*,*/Temp/*,*/svn/*,*/neocon/*,*/vimswap/*,*/vimundo/*,*/vimgolf/*,*/AssetsSrc/*,*/FarmMobile/Assets/Plugins/ZDK/*
-
-        let g:ctrlp_by_filename = 0
-        " Use The Silver Searcher
-        if executable('ag')
-            " Use Ag over Grep
-            "set grepprg=ag\ --nogroup\ --nocolor
-            "set grepprg=bash\ -c\ \'shopt\ -s\ globstar;\shopt\ -s\ extglob;\ ag\ --nogroup\ --nocolor\ \"$*\"\'\ null
-            set grepprg=shopt\ -s\ globstar;\ shopt\ -s\ ext\ glob;\ grep\ -n\ $*\ /dev/null
-            
-            " Use ag in CtrlP for listing files. Lightning fast and respects
-            " this is slower than find and you lose wild cards
-            "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-        endif
-		let g:ctrlp_custom_ignore = {
-		  \ 'dir': '\v[\/]\.(git|hg|svn|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf|AssetsSrc|FarmMobile/Assets/Plugins/ZDK|FarmMobile/Plugins/Frameworks/Debug/ZyngaAppServices.framework)',
-		  \ 'file': '\v\.(exe|csproj|anim|mat|unity|pidb|so|dll|meta|mdpolicy|userprefs|swp|fbx|zip|prefab|sln|jpg|png|PNG|asset)$'
-		  \ }
-    "}
     " TagBar {
         "nnoremap <F1> :TagbarToggle<CR>
 		" This is set in ~/.pirate-vim/vim/after/plugin/my_mappings.vim
@@ -792,20 +835,27 @@ python del powerline_setup
         let g:UltiSnipsJumpBackwardTrigger="<c-k>"
     " }
     " unite {
-        "let g:pirate_vim_find_ignores=system('cat ~/.pirate-setup/find-ignores.json | jq '.commands = ["-iname *." + .filetypes[] + " -prune -o"] + ["-type d -iname " + .directories[] + " -prune -o"] | .commands[]' | tr -d '"' | tr '\n' ' '
-        let g:pirate_raw_params="cat ~/.vim/find-ignores.json | " .
+        "test
+    
+        let g:pirate_unite_fsorter="| awk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -f -t / |  cut -f2- -d/"
+        "TODO: make this work cat ~/.vim/unite-exclusive.json 
+        let g:pirate_unite_exclusive="-iname '*.as' -o -iname '*.cs'"
+        let g:pirate_unite_ignores="cat ~/.vim/unite-ignores.json | " .
                         \"jq -c '.commands = [\"-iname *.\" + .filetypes[] + \" -prune -o\"] + " .
                         \"[\"-type d -iname \" + .directories[] + \" -prune -o\"] " .
                         \"| .commands[]' " .
                         \"| tr -d '\"' | tr '\n' ' '"
-        let g:pirate_find_params=system(g:pirate_raw_params)
-        let g:unite_winheight = 20
+        let g:pirate_unite_ifind=system(g:pirate_unite_ignores)
 
-        "let g:unite_source_rec_async_command="find . -iname *.meta -prune -o -type f -print"
-        "let g:unite_source_find_default_opts=" . -iname *.meta -prune -type f -print"
-        let g:unite_source_rec_async_command="find . " . g:pirate_find_params . " -type f -print"
-		let g:unite_source_file_rec_max_cache_files = 20000
+        let g:pirate_unite_rsync_icommand="find . " . g:pirate_unite_ifind . " -type f -print" . g:pirate_unite_fsorter
+        let g:pirate_unite_rsync_ecommand="find . " . g:pirate_unite_exclusive . g:pirate_unite_fsorter
+        let g:pirate_static_filetype=""
+        let g:pirate_unite_rsync_ccommand="find . -iname '*." . g:pirate_static_filetype . "'"
+
+        let g:unite_source_rec_async_command="find . " . g:pirate_unite_ifind . " -type f -print"
+		let g:unite_source_file_rec_max_cache_files = 25000
         call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
         "call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
         "call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(\.anim$\|\.mat$\|\.unity$\|\.mdpolicy$\|\.userprefs$\|\.so$\|\.swp$\|\.exe$\|\.pidb$\|\.csproj$\|\.zip$\|\.fbx$\|\.meta$\|\.prefab$\|\.png$\|\.jpg$\|\~$\|\.PNG$\|\.asset$\|\.nib$\|\.svn$\|nouveau\|Library\|Temp\|svn\|neocon\|vimswap\|vimundo\|vimgolf\|AssetsSrc\)')
         "call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(\.anim$\|\.mat$\|\.unity$\|\.mdpolicy$\|\.userprefs$\|\.so$\|\.swp$\|\.exe$\|\.pidb$\|\.csproj$\|\.zip$\|\.fbx$\|\.meta$\|\.prefab$\|\.png$\|\.jpg$\|\~$\|\.PNG$\|\.asset$\|\.nib$\|\.svn$\|nouveau\|Library\|Temp\|svn\|neocon\|vimswap\|vimundo\|vimgolf\|AssetsSrc\)')
@@ -813,8 +863,12 @@ python del powerline_setup
         "call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\.meta$')
 
         let g:unite_source_history_yank_enable = 1
-        nnoremap <leader>r :<C-u>Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
-        nnoremap <leader>l :<C-u>Unite -start-insert -winheight=60 buffer:!<CR>
+        "let g:unite_split_rule = 'botright'
+
+        nnoremap <leader>er :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_icommand <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        nnoremap <leader>ee :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_ecommand <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        nnoremap <leader>ec :<C-u>let g:unite_source_rec_async_command="find . -iname '*." . &ft . "'" <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        "nnoremap <leader>l :<C-u>let g:unite_split_rule = 'botright' <Bar> Unite -start-insert -here -winheight=60 buffer<CR>
         "TODO: buffer map dd to exit (trust me this makes sense)
         "nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
         "nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>

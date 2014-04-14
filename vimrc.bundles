@@ -60,7 +60,7 @@
 "--------------------------------------------------------------------------------
 " Bundles {
     " Deps {
-        "Bundle 'dahu/vimple'
+        Bundle 'dahu/vimple'
 	    Bundle 'tpope/vim-repeat'
         Bundle 'tpope/vim-dispatch'
         Bundle 'Shougo/vimproc.vim'
@@ -85,10 +85,11 @@
 	    Bundle 'tpope/vim-unimpaired'
 	    Bundle 'flazz/vim-colorschemes'
 		Bundle 'sjl/gundo.vim'
-	    "Bundle 'Raimondi/vim-buffalo'
+	    Bundle 'Raimondi/vim-buffalo'
 	    Bundle 'tpope/vim-abolish.git'
 	" }
     " General Programming {
+        Bundle 'vim-scripts/Flex-4'
         Bundle 'dhruvasagar/vim-table-mode'
         Bundle 'terryma/vim-multiple-cursors'
         Bundle 'SirVer/ultisnips'
