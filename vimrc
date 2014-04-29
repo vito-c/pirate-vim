@@ -727,8 +727,9 @@ python del powerline_setup
     " OmniSharp {
         "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/mobile/FarmMobile/FarmMobile.sln'
         "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/farm3/branches/dev/src/FarmMobile/FarmMobile.sln'
+        "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/farm3/dev/src/FarmMobile/FarmMobile.sln'
         let g:OmniSharp_BufWritePreSyntaxCheck = 0
-        let g:OmniSharp_timeout = 100
+        let g:OmniSharp_timeout = 300
     " }
     " OmniComplete {
 
@@ -784,6 +785,40 @@ python del powerline_setup
         let g:pymode_utils_whitespaces = 0
         let g:pymode_options = 0
     " }
+    " ctrlp {
+        "let g:ctrlp_working_path_mode = 0
+        "let g:ctrlp_user_command = 'find %s -type f' i'd have to grab all the
+        "wilds
+        let g:ctrlp_working_path_mode = 'ra'
+        let g:ctrlp_max_files = 0
+        "let g:ctrlp_max_depth = 60
+        " This is filetype ignores
+        "let g:wild_file='*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib'
+        "let g:wild_dirs='.svn,nouveau,Library,Temp,svn,neocon,vimswap,vimundo,vimgolf,AssetsSrc'
+        noremap <leader>k :CtrlP <CR>
+        noremap <leader>l :CtrlPBuffer <CR>
+		"set wildignore+=*/tmp/*,*.anim,*.mat,*.unity,*.mdpolicy,*.userprefs,*.so,*.swp,*.exe,*.pidb,*.csproj,*.zip,*.fbx,*.meta,*.prefab,*.png,*.jpg,*~,*.PNG,*.asset,*.nib
+        " This is directory ignores
+		"set wildignore+=*/.svn/*,*/nouveau/*,*/Library/*,*/Temp/*,*/svn/*,*/neocon/*,*/vimswap/*,*/vimundo/*,*/vimgolf/*,*/AssetsSrc/*,*/FarmMobile/Assets/Plugins/ZDK/*
+
+        let g:ctrlp_by_filename = 0
+        set grepprg=shopt\ -s\ globstar;\ shopt\ -s\ ext\ glob;\ grep\ -n\ $*\ /dev/null
+        " Use The Silver Searcher
+        if executable('ag')
+            " Use Ag over Grep
+            "set grepprg=ag\ --nogroup\ --nocolor
+            "set grepprg=bash\ -c\ \'shopt\ -s\ globstar;\shopt\ -s\ extglob;\ ag\ --nogroup\ --nocolor\ \"$*\"\'\ null
+            set grepprg=shopt\ -s\ globstar;\ shopt\ -s\ ext\ glob;\ grep\ -n\ $*\ /dev/null
+            
+            " Use ag in CtrlP for listing files. Lightning fast and respects
+            " this is slower than find and you lose wild cards
+            "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+        endif
+		let g:ctrlp_custom_ignore = {
+		  \ 'dir': '\v[\/]\.(git|hg|svn|nouveau|Library|Temp|svn|neocon|vimswap|vimundo|vimgolf|AssetsSrc|FarmMobile/Assets/Plugins/ZDK|FarmMobile/Plugins/Frameworks/Debug/ZyngaAppServices.framework)',
+		  \ 'file': '\v\.(exe|csproj|anim|mat|unity|pidb|so|dll|meta|mdpolicy|userprefs|swp|fbx|zip|prefab|sln|jpg|png|PNG|asset)$'
+		  \ }
+    "}
     " TagBar {
         "nnoremap <F1> :TagbarToggle<CR>
 		" This is set in ~/.pirate-vim/vim/after/plugin/my_mappings.vim
