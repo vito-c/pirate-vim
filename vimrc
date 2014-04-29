@@ -542,15 +542,30 @@ python del powerline_setup
         function! FastVFind(name)
             let list_cmd="find . -name '*.meta' -prune -o -iname " . a:name . " -type f -print" . g:pirate_unite_fsorter
             let flist=system( list_cmd . "| perl -ne 'print \"$.\\ $_\"'")
-            call DisplayFindResults(flist, a:name, "vsp")
+            call DisplayFindResults(flist, a:name, "vsp", "")
         endfunction
         command! -nargs=1 FastVFind :call FastVFind("<args>")
         function! FastFind(name)
-            let list_cmd="find . -name '*.meta' -prune -o -iname " . a:name . " -type f -print" . g:pirate_unite_fsorter
-            let flist=system( list_cmd . "| perl -ne 'print \"$.\\ $_\"'")
-            call DisplayFindResults(flist, a:name, "e")
+            "let list_cmd="find . -name '*.meta' -prune -o -iname " . a:name . " -type f -print" . g:pirate_unite_fsorter
+            let list_cmd="find . " . g:pirate_unite_ifind . " -iname " . a:name . " -type f -print " . g:pirate_unite_fsorter
+            let flist=system( list_cmd . " | perl -ne 'print \"$.\\ $_\"'")
+            call DisplayFindResults(flist, a:name, "e", "")
         endfunction
         command! -nargs=1 FastFind :call FastFind("<args>")
+
+        function! FindFileInBranch( edittype )
+            let current_file=expand('%:t')
+            let current_dir=expand('%:h')
+            let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src/FarmMobile"
+            let dir_match = matchstr(current_dir, '/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged')
+            if !empty(dir_match)
+                let target_dir="/Users/vcutten/workrepos/farm3/development/src/Farm3"
+            endif
+
+            let flist=system("find " . target_dir . " -name " . current_file . " | perl -ne 'print \"$.\\ $_\"'" )
+            call DisplayFindResults( flist, current_file, a:edittype, line(".") )
+        endfunction
+        command! -nargs=1 FindFileInBranch :call FindFileInBranch("<args>")
 
         function! FindGenerated( edittype )
             let current_file=expand('%:t')
@@ -565,31 +580,41 @@ python del powerline_setup
 
             let name = current_root . "." . target_ext 
             let flist=system("find " . target_dir . " -name " . name . " | perl -ne 'print \"$.\\ $_\"'" )
-            call DisplayFindResults( flist, name, a:edittype )
+            call DisplayFindResults( flist, name, a:edittype, line("."))
         endfunction
         command! -nargs=1 FindGenerated :call FindGenerated("<args>")
 
-        function! DisplayFindResults(flist, name, edittype)
+        function! DisplayFindResults(flist, name, edittype, gotoline)
+            if a:gotoline == "" 
+                let cline = 0
+            else
+                let cline = a:gotoline
+            endif
+
             if a:edittype == "" 
                 let editor = ":e"
             else
                 let editor = ":" . a:edittype
             endif
+
             let l:num=strlen(substitute(a:flist, "[^\n]", "", "g"))
             if l:num < 1
                 echo "'".a:name."' not found"
                 return
             endif
+
             if l:num != 1
                 echo a:flist
                 let l:input=input("Select One: (CR=nothing)\n")
             if strlen(l:input)==0
                 return
             endif
+
             if strlen(substitute(l:input, "[0-9]", "", "g"))>0
                 echo "Not a number"
                 return
             endif
+
             if l:input<1 || l:input>l:num
                 echo "Out of range"
                 return
@@ -600,10 +625,19 @@ python del powerline_setup
             endif
 
             let l:line=substitute(l:line, "^[^ ]* ", "", "")
-            execute editor . " " . l:line
+            if a:edittype == "diff" 
+                execute "tabedit +" . cline . " %"
+                execute "vsp +" . cline . " " . l:line 
+                windo diffthis
+                wincmd h 
+            else
+                execute editor . " +" . cline . " " . l:line 
+            endif
         endfunction
 
         noremap <leader>eg :<C-U>FindGenerated e<CR>
+        noremap <leader>eo :<C-U>FindFileInBranch e<CR>
+        noremap <leader>do :<C-U>FindFileInBranch diff<CR>
         noremap <leader>ef :<C-U>FastFind 
 
         " Some helpers to edit mode
@@ -618,6 +652,9 @@ python del powerline_setup
         noremap <leader>vb :<C-U>vsp<Bar>bn<CR>
         noremap <leader>vg :<C-U>FindGenerated vsp<CR>
         noremap <leader>vf :<C-U>FastVFind 
+
+        " tab operantions
+        noremap <leader>tc :<C-U>tabclose<CR>
     " }
     " Better */# Search {
         vnoremap <silent> * :<C-U>

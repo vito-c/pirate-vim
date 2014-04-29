@@ -76,8 +76,13 @@
 	" }
     " General {
         "Bundle 'bling/vim-airline'
+        Bundle 'vito-c/vim-snippets'
+        Bundle 'SirVer/ultisnips'
 	    Bundle 'spf13/vim-colors'
 	    Bundle 'tpope/vim-surround'
+        Bundle 'tpope/vim-vinegar'
+        Bundle 'tpope/vim-commentary' 
+        "Bundle 'tomtom/tcomment_vim'
 	    "Bundle 'kien/ctrlp.vim'
         "Bundle 'Lokaltog/vim-powerline'
 		"Bundle 'matchit.zip' "umm what's this do
@@ -92,7 +97,6 @@
         Bundle 'vim-scripts/Flex-4'
         Bundle 'dhruvasagar/vim-table-mode'
         Bundle 'terryma/vim-multiple-cursors'
-        Bundle 'SirVer/ultisnips'
 	    Bundle 'scrooloose/syntastic'
 	    Bundle 'vito-c/vim-pirate-scope'
 		 "wtf does this one do
