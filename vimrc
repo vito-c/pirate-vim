@@ -176,7 +176,7 @@ python del powerline_setup
     filetype plugin indent on   " Automatically detect file types.
     autocmd BufRead *.as set filetype=actionscript 
     autocmd BufRead *.mxml set filetype=mxml 
-	autocmd FileType actionscript set efm=%f(%l):\ col:\ %c\ Error:\ %m,%-G%.%#
+    autocmd FileType actionscript set efm=%f(%l):\ col:\ %c\ Error:\ %m,%-G%.%#
 
     syntax on                   " Syntax highlighting
     set mouse=a                 " Automatically enable mouse usage
@@ -222,8 +222,12 @@ python del powerline_setup
         set path=~/workrepos/vito-funtime/**/src/**
         "set path+=~/workrepos/farmville2-main/Client/**/src/**
         "set path+=~/workrepos/farmville2-main/shared/**
+<<<<<<< HEAD
         "set path+=~/workrepos/farm3/development/src/**
         set path+=~/workrepos/farm3-dev/**
+=======
+        set path+=~/workrepos/farm3/development/src/**
+>>>>>>> adding efm
     " }
     " Setting up the directories {
 	"TODO: just set this variable via a flag
@@ -878,7 +882,7 @@ python del powerline_setup
     " unite {
         "test
     
-        let g:pirate_unite_fsorter="| awk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -f -t / |  cut -f2- -d/"
+        let g:pirate_unite_fsorter="| gawk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -f -t / |  cut -f2- -d/"
         "TODO: make this work cat ~/.vim/unite-exclusive.json 
         let g:pirate_unite_exclusive="-iname '*.as' -o -iname '*.cs'"
         let g:pirate_unite_ignores="cat ~/.vim/unite-ignores.json | " .
@@ -895,7 +899,7 @@ python del powerline_setup
 
         let g:unite_source_rec_async_command="find . " . g:pirate_unite_ifind . " -type f -print"
 		let g:unite_source_file_rec_max_cache_files = 25000
-        call unite#filters#matcher_default#use(['matcher_fuzzy'])
+        "call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
         "call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
         "call unite#custom#source('file_rec,file_rec/async', 'ignore_pattern', '\(\.anim$\|\.mat$\|\.unity$\|\.mdpolicy$\|\.userprefs$\|\.so$\|\.swp$\|\.exe$\|\.pidb$\|\.csproj$\|\.zip$\|\.fbx$\|\.meta$\|\.prefab$\|\.png$\|\.jpg$\|\~$\|\.PNG$\|\.asset$\|\.nib$\|\.svn$\|nouveau\|Library\|Temp\|svn\|neocon\|vimswap\|vimundo\|vimgolf\|AssetsSrc\)')
