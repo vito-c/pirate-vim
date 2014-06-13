@@ -222,12 +222,8 @@ python del powerline_setup
         set path=~/workrepos/vito-funtime/**/src/**
         "set path+=~/workrepos/farmville2-main/Client/**/src/**
         "set path+=~/workrepos/farmville2-main/shared/**
-<<<<<<< HEAD
         "set path+=~/workrepos/farm3/development/src/**
         set path+=~/workrepos/farm3-dev/**
-=======
-        set path+=~/workrepos/farm3/development/src/**
->>>>>>> adding efm
     " }
     " Setting up the directories {
 	"TODO: just set this variable via a flag
