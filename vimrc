@@ -176,6 +176,8 @@ python del powerline_setup
     filetype plugin indent on   " Automatically detect file types.
     autocmd BufRead *.as set filetype=actionscript 
     autocmd BufRead *.mxml set filetype=mxml 
+	autocmd FileType actionscript set efm=%f(%l):\ col:\ %c\ Error:\ %m,%-G%.%#
+
     syntax on                   " Syntax highlighting
     set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
@@ -220,7 +222,8 @@ python del powerline_setup
         set path=~/workrepos/vito-funtime/**/src/**
         "set path+=~/workrepos/farmville2-main/Client/**/src/**
         "set path+=~/workrepos/farmville2-main/shared/**
-        set path+=~/workrepos/farm3/dev/src/**
+        "set path+=~/workrepos/farm3/development/src/**
+        set path+=~/workrepos/farm3-dev/**
     " }
     " Setting up the directories {
 	"TODO: just set this variable via a flag
@@ -556,10 +559,10 @@ python del powerline_setup
         function! FindFileInBranch( edittype )
             let current_file=expand('%:t')
             let current_dir=expand('%:h')
-            let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src/FarmMobile"
+            let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src"
             let dir_match = matchstr(current_dir, '/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged')
             if !empty(dir_match)
-                let target_dir="/Users/vcutten/workrepos/farm3/development/src/Farm3"
+                let target_dir="/Users/vcutten/workrepos/farm3-dev/Farm3"
             endif
 
             let flist=system("find " . target_dir . " -name " . current_file . " | perl -ne 'print \"$.\\ $_\"'" )
@@ -572,9 +575,9 @@ python del powerline_setup
             let current_ext=expand('%:t:e')
             let current_root=expand('%:t:r')
             let target_ext="as"
-            let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src/FV3Flash"
+            let target_dir="/Users/vcutten/workrepos/farm3-dev/Flash"
             if current_ext == "as"
-                let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src/FarmMobile"
+                let target_dir="/Users/vcutten/workrepos/farm3-dev/Farm3"
                 let target_ext="cs"
             endif
 
@@ -999,3 +1002,14 @@ python del powerline_setup
     endfunc
     " }
 " }
+
+
+function! QfMakeConv()
+    let qflist = getqflist()
+    for item in qflist
+        let item.bufnr = bufnr( item.bufnr,pathshorten(bufname(item.bufnr)))
+    endfor
+    call setqflist(qflist)
+endfunction
+
+au QuickfixCmdPost make call QfMakeConv()
