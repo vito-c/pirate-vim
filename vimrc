@@ -73,6 +73,7 @@ python del powerline_setup
 	" Fix indenting of html files
 	autocmd FileType html setlocal indentkeys-=*<Return>
 	autocmd FileType cs setlocal efm=%*\\s%f\(%l\\,%c\):\ error\ CS%n:\ %m
+    autocmd FileType actionscript set isk+=$ 
     " add some quick leader stuff
     " vsp|next buffer - new vertical window
 
@@ -224,6 +225,7 @@ python del powerline_setup
         "set path+=~/workrepos/farmville2-main/shared/**
         "set path+=~/workrepos/farm3/development/src/**
         set path+=~/workrepos/farm3-dev/**
+        set path+=~/workrepos/utw/**
     " }
     " Setting up the directories {
 	"TODO: just set this variable via a flag
@@ -571,21 +573,43 @@ python del powerline_setup
         command! -nargs=1 FindFileInBranch :call FindFileInBranch("<args>")
 
         function! FindGenerated( edittype )
-            let current_file=expand('%:t')
-            let current_ext=expand('%:t:e')
-            let current_root=expand('%:t:r')
+            let current_file = expand('%:t')
+            let current_ext  = expand('%:t:e')
+            let current_root = expand('%:t:r')
+            let current_dir  = expand('%:h')
             let target_ext="as"
-            let target_dir="/Users/vcutten/workrepos/farm3-dev/Flash"
+            if current_dir == "/Users/vcutten/workrepos/farm3-dev/Flash"
+                let target_dir = "/Users/vcutten/workrepos/farm3-dev/Farm3"
+            elseif current_dir == "/Users/vcutten/workrepos/farm3-dev/Farm3"
+                let target_dir = "/Users/vcutten/workrepos/farm3-dev/Flash"
+            else
+                let target_dir = GitRootOrHome()
+            endif
+
             if current_ext == "as"
-                let target_dir="/Users/vcutten/workrepos/farm3-dev/Farm3"
                 let target_ext="cs"
             endif
 
             let name = current_root . "." . target_ext 
             let flist=system("find " . target_dir . " -name " . name . " | perl -ne 'print \"$.\\ $_\"'" )
+            echom target_dir
             call DisplayFindResults( flist, name, a:edittype, line("."))
         endfunction
         command! -nargs=1 FindGenerated :call FindGenerated("<args>")
+
+        function! GitRootOrHome()
+            let current_dir = expand('%:p:h')
+            let scmd = "if [[ -e " . current_dir .  "/.git || "
+                            \ . current_dir . " == " . $HOME .  " || "
+                            \ . current_dir . " == / ]]; then printf 1; else printf 0; fi"
+            while system(scmd) != "1"
+                let current_dir = fnamemodify( current_dir, ":p:h:h")
+                let scmd = "if [[ -e " . current_dir .  "/.git || "
+                                \ . current_dir . " == " . $HOME .  " || "
+                                \ . current_dir . " == / ]]; then printf 1; else printf 0; fi"
+            endwhile
+            return current_dir
+        endfunc
 
         function! DisplayFindResults(flist, name, edittype, gotoline)
             if a:gotoline == "" 

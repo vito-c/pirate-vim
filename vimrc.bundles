@@ -109,6 +109,7 @@
         Bundle 'Valloric/YouCompleteMe'
         Bundle 'Shougo/unite.vim'
         Bundle 'gmarik/vundle'
+        Bundle 'tommcdo/vim-exchange'
 	    if executable('ctags')
 		    Bundle 'majutsushi/tagbar'
 	    endif
