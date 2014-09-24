@@ -168,6 +168,10 @@ python del powerline_setup
         cabbrev ehco echo
         iabbrev <expr> dtl strftime("%c")
         iabbrev <expr> dts strftime("%m/%d/%Y")
+        iabbrev <expr> cdf expand('%')
+        iabbrev <expr> cdp expand('%:p')
+        iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),'.'),'\v^\.+','','g') . ";\r"
+
     " }
     "Setup Shell {
 	" seems to break vimdiff sometimes
