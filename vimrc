@@ -4,37 +4,6 @@
 " vim: set sw=4 ts=4 sts=4 et tw=100 foldmarker={,} foldmethod=marker :
 " 
 " By: Vito C.
-"                       .ed'''' '''$$$$be.                     
-"                     -'           ^''**$$$e.                  
-"                   .'                   '$$$c                 
-"                  /                      '4$$b                
-"                 d  3                     $$$$                
-"                 $  *                   .$$$$$$               
-"                .$  ^c           $$$$$e$$$$$$$$.              
-"                d$L  4.         4$$$$$$$$$$$$$$b              
-"                $$$$b ^ceeeee.  4$$ECL.F*$$$$$$$              
-"    e$''=.      $$$$P d$$$$F $ $$$$$$$$$- $$$$$$              
-"   z$$b. ^c     3$$$F '$$$$b   $'$$$$$$$  $$$$*'      .=''$c  
-"  4$$$$L   \     $$P'  '$$b   .$ $$$$$...e$$        .=  e$$$. 
-"  ^*$$$$$c  %..   *c    ..    $$ 3$$$$$$$$$$eF     zP  d$$$$$ 
-"    '**$$$ec   '\   %ce''    $$$  $$$$$$$$$$*    .r' =$$$$P'' 
-"          '*$b.  'c  *$e.    *** d$$$$$'L$$    .d'  e$$***'   
-"            ^*$$c ^$c $$$      4J$$$$$% $$$ .e*'.eeP'         
-"               '$$$$$$''$=e....$*$$**$cz$$' '..d$*'           
-"                 '*$$$  *=%4.$ L L$ P3$$$F $$$P'              
-"                    '$   '%*ebJLzb$e$$$$$b $P'                
-"                      %..      4$$$$$$$$$$ '                  
-"                       $$$e   z$$$$$$$$$$%                    
-"                        '*$c  '$$$$$$$P'                      
-"                         .'''*$$$$$$$$bc                      
-"                      .-'    .$***$$$'''*e.                   
-"                   .-'    .e$'     '*$c  ^*b.                 
-"            .=*''''    .e$*'          '*bc  '*$e..            
-"          .$'        .z*'               ^*$e.   '*****e.      
-"          $$ee$c   .d'                     '*$.        3.     
-"          ^*$E')$..$'                         *   .ee==d%     
-"             $.d$$$*                           *  J$$$e*      
-"              '''''                             '$$$'   
 " }
 "--------------------------------------------------------------------------------
 " Environment {
@@ -44,7 +13,7 @@
     " }
     " Windows Compatible {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes 
-	" synchronization across (heterogeneous) systems easier.
+        " synchronization across (heterogeneous) systems easier.
         if has('win32') || has('win64')
           set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         endif
@@ -58,9 +27,10 @@
     " }
 	" Bundles {
 	    " Use bundles config {
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+        " powerline setup
+        python from powerline.vim import setup as powerline_setup
+        python powerline_setup()
+        python del powerline_setup
 		if filereadable(expand("~/.vim/vimrc.bundles"))
 		    source ~/.vim/vimrc.bundles
 		endif
@@ -81,87 +51,8 @@ python del powerline_setup
 "--------------------------------------------------------------------------------
 " General { 
 "--------------------------------------------------------------------------------
-    " Status Line {
-    "   if has('statusline')
-    "       set laststatus=2
-    "       " Broken down into easily includeable segments
-    "       set statusline=%<%f\                     " Filename
-    "       set statusline+=%w%h%m%r                 " Options
-    "       set statusline+=%{fugitive#statusline()} " Git Hotness
-    "       "set statusline+=\ [%{&ff}/%Y]            " Filetype
-    "       "set statusline+=\ [%{getcwd()}]          " Current dir
-    "       set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-    "   endif
-    " }
-    " Status Line {
-    "    let g:last_mode = ''
-    "    function! ModePrefix()
-    "      let l:mode = mode()
-    "      if l:mode !=# g:last_mode
-    "        let g:last_mode = l:mode
-
-    "        " default
-    "        hi User1 guifg=#ffffff guibg=#1c1c1c ctermfg=255 ctermbg=233
-    "        " mode
-    "        hi User2 guifg=#005f00 guibg=#dfff00 gui=bold ctermfg=22 ctermbg=190 term=bold
-    "        " mode seperator
-    "        hi User3 guifg=#dfff00 guibg=#444444 ctermfg=190 ctermbg=238
-    "        " info
-    "        hi User4 guifg=#ffffff guibg=#444444 ctermfg=255 ctermbg=238
-    "        " info seperator
-    "        hi User5 guifg=#444444 guibg=#1c1c1c ctermfg=238 ctermbg=233
-    "        " file info
-    "        hi User9 guifg=#ff0000 guibg=#1c1c1c ctermfg=160 ctermbg=233
-
-    "        if l:mode ==# "i"
-    "          hi User1 guifg=#00ffff ctermfg=14
-    "          hi User2 guibg=#00dfff guifg=#00005f ctermbg=45 ctermfg=17
-    "          hi User3 guibg=#005fff guifg=#00dfff ctermbg=27 ctermfg=45
-    "          hi User4 guibg=#005fff ctermbg=27
-    "          hi User5 guifg=#005fff ctermfg=27
-    "        elseif l:mode ==? "v" || l:mode ==# ""
-    "          hi User2 guibg=#ffaf00 guifg=#000000 ctermbg=214 ctermfg=0
-    "          hi User3 guifg=#ffaf00 guibg=#ff5f00 ctermfg=214 ctermbg=202
-    "          hi User4 guibg=#ff5f00 guifg=#000000 ctermbg=202 ctermfg=0
-    "          hi User5 guifg=#ff5f00 ctermfg=202
-    "        endif
-    "      endif
-
-    "      if l:mode ==# "n"
-    "        return "  NORMAL "
-    "      elseif l:mode ==# "i"
-    "        return "  INSERT "
-    "      elseif l:mode ==# "R"
-    "        return "  RPLACE "
-    "      elseif l:mode ==# "c"
-    "        return "  COMAND "
-    "      elseif l:mode ==# "v"
-    "        return "  VISUAL "
-    "      elseif l:mode ==# "V"
-    "        return "  V·LINE "
-    "      elseif l:mode ==# ""
-    "        return "  V·BLCK "
-    "      else
-    "        return l:mode
-    "      endif
-    "    endfunction
-    "    set laststatus=2
-    "    
-    "    set statusline=%2*%{ModePrefix()}%3*▶%4*
-    "    set statusline+=%{exists('g:loaded_fugitive')&&strlen(fugitive#statusline())>0?'\ ':''}
-    "    set statusline+=%{exists('g:loaded_fugitive')?matchstr(fugitive#statusline(),'(\\zs.*\\ze)'):''}
-    "    set statusline+=%{exists('g:loaded_fugitive')&&strlen(fugitive#statusline())>0?'\ \ ':'\ '}
-    "    set statusline+=%5*▶\ %1*%f\ %<
-    "    set statusline+=%9*%{&ro?'RO':''}%{&mod?'+':''}
-    "    set statusline+=%#warningmsg#
-    "    set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}
-    "    set statusline+=%1*%=%{strlen(&filetype)>0?&filetype.'\ ':''}%5*◀%4*\ 
-    "    set statusline+=%{strlen(&fileencoding)>0?&fileencoding:''}
-    "    set statusline+=%{strlen(&fileformat)>0?'['.&fileformat.']':''}
-    "    set statusline+=\ %3*◀
-    "    set statusline+=%2*\ %3p%%\ ◇\ %3l:%3c\ 
-    " }
     " Abbrevs {
+    " TODO: Abloish plugin
         iabbrev teh the
         iabbrev chomd chmod
         iabbrev ehco echo
@@ -184,7 +75,7 @@ python del powerline_setup
     autocmd FileType actionscript set efm=%f(%l):\ col:\ %c\ Error:\ %m,%-G%.%#
 
     syntax on                   " Syntax highlighting
-    set mouse=a                 " Automatically enable mouse usage
+    "set mouse=a                 " Automatically enable mouse usage
     set mousehide               " Hide the mouse cursor while typing
     scriptencoding utf-8
     " Auto Commands {
@@ -223,6 +114,28 @@ python del powerline_setup
     set history=1000                    " Store a ton of history (default is 20)
     "set spell                           " Spell checking on
     set hidden                          " Allow buffer switching without saving
+    set autoread
+    set autowrite
+    set ttyfast
+    set showcmd
+    set backup
+    set noswapfile
+    set undodir=~/.vim/tmp/undo//     " undo files
+    set backupdir=~/.vim/tmp/backup// " backups
+    set directory=~/.vim/tmp/swap//   " swap files
+
+    " Make those folders automatically if they don't already exist.
+    if !isdirectory(expand(&undodir))
+        call mkdir(expand(&undodir), "p")
+    endif
+    if !isdirectory(expand(&backupdir))
+        call mkdir(expand(&backupdir), "p")
+    endif
+    if !isdirectory(expand(&directory))
+        call mkdir(expand(&directory), "p")
+    endif
+
+
     " Setup Paths{
         set path=~/workrepos/vito-funtime/**/src/**
         "set path+=~/workrepos/farmville2-main/Client/**/src/**
@@ -369,7 +282,8 @@ python del powerline_setup
         elseif has ('gui')          " On mac and Windows, use * register for copy-paste
             set clipboard=unnamed
         elseif has('x11')
-            set clipboard=unnamedplus,autoselect
+            set clipboard=unnamed
+            " set clipboard=unnamedplus,autoselect
         endif
     " }
     " Status Line {
@@ -401,8 +315,14 @@ python del powerline_setup
         set scrolloff=999                 " Minimum lines to keep above and below cursor
         set foldenable                  " Auto fold code
         "set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
-        set listchars=tab:▸\ ,eol:¬
+        set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+        " Save when losing focus
+        au FocusLost * :silent! wall
+        "au InsertLeave * if expand('%') != '' | silent! update | endif
+        au TextChanged * if expand('%') != '' | silent! update | endif
+        au TextChangedI * if expand('%') != '' | silent! update | endif
     " }
+
 " }
 "--------------------------------------------------------------------------------
 " Formatting {
@@ -759,6 +679,7 @@ python del powerline_setup
         "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/mobile/FarmMobile/FarmMobile.sln'
         "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/farm3/branches/dev/src/FarmMobile/FarmMobile.sln'
         "let g:OmniSharp_sln_list_name = $HOME.'/workrepos/farm3/dev/src/FarmMobile/FarmMobile.sln'
+        let g:OmniSharp_sln_list_index = 1
         let g:OmniSharp_BufWritePreSyntaxCheck = 0
         let g:OmniSharp_timeout = 300
     " }

@@ -95,6 +95,9 @@
 	    Bundle 'tpope/vim-abolish.git'
 	" }
     " General Programming {
+        Bundle 'tpope/vim-fireplace'
+        Bundle 'tpope/vim-leiningen'
+        Bundle 'tpope/vim-classpath'
         Bundle 'vim-scripts/Flex-4'
         Bundle 'dhruvasagar/vim-table-mode'
         Bundle 'terryma/vim-multiple-cursors'
