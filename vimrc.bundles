@@ -84,7 +84,7 @@
         Bundle 'tpope/vim-vinegar'
         Bundle 'tpope/vim-commentary' 
         "Bundle 'tomtom/tcomment_vim'
-	    "Bundle 'kien/ctrlp.vim'
+	    Bundle 'kien/ctrlp.vim'
         "Bundle 'Lokaltog/vim-powerline'
 		"Bundle 'matchit.zip' "umm what's this do
 	    Bundle 'godlygeek/csapprox'
@@ -108,8 +108,8 @@
 	    Bundle 'mattn/gist-vim'
 	    ""Bundle 'scrooloose/nerdcommenter' "TODO: need a better commenter
 	    Bundle 'godlygeek/tabular'
-        Bundle 'nosami/Omnisharp'
         Bundle 'Valloric/YouCompleteMe'
+        Bundle 'nosami/Omnisharp'
         Bundle 'Shougo/unite.vim'
         Bundle 'gmarik/vundle'
         Bundle 'tommcdo/vim-exchange'

@@ -107,6 +107,7 @@
     "    " Always switch to the current file directory
     "endif
     "set autowrite                       " Automatically write a file when leaving a modified buffer
+
     set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
     set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
     set virtualedit=onemore             " Allow for cursor beyond last character
@@ -317,10 +318,32 @@
         "set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
         set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
         " Save when losing focus
-        au FocusLost * :silent! wall
-        "au InsertLeave * if expand('%') != '' | silent! update | endif
-        au TextChanged * if expand('%') != '' | silent! update | endif
-        au TextChangedI * if expand('%') != '' | silent! update | endif
+        au FocusLost * :call SafeSave("all")
+        au BufWritePost * :call RestoreMarker()
+        au TextChanged * :call SafeSave("crrent")
+        au TextChangedI * :call SafeSave("crrent")
+
+        function! BackupMarker()
+            let g:ltickmark = getpos("'[")
+            let g:rtickmark = getpos("']")
+        endfunction
+
+        function! RestoreMarker()
+            call setpos("'[", g:ltickmark)
+            call setpos("']", g:rtickmark)
+        endfunction
+
+        function! SafeSave(target)
+            if expand('%') != ''
+                call BackupMarker()
+                if a:target == "all"
+                    silent! wall
+                else
+                    silent! update
+                endif
+                call RestoreMarker()
+            endif
+        endfunction
     " }
 
 " }
@@ -369,10 +392,10 @@
     " }
     " Marks {
         " Set marks correctly
-        noremap ' `
-        noremap ` '
-        noremap g' g`
-        noremap g` g'
+        "noremap ' `
+        "noremap ` '
+        "noremap g' g`
+        "noremap g` g'
     " }
     " Instert mode maps {
         inoremap <C-E> <ESC>A
@@ -421,7 +444,10 @@
         " Visual shifting (does not exit Visual mode)
         vnoremap < <gv
         vnoremap > >gv
-        "nmap gV `[v`]
+        vnoremap > >gv
+        "select the last changed or pasted text
+        nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+        " alternate select pasted text only nmap gp `[v`]
         " Easier horizontal scrolling
         map zl zL
         map zh zH
@@ -806,7 +832,7 @@
         nnoremap <silent> <leader>gc :Gcommit<CR>
         nnoremap <silent> <leader>gb :Gblame<CR>
         nnoremap <silent> <leader>gl :Glog<CR>
-        nnoremap <silent> <leader>gp :Git push<CR>
+        "nnoremap <silent> <leader>gp :Git push<CR>
     "}
     " Gundo {
 		nnoremap <Leader>u :GundoToggle<CR>
@@ -830,14 +856,15 @@
         let g:pirate_unite_fsorter="| gawk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -f -t / |  cut -f2- -d/"
         "TODO: make this work cat ~/.vim/unite-exclusive.json 
         let g:pirate_unite_exclusive="-iname '*.as' -o -iname '*.cs'"
+    "cat ~/.vim/unite-ignores.json | jq -c '.commands = ["-iname '\''*." + .filetypes[] + "'\'' -prune -o"] + ["-type d -iname " + .directories[] + " -prune -o"] | .commands[] '
         let g:pirate_unite_ignores="cat ~/.vim/unite-ignores.json | " .
-                        \"jq -c '.commands = [\"-iname *.\" + .filetypes[] + \" -prune -o\"] + " .
+                        \"jq -c '.commands = [\"-iname '\\''*.\" + .filetypes[] + \"'\\'' -prune -o\"] + " .
                         \"[\"-type d -iname \" + .directories[] + \" -prune -o\"] " .
                         \"| .commands[]' " .
                         \"| tr -d '\"' | tr '\n' ' '"
         let g:pirate_unite_ifind=system(g:pirate_unite_ignores)
 
-        let g:pirate_unite_rsync_icommand="find . " . g:pirate_unite_ifind . " -type f -print" . g:pirate_unite_fsorter
+        let g:pirate_unite_rsync_icommand="find . " . g:pirate_unite_ifind . " -type f -print " . g:pirate_unite_fsorter
         let g:pirate_unite_rsync_ecommand="find . " . g:pirate_unite_exclusive . g:pirate_unite_fsorter
         let g:pirate_static_filetype=""
         let g:pirate_unite_rsync_ccommand="find . -iname '*." . g:pirate_static_filetype . "'"
@@ -856,8 +883,8 @@
         "let g:unite_split_rule = 'botright'
 
         nnoremap <leader>er :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_icommand <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
-        nnoremap <leader>ee :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_ecommand <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
-        nnoremap <leader>ec :<C-u>let g:unite_source_rec_async_command="find . -iname '*." . &ft . "'" <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        nnoremap <leader>ee :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_ecommanj <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        nnoremap <leader>ec :<C-u>let g:unite_source_rec_async_command="find . -iname '\*." . &ft . "'" <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
         "nnoremap <leader>l :<C-u>let g:unite_split_rule = 'botright' <Bar> Unite -start-insert -here -winheight=60 buffer<CR>
         "TODO: buffer map dd to exit (trust me this makes sense)
         "nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
@@ -876,6 +903,14 @@
         "  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
         "  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
         "endfunction
+
+        "ctrl-p
+        let g:ctrlp_max_files = 250000
+        let g:ctrlp_custom_ignore = {
+          \ 'dir':  '\v[\/]\.(git|hg|svn|html-template|Temp|ZLocalization|.metadata|backend|nouveau|metadata|RawAssets)$',
+          \ 'file': '\v\.(exe|so|dll|php|exe|gitignore|jar|meta|dll|png|anim|unity|jpg|wav|prefab|fbx|asset|mp3|tga|psd|mat|atf|csproj|sln|svg|unity3d|mdb|dll|tiff|gif)$',
+          \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+          \ }
     " }
 " }
 "--------------------------------------------------------------------------------
@@ -952,7 +987,6 @@
     " }
 " }
 
-
 function! QfMakeConv()
     let qflist = getqflist()
     for item in qflist
@@ -961,5 +995,9 @@ function! QfMakeConv()
     call setqflist(qflist)
 endfunction
 
+highlight CursorLine  guibg=#3E3D32 ctermbg=235
+
+   "hi CursorLine                    guibg=#293739
+   "hi CursorLine                    guibg=#3E3D32
 au QuickfixCmdPost make call QfMakeConv()
 
