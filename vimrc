@@ -1,4 +1,4 @@
-"--------------------------------------------------------------------------------
+
 " Information {
 "--------------------------------------------------------------------------------
 " vim: set sw=4 ts=4 sts=4 et tw=100 foldmarker={,} foldmethod=marker :
@@ -8,9 +8,24 @@
 "--------------------------------------------------------------------------------
 " Environment {
 "--------------------------------------------------------------------------------
-    " Basics {
         set nocompatible        " Must be first line
-    " }
+        set expandtab
+        
+        " The next three lines ensure that the ~/.vim/bundle/ system works
+        filetype on
+        filetype off
+        set rtp+=~/.vim/bundle/vundle
+        call vundle#rc()
+
+        " powerline setup
+        if filereadable( expand("~/.vim/bundle/powerline") )
+            python from powerline.vim import setup as powerline_setup
+            python powerline_setup()
+            python del powerline_setup
+        endif
+		if filereadable(expand("~/.vim/vimrc.bundles"))
+		    source ~/.vim/vimrc.bundles
+		endif
     " Windows Compatible {
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes 
         " synchronization across (heterogeneous) systems easier.
@@ -18,24 +33,6 @@
           set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         endif
     " }
-    " Setup Bundle Support {
-        " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype on
-        filetype off
-        set rtp+=~/.vim/bundle/vundle
-        call vundle#rc()
-    " }
-	" Bundles {
-	    " Use bundles config {
-        " powerline setup
-        python from powerline.vim import setup as powerline_setup
-        python powerline_setup()
-        python del powerline_setup
-		if filereadable(expand("~/.vim/vimrc.bundles"))
-		    source ~/.vim/vimrc.bundles
-		endif
-	    " }
-	" }
 " }
 "--------------------------------------------------------------------------------
 "Experimential {
@@ -76,7 +73,8 @@
 
     syntax on                   " Syntax highlighting
     "set mouse=a                 " Automatically enable mouse usage
-    set mousehide               " Hide the mouse cursor while typing
+    "set mousehide               " Hide the mouse cursor while typing
+    set mouse=
     scriptencoding utf-8
     " Auto Commands {
 		if has("autocmd")
@@ -85,6 +83,10 @@
                 autocmd! 
                 autocmd bufwritepost .vimrc source $MYVIMRC 
                 autocmd bufwritepost vimrc source $MYVIMRC 
+                if has('nvim')
+                    autocmd bufwritepost .nvimrc source $MYVIMRC 
+                    autocmd bufwritepost nvimrc source $MYVIMRC 
+                endif
             augroup END
 			"autocmd bufwritepost .vimrc source $MYVIMRC
 			"autocmd bufwritepost vimrc sourc $MYVIMRC
@@ -138,12 +140,8 @@
 
 
     " Setup Paths{
-        set path=~/workrepos/vito-funtime/**/src/**
-        "set path+=~/workrepos/farmville2-main/Client/**/src/**
-        "set path+=~/workrepos/farmville2-main/shared/**
-        "set path+=~/workrepos/farm3/development/src/**
-        set path+=~/workrepos/farm3-dev/**
-        set path+=~/workrepos/utw/**
+        set path=~/code/**
+        set path+=~/playground/**
     " }
     " Setting up the directories {
 	"TODO: just set this variable via a flag
@@ -323,6 +321,8 @@
         au TextChanged * :call SafeSave("crrent")
         au TextChangedI * :call SafeSave("crrent")
 
+        let g:ltickmark = getpos("'[")
+        let g:rtickmark = getpos("']")
         function! BackupMarker()
             let g:ltickmark = getpos("'[")
             let g:rtickmark = getpos("']")
@@ -361,7 +361,7 @@
     "set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
     " Remove trailing whitespaces and ^M chars
     autocmd FileType c,cpp,java,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
-    autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
+    " autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 " }
 "--------------------------------------------------------------------------------
 " Key (re)Mappings {
@@ -622,7 +622,7 @@
         cnoremap %% <C-R>=expand('%:h').'/'<cr>
         noremap <leader>ew :<C-U>e <C-R>=expand('%:h').'/'<cr>
         noremap <leader>es :<C-U>sp %%
-        noremap <leader>ev :<C-U>vsp %%
+        "noremap <leader>ev :<C-U>vsp %%
         noremap <leader>et :<C-U>tabe %%
         noremap <leader>ev :<C-U>tabedit $MYVIMRC<CR>
         noremap <leader>eb :<C-U>tabedit /Users/$USER/.pirate-setup/bashrc<CR>
@@ -631,7 +631,7 @@
         noremap <leader>vf :<C-U>FastVFind 
 
         " tab operantions
-        noremap <leader>tc :<C-U>tabclose<CR>
+        "noremap <leader>tc :<C-U>tabclose<CR>
     " }
     " Better */# Search {
         vnoremap <silent> * :<C-U>
@@ -840,8 +840,8 @@
     " }
     " Syntastic {
         let g:syntastic_always_populate_loc_list=1
-        let g:syntastic_auto_jump=1
-        let g:syntastic_check_on_open = 1
+        let g:syntastic_auto_jump=0
+        let g:syntastic_check_on_open=1
     " }
     " YCM {
         let g:ycm_autoclose_preview_window_after_completion = 1
@@ -856,7 +856,7 @@
     
         let g:pirate_unite_fsorter="| gawk -vFS=/ -vOFS=/ '{ print $NF,$0 }' | sort -f -t / |  cut -f2- -d/"
         "TODO: make this work cat ~/.vim/unite-exclusive.json 
-        let g:pirate_unite_exclusive="-iname '*.as' -o -iname '*.cs'"
+        let g:pirate_unite_exclusive="-iname '*.js' -o -iname '*.scala' -o -iname '*.html'"
     "cat ~/.vim/unite-ignores.json | jq -c '.commands = ["-iname '\''*." + .filetypes[] + "'\'' -prune -o"] + ["-type d -iname " + .directories[] + " -prune -o"] | .commands[] '
         let g:pirate_unite_ignores="cat ~/.vim/unite-ignores.json | " .
                         \"jq -c '.commands = [\"-iname '\\''*.\" + .filetypes[] + \"'\\'' -prune -o\"] + " .
@@ -870,8 +870,9 @@
         let g:pirate_static_filetype=""
         let g:pirate_unite_rsync_ccommand="find . -iname '*." . g:pirate_static_filetype . "'"
 
-        let g:unite_source_rec_async_command="find . " . g:pirate_unite_ifind . " -type f -print"
-		let g:unite_source_file_rec_max_cache_files = 25000
+        "let g:unite_source_rec_find_args=['-path', '*/.idea/*', '-prune', '-o','-path', '*/.git/*', '-prune', '-o', '-type', 'l', '-print']
+        "let g:unite_source_rec_async_command="find . " . g:pirate_unite_ifind . " -type f -print"
+		let g:unite_source_file_rec_max_cache_files = 250
         "call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
         "call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
@@ -883,9 +884,14 @@
         let g:unite_source_history_yank_enable = 1
         "let g:unite_split_rule = 'botright'
 
-        nnoremap <leader>er :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_icommand <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
-        nnoremap <leader>ee :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_ecommanj <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
-        nnoremap <leader>ec :<C-u>let g:unite_source_rec_async_command="find . -iname '\*." . &ft . "'" <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        nnoremap <leader>eg :<C-u>Unite -start-insert -toggle -no-split file_rec/git:!<CR>
+        nnoremap <leader>er :<C-u>Unite -start-insert -toggle -no-split file_rec/async:!<CR>
+        "nnoremap <leader>l :<C-u>Unite -start-insert -toggle -auto-preview -no-split -winheight=15 -immediately buffer<CR>
+        nnoremap <leader>l :<C-u>Unite -start-insert -toggle -no-split buffer:-<CR>
+        nnoremap <leader>t :<C-u>Unite -start-insert -toggle -no-split buffer:t<CR>
+        "nnoremap <leader>er :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_icommand <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        "nnoremap <leader>ee :<C-u>let g:unite_source_rec_async_command=g:pirate_unite_rsync_ecommanj <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
+        "nnoremap <leader>ec :<C-u>let g:unite_source_rec_async_command="find . -iname '\*." . &ft . "'" <Bar> Unite -start-insert -toggle -auto-preview -winheight=60 -no-split file_rec/async:!<CR>
         "nnoremap <leader>l :<C-u>let g:unite_split_rule = 'botright' <Bar> Unite -start-insert -here -winheight=60 buffer<CR>
         "TODO: buffer map dd to exit (trust me this makes sense)
         "nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
@@ -905,11 +911,16 @@
         "  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
         "endfunction
 
+        let g:unite_source_buffer_time_format=""
+        call unite#custom#source('file,file/new,buffer,file_rec,file_rec/git',
+          \ 'matchers', ['converter_abbr_word','matcher_fuzzy'])
+        call unite#filters#sorter_default#use(['sorter_rank'])
+
         "ctrl-p
-        let g:ctrlp_max_files = 250000
+        let g:ctrlp_max_files = 2500000
         let g:ctrlp_custom_ignore = {
-          \ 'dir':  '\v[\/]\.(git|hg|svn|html-template|Temp|ZLocalization|.metadata|backend|nouveau|metadata|RawAssets)$',
-          \ 'file': '\v\.(exe|so|dll|php|exe|gitignore|jar|meta|dll|png|anim|unity|jpg|wav|prefab|fbx|asset|mp3|tga|psd|mat|atf|csproj|sln|svg|unity3d|mdb|dll|tiff|gif)$',
+          \ 'dir':  '\v[\/](\.(git|hg|svn|metadata|idea|settings)|target|vendor|vendors|node_modules)$',
+          \ 'file': '\v\.(min.js|cache|class|exe|so|dll|php|exe|gitignore|jar|meta|dll|png|anim|unity|jpg|wav|prefab|fbx|asset|mp3|tga|psd|mat|atf|csproj|sln|svg|unity3d|mdb|dll|tiff|gif)$',
           \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
           \ }
     " }
@@ -987,6 +998,76 @@
     endfunc
     " }
 " }
+
+let EclimScalaSingleSearchResult="edit"
+
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+    let g:rally_start_dir     = "/code/RoboCopUnicorn"
+    let g:pirate_bash_profile = "~/.bash_profile"
+    let g:rally_startup_cmds  = "cd " . g:rally_start_dir . "; bash --rcfile " . g:pirate_bash_profile . ";"
+
+    function! Pirate_rally_start()
+        tabnew | call termopen('cd /code/RoboCopUnicorn && sbt apiContainer:start; bash',{"name":"rally/api"})
+        vnew | call termopen('cd /code/RoboCopUnicorn && sbt surveyWeb/run;bash',{"name":"rally/surveyWeb"})
+        new | call termopen("cd /code/RoboCopUnicorn && sbt 'project sortingHatWeb' 'start';bash",{"name":"rally/sortingHatWeb"})
+        new | call termopen("cd /code/calvinball && sbt 'project calvinballWeb' 'start 6425';bash")
+        wincmd l
+        new | call termopen('cd /code/RoboCopUnicorn && sbt zenAdminWeb/run;bash',{"name":"rally/zenAdminWeb"})
+        new | call termopen('cd /code/RoboCopUnicorn && sbt zenplay/run;bash',{"name":"rally/zenplay"})
+        new | call termopen('cd /code/RoboCopUnicorn && sbt meatLockerWeb/run;bash',{"name":"rally/meatLockerWeb"})
+        new | call termopen('cd /code/rewards && sbt plinko/run;bash',{"name":"rally/plinko"})
+        silent !mkdir( $HOME . "/.cache/rally", "p")
+        set sessionoptions-=tabpages
+        mksession! ~/.cache/rally/launch.vim
+        set sessionoptions+=tabpages
+    endfunc
+
+    function! Filter_buffname(bufnr)
+        let bufname = bufname(a:bufnr)
+        let buftype = getbufvar(a:bufnr, '&buftype')
+        let is_term = buftype == 'terminal' 
+        let is_rall = bufname =~# '.*rally\/.*$'
+        "echo bufname . " is term: " .  is_term . " is rall: " . is_rall
+
+        return buflisted(a:bufnr) 
+                \ && buftype == 'terminal'
+                \ && bufname =~# '.*rally\/.*$'
+    endfunction
+    function! Pirate_rally_split_test()
+       let rallytermbuffs=filter(range(1, bufnr('$')), 'Filter_buffname(v:val)')
+       execute ":buffer " . get(rallytermbuffs, 0)
+       if len(rallytermbuffs) > 1
+           execute ":vnew | buffer " . bufname( get(rallytermbuffs, 1) )
+       endif
+       if len(rallytermbuffs) > 2
+           for bufnr in range( 2, len(rallytermbuffs) - 1 )
+               echo bufname(bufnr)
+           endfor
+        endif
+    endfunc
+    function! Pirate_rally_start_test()
+        tabnew | call termopen(g:rally_startup_cmds,{"name":"rally/api"})
+        " right side
+        vnew | call termopen(g:rally_startup_cmds,{"name":"rally/zenAdminWeb"})
+        new | call termopen(g:rally_startup_cmds,{"name":"rally/zenplay"})
+        "new | call termopen(g:rally_startup_cmds,{"name":"rally/meatLockerWeb"})
+        wincmd h
+        " left side
+        new | call termopen(g:rally_startup_cmds,{"name":"rally/surveyWeb"})
+        "new | call termopen(g:rally_startup_cmds,{"name":"rally/sortingHatWeb"})
+    endfunc
+endif
+let g:table_mode_map_prefix = "<Leader><Leader>t"
+"let g:unite_source_gtags_ref_option= 'r'
+"let g:unite_source_gtags_def_option= ''
+"let g:unite_source_gtags_result_option= 'ctags-x'
+let g:syntastic_html_tidy_exec = "tidy5"
+let g:syntastic_quiet_messages = { "level":"warnings" }
+let g:syntastic_ignore_files = ['\m\c\.h$', '\m\.sbt$']
+let g:EclimCompletionMethod = 'omnifunc'
+
+
 
 function! QfMakeConv()
     let qflist = getqflist()

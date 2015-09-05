@@ -1,4 +1,6 @@
 {
-	"filetypes": ["php","exe","gitignore","jar","meta","dll","png","anim","unity","jpg","wav","prefab","fbx","asset","mp3","tga","psd","mat","atf","csproj","sln","svg","unity3d","mdb","dll","tiff","gif"],
-	"directories": ["html-template", ".git", "Temp", "ZLocalization", ".metadata", "backend", "nouveau", "metadata", "RawAssets"]
+    "filetypes": ["class","php","exe","gitignore","jar","meta","dll","png","anim","unity","jpg","wav",
+                  "prefab","fbx","asset","mp3","tga","psd","mat","atf","csproj","sln","svg","unity3d","mdb","dll","tiff","gif"],
+	"directories": ["target","vendors","vendor","node_modules","classes","html-template",
+                    ".git",".idea",".idea_modules",".settings", "Temp", "ZLocalization", ".metadata", "backend", "nouveau", "metadata", "RawAssets"]
 }
