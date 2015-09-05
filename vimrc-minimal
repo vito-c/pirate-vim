@@ -1,0 +1,8 @@
+set expandtab
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+"Bundle 'Shougo/unite.vim'
+syntax on
+set mouse=
+let mapleader = ' '
+"nnoremap <leader>l :<C-u>Unite -start-insert -toggle -auto-preview -no-split -winheight=15 -immediately buffer<CR>
