@@ -1067,6 +1067,14 @@ let g:syntastic_quiet_messages = { "level":"warnings" }
 let g:syntastic_ignore_files = ['\m\c\.h$', '\m\.sbt$']
 let g:EclimCompletionMethod = 'omnifunc'
 
+if executable('ag')
+    " Use ag in unite grep source.
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts =
+                \ '-i --vimgrep --hidden --ignore ' .
+                \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+    let g:unite_source_grep_recursive_opt = ''
+endif
 
 
 function! QfMakeConv()
