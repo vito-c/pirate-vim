@@ -59,6 +59,7 @@
         iabbrev <expr> cdf expand('%')
         iabbrev <expr> cdp expand('%:p')
         iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),'.'),'\v^\.+','','g') . ";\r"
+         
 
     " }
     "Setup Shell {
