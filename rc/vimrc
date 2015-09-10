@@ -1,0 +1,143 @@
+" Information {{{
+"--------------------------------------------------------------------------------
+" vim: set tw=90 foldmethod=marker :
+" 
+" By: Vito C.
+" }}}
+
+if &compatible
+    set nocompatible
+    set ttyfast
+endif
+
+set expandtab
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+filetype plugin indent on   " Automatically detect file types.
+
+" The next three lines ensure that the ~/.vim/bundle/ system works
+filetype on
+filetype off
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+" Autocmds
+echo "sourcing... "
+source ~/.vim/rc/git.vim
+source ~/.vim/rc/autocmds.vim
+source ~/.vim/rc/mappings.vim
+source ~/.vim/rc/leaders.vim
+
+if filereadable(expand("~/.vim/rc/bundles.vim"))
+    source ~/.vim/rc/bundles.vim
+endif
+
+syntax on                          " Syntax highlighting
+set shortmess=aTI
+
+" Don't redraw while macro executing.
+set lazyredraw
+set mouse=
+scriptencoding utf-8
+set history=1000
+set hidden                         " Allow buffer switching without saving
+set autoread
+set autowrite
+set noswapfile
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+silent !mkdir(expand(&undodir), "p")
+silent !mkdir(expand(&backupdir), "p")
+silent !mkdir(expand(&directory), "p")
+set path=~/code/**
+set path+=~/playground/**
+
+" GUI
+set background=dark              " Assume a dark background
+color molokai                    " Load a colorscheme
+"color default
+"set background=light
+"color default "Load a colorscheme
+set tabpagemax=15               " Only show 15 tabs
+set showmode                    " Display the current mode
+set cursorline                  " Highlight current line
+highlight CursorLine  guibg=#3E3D32 ctermbg=235
+set smarttab
+set autoindent                  " Indent at the same level of the previous line
+set shiftwidth=4                " Use indents of 4 spaces
+set tabstop=4                   " An indentation every four columns
+set softtabstop=4               " Let backspace delete indent
+
+if has('cmdline_info')
+    set ruler                   " Show the ruler
+    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
+    set showcmd                 " Show partial commands in status line and
+    " Selected characters/lines in visual mode
+endif
+
+" netrw ignores
+let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
+
+" Stuff
+set backspace=indent,eol,start  " Backspace for dummies
+set linespace=0                 " No extra spaces between rows
+set relativenumber              " Line numbers on
+set number
+set showmatch                   " Show matching brackets/parenthesis
+set incsearch                   " Find as you type search
+set hlsearch                    " Highlight search terms
+set winminheight=0              " Windows can be 0 line high
+set ignorecase                  " Case insensitive search
+"set smartcase                   " Case sensitive when uc present
+set wildmenu                    " Show list instead of just completing
+set wildmode=list:longest,full  " list matches, then longest common part, then all.
+set whichwrap+=h,l,<,>,[,],b,s,~
+set scrolloff=999                 " Minimum lines to keep above and below cursor
+set foldenable                  " Auto fold code
+set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
+set virtualedit=onemore             " Allow for cursor beyond last character
+set nowrap
+ 
+let g:EclimScalaSearchSingleResult="edit"
+let g:EclimCompletionMethod = 'omnifunc'
+" Abbrevs {{{
+" TODO: Abloish plugin move to own file
+iabbrev teh the
+iabbrev chomd chmod
+iabbrev ehco echo
+cabbrev ehco echo
+iabbrev <expr> dtl strftime("%c")
+iabbrev <expr> dts strftime("%m/%d/%Y")
+iabbrev <expr> cdf expand('%')
+iabbrev <expr> cdp expand('%:p')
+iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),'.'),'\v^\.+','','g') . ";\r"
+" }}}
+" Number toggles {{{
+function! NumberToggle()
+    if(&nu == 1 && &rnu == 0 || &nu == 0 )
+        set relativenumber
+        set number
+    elseif(&nu == 1 && &ru == 1)
+        set norelativenumber
+        set number
+    endif
+endfunc
+
+function! NumberOff()
+    if(&nu)
+        set nonu
+    endif
+    if(&rnu)
+        set nornu
+    endif
+endfunc
+" }}}
+" Broken {{{
+command! -nargs=0 -bar RefreshTags execute RefreshTagsInGitHooks()
+function! RefreshTagsInGitHooks()
+    if filereadable(".git/hooks/ctags")
+        :!.git/hooks/ctags
+    else 
+        echo "Failed to find tag generator"
+    endif
+endfunction
+" }}}

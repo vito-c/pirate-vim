@@ -1,4 +1,3 @@
-
 " Information {
 "--------------------------------------------------------------------------------
 " vim: set sw=4 ts=4 sts=4 et tw=100 foldmarker={,} foldmethod=marker :
@@ -430,7 +429,7 @@
         nnoremap <leader>w- <C-W>-
         nnoremap <leader>wc <C-W>c
         nnoremap <leader>wo <C-W>o
-        nnoremap <leader>wv :vsp<Bar>bn <CR>
+        nnoremap <leader>wv :vsp<Bar>bn<Bar>wincmd L<CR>
         nnoremap <leader>ws :sp<Bar>bn <CR>
         nnoremap <leader>wt <C-W>T
         " Adjust viewports to the same size
@@ -495,21 +494,21 @@
         "map <leader>nv :<C-U>vsp %%<CR>
     " }
     " File Editing { : use <leader>e to edit files
-        function! FastVFind(name)
+        function! FastVFind(name) " {
             let list_cmd="find . -name '*.meta' -prune -o -iname " . a:name . " -type f -print" . g:pirate_unite_fsorter
             let flist=system( list_cmd . "| perl -ne 'print \"$.\\ $_\"'")
             call DisplayFindResults(flist, a:name, "vsp", "")
-        endfunction
+        endfunction " }
         command! -nargs=1 FastVFind :call FastVFind("<args>")
-        function! FastFind(name)
+        function! FastFind(name) " {
             "let list_cmd="find . -name '*.meta' -prune -o -iname " . a:name . " -type f -print" . g:pirate_unite_fsorter
             let list_cmd="find . " . g:pirate_unite_ifind . " -iname " . a:name . " -type f -print " . g:pirate_unite_fsorter
             let flist=system( list_cmd . " | perl -ne 'print \"$.\\ $_\"'")
             call DisplayFindResults(flist, a:name, "e", "")
-        endfunction
+        endfunction " }
         command! -nargs=1 FastFind :call FastFind("<args>")
 
-        function! FindFileInBranch( edittype )
+        function! FindFileInBranch( edittype ) " {
             let current_file=expand('%:t')
             let current_dir=expand('%:h')
             let target_dir="/Users/vcutten/workrepos/farm3/dev_sswistun_rnd_merged/src"
@@ -520,10 +519,10 @@
 
             let flist=system("find " . target_dir . " -name " . current_file . " | perl -ne 'print \"$.\\ $_\"'" )
             call DisplayFindResults( flist, current_file, a:edittype, line(".") )
-        endfunction
+        endfunction " }
         command! -nargs=1 FindFileInBranch :call FindFileInBranch("<args>")
 
-        function! FindGenerated( edittype )
+        function! FindGenerated( edittype ) " {
             let current_file = expand('%:t')
             let current_ext  = expand('%:t:e')
             let current_root = expand('%:t:r')
@@ -545,10 +544,9 @@
             let flist=system("find " . target_dir . " -name " . name . " | perl -ne 'print \"$.\\ $_\"'" )
             echom target_dir
             call DisplayFindResults( flist, name, a:edittype, line("."))
-        endfunction
+        endfunction " }
         command! -nargs=1 FindGenerated :call FindGenerated("<args>")
-
-        function! GitRootOrHome()
+        function! GitRootOrHome() " {
             let current_dir = expand('%:p:h')
             let scmd = "if [[ -e " . current_dir .  "/.git || "
                             \ . current_dir . " == " . $HOME .  " || "
@@ -560,9 +558,8 @@
                                 \ . current_dir . " == / ]]; then printf 1; else printf 0; fi"
             endwhile
             return current_dir
-        endfunc
-
-        function! DisplayFindResults(flist, name, edittype, gotoline)
+        endfunc " }
+        function! DisplayFindResults(flist, name, edittype, gotoline) " {
             if a:gotoline == "" 
                 let cline = 0
             else
@@ -584,8 +581,8 @@
             if l:num != 1
                 echo a:flist
                 let l:input=input("Select One: (CR=nothing)\n")
-            if strlen(l:input)==0
-                return
+                if strlen(l:input)==0
+                    return
             endif
 
             if strlen(substitute(l:input, "[0-9]", "", "g"))>0
@@ -611,12 +608,12 @@
             else
                 execute editor . " +" . cline . " " . l:line 
             endif
-        endfunction
+        endfunction " }
 
-        noremap <leader>eg :<C-U>FindGenerated e<CR>
-        noremap <leader>eo :<C-U>FindFileInBranch e<CR>
-        noremap <leader>do :<C-U>FindFileInBranch diff<CR>
-        noremap <leader>ef :<C-U>FastFind 
+        "noremap <leader>eg :<C-U>FindGenerated e<CR>
+        "noremap <leader>eo :<C-U>FindFileInBranch e<CR>
+        "noremap <leader>do :<C-U>FindFileInBranch diff<CR>
+        "noremap <leader>ef :<C-U>FastFind 
 
         " Some helpers to edit mode
         " http://vimcasts.org/e/14
@@ -971,7 +968,7 @@
     " Custom Compile {
     nmap <leader><CR> :call CustomCompileFile()<CR>
     "TODO: move these to file types
-    function! CustomCompileFile()
+    function! CustomCompileFile() "{
         echom "file type ".&ft
       if( &ft == "php" )
         set makeprg=php\ \%
@@ -996,13 +993,14 @@
         "make
         "execute '!'.expand('%:p')
       endif
-    endfunc
+    endfunc " }
     " }
 " }
 
 let EclimScalaSingleSearchResult="edit"
+let g:EclimCompletionMethod = 'omnifunc'
 
-if has('nvim')
+if has('nvim') " {
     tnoremap <Esc> <C-\><C-n>
     let g:rally_start_dir     = "/code/RoboCopUnicorn"
     let g:pirate_bash_profile = "~/.bash_profile"
@@ -1058,7 +1056,7 @@ if has('nvim')
         new | call termopen(g:rally_startup_cmds,{"name":"rally/surveyWeb"})
         "new | call termopen(g:rally_startup_cmds,{"name":"rally/sortingHatWeb"})
     endfunc
-endif
+endif " }
 let g:table_mode_map_prefix = "<Leader><Leader>t"
 "let g:unite_source_gtags_ref_option= 'r'
 "let g:unite_source_gtags_def_option= ''
@@ -1066,7 +1064,6 @@ let g:table_mode_map_prefix = "<Leader><Leader>t"
 let g:syntastic_html_tidy_exec = "tidy5"
 let g:syntastic_quiet_messages = { "level":"warnings" }
 let g:syntastic_ignore_files = ['\m\c\.h$', '\m\.sbt$']
-let g:EclimCompletionMethod = 'omnifunc'
 
 if executable('ag')
     " Use ag in unite grep source.
