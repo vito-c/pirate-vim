@@ -1,7 +1,9 @@
 set expandtab
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
-"Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/vimproc.vim'
+source ~/.vim/rc/plugins/unite.vim
 syntax on
 set mouse=
 let mapleader = ' '

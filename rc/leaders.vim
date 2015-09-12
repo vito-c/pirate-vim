@@ -16,7 +16,8 @@ noremap <leader>; mcA;<ESC>'c
 noremap <leader><leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
 
 " Quick Edits {
-noremap <leader>ev :<C-U>tabedit $MYVIMRC<CR>
+let g:VITORC=fnamemodify($MYVIMRC,':h')."/rc/vimrc"
+noremap <leader>ev :<C-U>execute "tabedit " . g:VITORC<CR>
 noremap <leader>eb :<C-U>tabedit /Users/$USER/.bash_profile<CR>
 " Some helpers to edit mode
 " http://vimcasts.org/e/14

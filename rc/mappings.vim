@@ -20,8 +20,9 @@ vnoremap > >gv
 " insert mode
 inoremap jj <ESC>
 inoremap kk <ESC>
-inoremap jk <ESC>
-inoremap kj <ESC>
+"inoremap jk <ESC>
+"inoremap kj <ESC>
+
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif

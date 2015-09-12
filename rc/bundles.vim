@@ -22,14 +22,19 @@ Bundle 'tpope/vim-abolish.git'
 Bundle 'vito-c/vim-snippets'
 Bundle 'xieyu/pyclewn'
 Bundle 'AndrewRadev/splitjoin.vim'
+
 Bundle 'SirVer/ultisnips'
 source ~/.vim/rc/plugins/ultisnips.vim
+
 Bundle 'spf13/vim-colors'
 Bundle 'ctrlpvim/ctrlp.vim'
+source ~/.vim/rc/plugins/ctrlp.vim
 Bundle 'godlygeek/csapprox'
 Bundle 'flazz/vim-colorschemes'
+
 Bundle 'sjl/gundo.vim'
 source ~/.vim/rc/plugins/gundo.vim
+
 Bundle 'marijnh/tern_for_vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'othree/javascript-libraries-syntax.vim'
@@ -38,24 +43,37 @@ Bundle 'burnettk/vim-angular'
 Bundle 'othree/html5.vim'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'vim-scripts/Flex-4'
+
 Bundle 'dhruvasagar/vim-table-mode'
+source ~/.vim/rc/plugins/table-mode.vim
+
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'scrooloose/syntastic'
 source ~/.vim/rc/plugins/syntastic.vim
+
 Bundle 'vito-c/vim-pirate-scope'
+
+Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim'
+Bundle 'mattn/unite-gist'
+source ~/.vim/rc/plugins/gist.vim
+
 Bundle 'godlygeek/tabular'
 source ~/.vim/rc/plugins/tabular.vim
+
 Bundle 'Valloric/YouCompleteMe'
 source ~/.vim/rc/plugins/ycm.vim
+
 Bundle 'nosami/Omnisharp'
 Bundle 'Shougo/unite.vim'
 source ~/.vim/rc/plugins/unite.vim
+
 Bundle 'gmarik/vundle'
 Bundle 'tommcdo/vim-exchange'
 if executable('ctags')
     Bundle 'majutsushi/tagbar'
 endif
+
 Bundle 'tpope/vim-fugitive'
 source ~/.vim/rc/plugins/fugitive.vim
 
