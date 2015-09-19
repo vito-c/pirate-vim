@@ -9,6 +9,7 @@ if has("autocmd")
    let s:groot = rc#git#get_root("~/.vim/rc/vimrc")
     " Source the vimrc file after saving it
     echom "autocmds"
+    autocmd!
     augroup vimsource " {{{
         autocmd! 
         autocmd BufWritePost .vimrc source $MYVIMRC 
@@ -16,16 +17,17 @@ if has("autocmd")
         autocmd BufWritePost s:groot . '/rc/**' source $MYVIMRC 
         autocmd BufWritePost */rc/** source $MYVIMRC 
         if has('nvim')
-            autocmd bufwritepost .nvimrc source $MYVIMRC 
+            autocmd Bufwritepost .nvimrc source $MYVIMRC 
             autocmd BufWritePost ~/.nvim/rc/** source $MYVIMRC 
             autocmd bufwritepost nvimrc source $MYVIMRC 
         endif
     augroup END " }}}
     augroup autosave " {{{
-        au FocusLost * :call SafeSave("all")
-        au BufWritePost * :call RestoreMarker()
-        au TextChanged * :call SafeSave("crrent")
-        au TextChangedI * :call SafeSave("crrent")
+        autocmd! 
+        autocmd FocusLost * :call SafeSave("all")
+        autocmd BufWritePost * :call RestoreMarker()
+        autocmd TextChanged * :call SafeSave("crrent")
+        autocmd TextChangedI * :call SafeSave("crrent")
     augroup END
 
     let g:ltickmark = getpos("'[")

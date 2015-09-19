@@ -23,6 +23,9 @@ inoremap kk <ESC>
 "inoremap jk <ESC>
 "inoremap kj <ESC>
 
+noremap gf gF
+noremap gF gf
+
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
 endif

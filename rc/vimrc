@@ -36,8 +36,9 @@ set shortmess=aTI
 " Don't redraw while macro executing.
 set lazyredraw
 set mouse=
+set encoding=utf-8
 scriptencoding utf-8
-set history=1000
+set history=4000
 set hidden                         " Allow buffer switching without saving
 set autoread
 set autowrite

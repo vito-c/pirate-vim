@@ -6,7 +6,7 @@
 " }
 
 echo "leaders"
-let mapleader = ' '
+let g:mapleader = ' '
 
 " noremap <leader>vb :<C-U>vsp<Bar>bn<CR>
 " nmap <leader><CR> :call CustomCompileFile()<CR>
