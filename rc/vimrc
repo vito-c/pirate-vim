@@ -15,20 +15,18 @@ set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 filetype plugin indent on   " Automatically detect file types.
 
 " The next three lines ensure that the ~/.vim/bundle/ system works
-filetype on
-filetype off
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+" filetype on
+" filetype off
+" set rtp+=~/.vim/bundle/vundle
+" call vundle#rc()
+
 " Autocmds
-echo "sourcing... "
+echo 'sourcing...'
+source ~/.vim/rc/bundles.vim
 source ~/.vim/rc/git.vim
 source ~/.vim/rc/autocmds.vim
 source ~/.vim/rc/mappings.vim
 source ~/.vim/rc/leaders.vim
-
-if filereadable(expand("~/.vim/rc/bundles.vim"))
-    source ~/.vim/rc/bundles.vim
-endif
 
 syntax on                          " Syntax highlighting
 set shortmess=aTI
@@ -36,7 +34,7 @@ set shortmess=aTI
 " Don't redraw while macro executing.
 set lazyredraw
 set mouse=
-set encoding=utf-8
+"set encoding=utf-8
 scriptencoding utf-8
 set history=4000
 set hidden                         " Allow buffer switching without saving
@@ -99,7 +97,7 @@ set virtualedit=onemore             " Allow for cursor beyond last character
 set nowrap
  
 let g:EclimScalaSearchSingleResult="edit"
-let g:EclimCompletionMethod = 'omnifunc'
+let g:EclimCompletionMethod ='omnifunc'
 " Abbrevs {{{
 " TODO: Abloish plugin move to own file
 iabbrev teh the

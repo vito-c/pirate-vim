@@ -5,7 +5,7 @@
 " By: Vito C.
 " }
 
-"Plugin 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 
 "Plugin 'tpope/vim-fireplace'
 "Plugin 'tpope/vim-leiningen'

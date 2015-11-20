@@ -44,6 +44,7 @@ vnoremap <leader>P "+P
 " Windows Actions {
 nnoremap <leader>wv :vsp<Bar>bn<Bar>wincmd L<CR>
 nnoremap <leader>ws :sp<Bar>bn <CR>
+nnoremap <leader>ww :wincmd w<Bar>wincmd _<CR>
 " }
 " Fold Levels {
 nmap <leader>f0 :set foldlevel=0<CR>

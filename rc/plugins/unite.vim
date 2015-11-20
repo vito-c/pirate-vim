@@ -16,8 +16,8 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 "            \ 'matchers', ['converter_abbr_word','matcher_fuzzy'])
 
 nnoremap <leader>oo :<C-u>Unite -start-insert -toggle -no-split file_rec/git<CR>
-nnoremap <leader>l :<C-u>Unite -start-insert -toggle -no-split buffer:-<CR>
-nnoremap <leader>t :<C-u>Unite -start-insert -toggle -no-split buffer:t<CR>
+nnoremap <leader>l :<C-u>Unite -start-insert -toggle -no-split buffer:<CR>
+"nnoremap <leader>t :<C-u>Unite -start-insert -toggle -no-split buffer:t<CR>
 if has('nvim')
     nnoremap <leader>of :<C-u>Unite -start-insert -toggle -no-split file_rec/neovim:!<CR>
 else

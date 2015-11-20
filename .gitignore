@@ -11,3 +11,4 @@ vim/bundle/vundle
 eclim/
 plugin/
 tmp
+autoload/plug.vim
