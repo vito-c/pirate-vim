@@ -1,0 +1,1 @@
+/Users/vitocutten/GDrive/pirate-vim/nvimrc
