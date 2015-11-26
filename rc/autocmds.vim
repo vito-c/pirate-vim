@@ -1,7 +1,7 @@
 " Information {{{
 "--------------------------------------------------------------------------------
 " vim: set tw=90 foldmethod=marker :
-"  
+"
 " By: Vito C.
 " }}}
 
@@ -11,19 +11,19 @@ if has("autocmd")
     echom "autocmds"
     autocmd!
     augroup vimsource " {{{
-        autocmd! 
-        autocmd BufWritePost .vimrc source $MYVIMRC 
-        autocmd BufWritePost vimrc source $MYVIMRC 
-        autocmd BufWritePost s:groot . '/rc/**' source $MYVIMRC 
-        autocmd BufWritePost */rc/** source $MYVIMRC 
+        autocmd!
+        autocmd BufWritePost .vimrc source $MYVIMRC
+        autocmd BufWritePost vimrc source $MYVIMRC
+        autocmd BufWritePost s:groot . '/rc/**' source $MYVIMRC
+        autocmd BufWritePost */rc/** source $MYVIMRC
         if has('nvim')
-            autocmd Bufwritepost .nvimrc source $MYVIMRC 
-            autocmd BufWritePost ~/.nvim/rc/** source $MYVIMRC 
-            autocmd bufwritepost nvimrc source $MYVIMRC 
+            autocmd Bufwritepost .nvimrc source $MYVIMRC
+            autocmd BufWritePost ~/.nvim/rc/** source $MYVIMRC
+            autocmd bufwritepost nvimrc source $MYVIMRC
         endif
     augroup END " }}}
     augroup autosave " {{{
-        autocmd! 
+        autocmd!
         autocmd FocusLost * :call SafeSave("all")
         autocmd BufWritePost * :call RestoreMarker()
         autocmd TextChanged * :call SafeSave("crrent")

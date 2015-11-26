@@ -1,7 +1,7 @@
 " Information {{{
 "--------------------------------------------------------------------------------
 " vim: set tw=90 foldmethod=marker :
-" 
+"
 " By: Vito C.
 " }}}
 
@@ -22,11 +22,12 @@ filetype plugin indent on   " Automatically detect file types.
 
 " Autocmds
 echo 'sourcing...'
-source ~/.vim/rc/bundles.vim
 source ~/.vim/rc/git.vim
 source ~/.vim/rc/autocmds.vim
 source ~/.vim/rc/mappings.vim
 source ~/.vim/rc/leaders.vim
+
+source ~/.vim/rc/bundles.vim
 
 syntax on                          " Syntax highlighting
 set shortmess=aTI
@@ -66,13 +67,6 @@ set shiftwidth=4                " Use indents of 4 spaces
 set tabstop=4                   " An indentation every four columns
 set softtabstop=4               " Let backspace delete indent
 
-if has('cmdline_info')
-    set ruler                   " Show the ruler
-    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-    set showcmd                 " Show partial commands in status line and
-    " Selected characters/lines in visual mode
-endif
-
 " netrw ignores
 let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
 
@@ -93,10 +87,13 @@ set whichwrap+=h,l,<,>,[,],b,s,~
 set scrolloff=999                 " Minimum lines to keep above and below cursor
 set foldenable                  " Auto fold code
 set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
-set virtualedit=onemore             " Allow for cursor beyond last character
+"set virtualedit=onemore             " Allow for cursor beyond last character
 set nowrap
- 
-let g:EclimScalaSearchSingleResult="edit"
+
+" noma nomod nonu nobl nowrap ro nornu
+let g:netrw_bufsettings = 'bh=wipe noma nomod nonu nobl nowrap ro nornu'
+let g:netrw_altfile = 1
+let g:EclimScalaSearchSingleResult='edit'
 let g:EclimCompletionMethod ='omnifunc'
 " Abbrevs {{{
 " TODO: Abloish plugin move to own file
@@ -130,12 +127,22 @@ function! NumberOff()
     endif
 endfunc
 " }}}
+ 
+" Delete Empty Buffers {{{
+command! -nargs=0 DeleteEmptyBuffers call DeleteEmptyBuffers() 
+function! DeleteEmptyBuffers()
+  let buffers = filter(range(0, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0')
+  if !empty(buffers)
+    exe 'bw '.join(buffers, ' ')
+  endif
+endfunction
+" }}}
 " Broken {{{
-command! -nargs=0 -bar RefreshTags execute RefreshTagsInGitHooks()
+command! -nargs=0 RefreshTags execute RefreshTagsInGitHooks()
 function! RefreshTagsInGitHooks()
     if filereadable(".git/hooks/ctags")
         :!.git/hooks/ctags
-    else 
+    else
         echo "Failed to find tag generator"
     endif
 endfunction

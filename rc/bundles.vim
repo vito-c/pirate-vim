@@ -1,102 +1,134 @@
-" Information {
+ " Information {
 "--------------------------------------------------------------------------------
 " vim: set sw=4 ts=4 sts=4 et tw=90 foldmarker={,} foldmethod=marker :
-"  
+"
 " By: Vito C.
 " }
+call plug#begin('~/.vim/bundle')
+Plug 'bling/vim-airline'
 
-Plugin 'bling/vim-airline'
+"Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+"Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
+"Plug 'tpope/vim-classpath', { 'for': 'clojure' }
 
-"Plugin 'tpope/vim-fireplace'
-"Plugin 'tpope/vim-leiningen'
-"Plugin 'tpope/vim-classpath'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-abolish'
+Plug 'vito-c/vim-snippets'
+Plug 'AndrewRadev/splitjoin.vim'
 
-Plugin 'Shougo/vimproc.vim'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-vinegar'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-abolish.git'
-Plugin 'vito-c/vim-snippets'
-Plugin 'xieyu/pyclewn'
-Plugin 'AndrewRadev/splitjoin.vim'
-
-Plugin 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 source ~/.vim/rc/plugins/ultisnips.vim
 
-Plugin 'spf13/vim-colors'
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'spf13/vim-colors'
+Plug 'ctrlpvim/ctrlp.vim'
 source ~/.vim/rc/plugins/ctrlp.vim
-Plugin 'godlygeek/csapprox'
-Plugin 'flazz/vim-colorschemes'
 
-Plugin 'sjl/gundo.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+source ~/.vim/rc/plugins/fzf.vim
+
+Plug 'godlygeek/csapprox'
+Plug 'flazz/vim-colorschemes'
+
+Plug 'simnalamburt/vim-mundo'
 source ~/.vim/rc/plugins/gundo.vim
 
-Plugin 'marijnh/tern_for_vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'matthewsimo/angular-vim-snippets'
-Plugin 'burnettk/vim-angular'
-Plugin 'othree/html5.vim'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'vim-scripts/Flex-4'
+" javascript
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'html']  }
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'html']  }
+Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'html']  }
+Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
+Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
+Plug 'othree/html5.vim', { 'for': ['javascript', 'html']  }
+Plug 'goatslacker/mango.vim', { 'for': 'javascript' }
 
-Plugin 'dhruvasagar/vim-table-mode'
-source ~/.vim/rc/plugins/table-mode.vim
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
-Plugin 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-multiple-cursors'
 
-"Plugin 'scrooloose/syntastic'
-"source ~/.vim/rc/plugins/syntastic.vim
-
-Plugin 'vito-c/vim-pirate-scope'
-
-"Plugin 'mattn/webapi-vim'
-"Plugin 'mattn/gist-vim'
-"Plugin 'mattn/unite-gist'
-"source ~/.vim/rc/plugins/gist.vim
-Plugin 'lambdalisue/vim-gista'
-Plugin 'tyru/open-browser.vim'
+Plug 'lambdalisue/vim-gista'
+Plug 'tyru/open-browser.vim'
 source ~/.vim/rc/plugins/gista.vim
 
-Plugin 'benekastah/neomake'
+Plug 'benekastah/neomake'
 source ~/.vim/rc/plugins/neomake.vim
 
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 source ~/.vim/rc/plugins/tabular.vim
 
-Plugin 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe'
 source ~/.vim/rc/plugins/ycm.vim
 
-Plugin 'nosami/Omnisharp'
-Plugin 'Shougo/unite.vim'
+Plug 'nosami/Omnisharp', { 'for': 'csharp' }
+Plug 'Shougo/unite.vim'
 source ~/.vim/rc/plugins/unite.vim
 
-Plugin 'gmarik/vundle'
-Plugin 'tommcdo/vim-exchange'
+Plug 'gmarik/vundle'
+Plug 'tommcdo/vim-exchange'
 if executable('ctags')
-    Plugin 'majutsushi/tagbar'
+    Plug 'majutsushi/tagbar'
 endif
 
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 source ~/.vim/rc/plugins/fugitive.vim
 
+call plug#end()
 
+" Want to try:
+" elzr/vim-json - concealment in json
+
+
+
+" Plug 'dhruvasagar/vim-table-mode'
+" source ~/.vim/rc/plugins/table-mode.vim
+
+"Plug 'scrooloose/syntastic'
+"source ~/.vim/rc/plugins/syntastic.vim
+"Plug 'vito-c/vim-pirate-scope'
+" Plug 'xieyu/pyclewn'
+
+" Deleted
+" /Users/vitocutten/.vim/bundle/Flex-4/
+" /Users/vitocutten/.vim/bundle/gist-vim/
+" /Users/vitocutten/.vim/bundle/gundo.vim/
+" /Users/vitocutten/.vim/bundle/node_modules/
+" /Users/vitocutten/.vim/bundle/syntastic/
+" /Users/vitocutten/.vim/bundle/tern_for_vim/
+" /Users/vitocutten/.vim/bundle/unite-gist/
+" /Users/vitocutten/.vim/bundle/vim-abolish/
+" /Users/vitocutten/.vim/bundle/vim-classpath/
+" /Users/vitocutten/.vim/bundle/vim-commentary/
+" /Users/vitocutten/.vim/bundle/vim-fireplace/
+" /Users/vitocutten/.vim/bundle/vim-jdaddy/
+" /Users/vitocutten/.vim/bundle/vim-leiningen/
+" /Users/vitocutten/.vim/bundle/vim-pirate-scope/
+" /Users/vitocutten/.vim/bundle/vim-sbt/
+" /Users/vitocutten/.vim/bundle/vim-table-mode/
+" /Users/vitocutten/.vim/bundle/webapi-vim/
+"
 " Disabled {
-"Plugin 'Lokaltog/vim-powerline'
-"Plugin 'matchit.zip' "umm what's this do
+" Plug 'vim-scripts/Flex-4'
+"Plug 'mattn/webapi-vim'
+"Plug 'mattn/gist-vim'
+"Plug 'mattn/unite-gist'
+"source ~/.vim/rc/plugins/gist.vim
+"Plug 'Lokaltog/vim-powerline'
+"Plug 'matchit.zip' "umm what's this do
 " let b:match_ignorecase = 1
 "wtf does this one do
-"Plugin 'mattn/webapi-vim'
-""Plugin 'scrooloose/nerdcommenter' "TODO: need a better commenter
-"Plugin 'vim-scripts/gtags.vim'
-"Plugin 'hewes/unite-gtags'
+"Plug 'mattn/webapi-vim'
+""Plug 'scrooloose/nerdcommenter' "TODO: need a better commenter
+"Plug 'vim-scripts/gtags.vim'
+"Plug 'hewes/unite-gtags'
 " powerline
 " set " laststatus=2
-" if filereadable( expand("~/.vim/Plugin/powerline") )
+" if filereadable( expand("~/.vim/Plug/powerline") )
 "     python from powerline.vim import setup as powerline_setup
 "     python powerline_setup()
 "     python del powerline_setup

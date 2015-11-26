@@ -7,4 +7,3 @@ let g:ctrlp_custom_ignore = {
             \ 'file': '\v\.(min.js|cache|class|exe|so|dll|php|exe|gitignore|jar|meta|dll|png|anim|unity|jpg|wav|prefab|fbx|asset|mp3|tga|psd|mat|atf|csproj|sln|svg|unity3d|mdb|dll|tiff|gif)$',
             \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
             \ }
-

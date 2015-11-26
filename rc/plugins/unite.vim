@@ -4,19 +4,19 @@
 "  
 " By: Vito C.
 " }
-echo "plugins unite"
+echo 'plugins unite'
 let g:unite_source_file_rec_max_cache_files = 250
 let g:unite_source_history_yank_enable = 1
-let g:unite_source_buffer_time_format=""
-call unite#custom#source('buffer',
-            \ 'matchers', ['converter_abbr_word','matcher_fuzzy'])
-
-call unite#filters#sorter_default#use(['sorter_rank'])
+let g:unite_source_buffer_time_format=''
+" call unite#custom#source('buffer',
+"             \ 'matchers', ['converter_abbr_word','matcher_fuzzy'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
 "call unite#custom#source('file,file/new,buffer,file_rec,file_rec/git',
 "            \ 'matchers', ['converter_abbr_word','matcher_fuzzy'])
 
-nnoremap <leader>oo :<C-u>Unite -start-insert -toggle -no-split file_rec/git<CR>
-nnoremap <leader>l :<C-u>Unite -start-insert -toggle -no-split buffer:<CR>
+"nnoremap <leader>oo :<C-u>Unite -start-insert -toggle -no-split file_rec/git<CR>
+"nnoremap <leader>l :<C-u>Unite -start-insert -toggle -no-split buffer:<CR>
+
 "nnoremap <leader>t :<C-u>Unite -start-insert -toggle -no-split buffer:t<CR>
 if has('nvim')
     nnoremap <leader>of :<C-u>Unite -start-insert -toggle -no-split file_rec/neovim:!<CR>
