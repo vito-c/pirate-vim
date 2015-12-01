@@ -1,6 +1,6 @@
 " Header {{{
 "--------------------------------------------------------------------------------
-" vim: set sw=4 ts=4 sts=4 et tw=90  foldmethod=marker :
+" vim: set sw=4 ts=4 sts=4 et tw=90 foldmethod=marker :
 "  
 " By: Vito C.
 " }}}

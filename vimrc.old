@@ -10,12 +10,7 @@
         set nocompatible        " Must be first line
         set expandtab
         
-        " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype on
-        filetype off
-        set rtp+=~/.vim/bundle/vundle
-        call vundle#rc()
-
+        source ~/.vim/rc/bundles.vim
         " powerline setup
         if filereadable( expand("~/.vim/bundle/powerline") )
             python from powerline.vim import setup as powerline_setup

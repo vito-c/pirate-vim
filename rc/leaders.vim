@@ -1,9 +1,9 @@
-" Information {
+" Information {{{
 "--------------------------------------------------------------------------------
-" vim: set sw=4 ts=4 sts=4 et tw=90 foldmarker={,} foldmethod=marker :
+" vim: set sw=4 ts=4 sts=4 et tw=90 foldmethod=marker :
 "
 " By: Vito C.
-" }
+" }}}
 
 echo "leaders"
 let g:mapleader = ' '
@@ -15,7 +15,7 @@ let g:mapleader = ' '
 noremap <leader>; mcA;<ESC>'c
 noremap <leader><leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
 
-" Quick Edits {
+" Quick Edits {{{
 let g:VITORC=fnamemodify($MYVIMRC,':h')."/rc/vimrc"
 noremap <leader>ev :<C-U>execute "tabedit " . g:VITORC<CR>
 noremap <leader>eb :<C-U>tabedit /Users/$USER/.bash_profile<CR>
@@ -24,8 +24,8 @@ noremap <leader>eb :<C-U>tabedit /Users/$USER/.bash_profile<CR>
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 noremap <leader>ew :<C-U>e <C-R>=expand('%:h').'/'<cr>
 noremap <leader>es :<C-U>sp %%
-" }
-" Copy Pasting {
+" }}}
+" Copy Pasting {{{
 noremap <leader>y "+y
 noremap <leader>Y "+y$
 
@@ -40,13 +40,13 @@ noremap <leader>P "+P
 
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
-" }
-" Windows Actions {
+" }}}
+" Windows Actions {{{
 nnoremap <leader>wv :vsp<Bar>bn<Bar>wincmd L<CR>
 nnoremap <leader>ws :sp<Bar>bn <CR>
 nnoremap <leader>ww :wincmd w<Bar>wincmd _<CR>
-" }
-" Fold Levels {
+" }}}
+" Fold Levels {{{
 nmap <leader>f0 :set foldlevel=0<CR>
 nmap <leader>f1 :set foldlevel=1<CR>
 nmap <leader>f2 :set foldlevel=2<CR>
@@ -57,9 +57,9 @@ nmap <leader>f6 :set foldlevel=6<CR>
 nmap <leader>f7 :set foldlevel=7<CR>
 nmap <leader>f8 :set foldlevel=8<CR>
 nmap <leader>f9 :set foldlevel=9<CR>
-" }
-" Saving {
+" }}}
+" Saving {{{
 noremap <leader>ss :w<CR>
 noremap <leader>sa :wa<CR>
 noremap <leader>sq :wqa<CR>
-" }
+" }}}

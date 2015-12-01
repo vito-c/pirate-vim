@@ -19,9 +19,16 @@ Plug 'tpope/vim-vinegar'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
+
+let g:plug_url_format = 'git@github.com:%s.git'
+" My plugins
 Plug 'vito-c/vim-snippets'
+Plug 'vito-c/jq.vim'
+unlet! g:plug_url_format
+
 Plug 'AndrewRadev/splitjoin.vim'
 
+" Plug 'ensime/ensime-vim'
 Plug 'SirVer/ultisnips'
 source ~/.vim/rc/plugins/ultisnips.vim
 
@@ -66,8 +73,8 @@ Plug 'Valloric/YouCompleteMe'
 source ~/.vim/rc/plugins/ycm.vim
 
 Plug 'nosami/Omnisharp', { 'for': 'csharp' }
-Plug 'Shougo/unite.vim'
-source ~/.vim/rc/plugins/unite.vim
+"Plug 'Shougo/unite.vim'
+" source ~/.vim/rc/plugins/unite.vim
 
 Plug 'gmarik/vundle'
 Plug 'tommcdo/vim-exchange'
