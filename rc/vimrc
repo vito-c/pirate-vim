@@ -38,10 +38,12 @@ set autowrite
 set noswapfile
 set undodir=~/.vim/tmp/undo//     " undo files
 set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
-silent !mkdir(expand(&undodir), "p")
-silent !mkdir(expand(&backupdir), "p")
-silent !mkdir(expand(&directory), "p")
+if !isdirectory(&undodir)
+    silent !mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(&backupdir)
+    silent !mkdir(expand(&backupdir), "p")
+endif
 set path=~/code/**
 set path+=~/playground/**
 
