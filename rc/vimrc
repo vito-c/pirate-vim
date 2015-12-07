@@ -13,9 +13,12 @@ endif
 set expandtab
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 filetype plugin indent on   " Automatically detect file types.
+let g:debug_startup = 0
 
-" Autocmds
-echo 'sourcing...'
+if g:debug_startup
+    echo 'sourcing...'
+endif
+
 source ~/.vim/rc/git.vim
 source ~/.vim/rc/autocmds.vim
 source ~/.vim/rc/mappings.vim
@@ -71,7 +74,8 @@ set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set relativenumber              " Line numbers on
 set number
-set showmatch                   " Show matching brackets/parenthesis
+set noshowmatch                 " Show matching brackets/parenthesis
+set matchtime=3                 " tenths of a second
 set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
 set winminheight=0              " Windows can be 0 line high

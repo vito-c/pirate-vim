@@ -5,7 +5,9 @@
 " By: Vito C.
 " }}}
 
-echo 'git'
+if g:debug_startup
+    echo 'git'
+endif
 let s:root_cmd = 'git rev-parse --show-toplevel;'
 function! rc#git#get_root(filepath) " {{{
     let groot = expand('%:h')

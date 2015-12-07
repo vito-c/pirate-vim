@@ -4,7 +4,9 @@
 "
 " By: Vito C.
 " }
-echo "mappings"
+if g:debug_startup
+    echo "mappings"
+endif
 noremap ZA :wqa<CR>
 
 " Wrapped lines goes down/up to next row, rather than next line in file.

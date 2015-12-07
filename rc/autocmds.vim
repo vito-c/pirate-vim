@@ -8,7 +8,9 @@
 if has("autocmd")
    let s:groot = rc#git#get_root("~/.vim/rc/vimrc")
     " Source the vimrc file after saving it
+if g:debug_startup
     echom "autocmds"
+endif
     autocmd!
     augroup vimsource " {{{
         autocmd!

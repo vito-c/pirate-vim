@@ -5,7 +5,9 @@
 " By: Vito C.
 " }}}
 
-echo "leaders"
+if g:debug_startup
+    echo "leaders"
+endif
 let g:mapleader = ' '
 
 " noremap <leader>vb :<C-U>vsp<Bar>bn<CR>

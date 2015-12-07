@@ -7,3 +7,16 @@ set expandtab
 syntax on
 set mouse=
 let mapleader = ' '
+
+" call plug#begin('~/.vim/bundle')
+"     Plug 'Valloric/YouCompleteMe'
+"     source ~/.vim/rc/plugins/ycm.vim
+"     Plug 'SirVer/ultisnips'
+"     source ~/.vim/rc/plugins/ultisnips.vim
+"     Plug 'flazz/vim-colorschemes'
+" call plug#end()
+
+" source ~/.vim/rc/bundles.vim
+" color molokai
+
+" source ~/.vim/rc/vimrc

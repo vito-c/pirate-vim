@@ -5,7 +5,6 @@
 " By: Vito C.
 " }}}
 
-echo 'plugins fzf'
 let g:fzf_layout = { 'up': '~40%' }
 nnoremap <leader>l :BuffSwitch<CR>
 nnoremap <leader>fa :GitCFiles<CR>

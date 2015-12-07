@@ -1,15 +1,16 @@
- " Information {
+ " Information {{{
 "--------------------------------------------------------------------------------
-" vim: set sw=4 ts=4 sts=4 et tw=90 foldmarker={,} foldmethod=marker :
+" vim: set sw=4 ts=4 sts=4 et tw=90 foldmethod=marker :
 "
 " By: Vito C.
-" }
+" }}}
 call plug#begin('~/.vim/bundle')
 Plug 'bling/vim-airline'
 
 "Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 "Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
 "Plug 'tpope/vim-classpath', { 'for': 'clojure' }
+"Bundle 'spf13/vim-colors'
 
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'tpope/vim-repeat'
@@ -20,19 +21,20 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
 
+" My plugins {{{
 let g:plug_url_format = 'git@github.com:%s.git'
-" My plugins
 Plug 'vito-c/vim-snippets'
 Plug 'vito-c/jq.vim'
+Plug 'vito-c/ensime-vim'
 unlet! g:plug_url_format
+" }}}
 
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'jtratner/vim-flavored-markdown'
 
-" Plug 'ensime/ensime-vim'
 Plug 'SirVer/ultisnips'
 source ~/.vim/rc/plugins/ultisnips.vim
 
-Plug 'spf13/vim-colors'
 Plug 'ctrlpvim/ctrlp.vim'
 source ~/.vim/rc/plugins/ctrlp.vim
 

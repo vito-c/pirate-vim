@@ -23,28 +23,28 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-let g:snips_author="Vito C."
-let g:UltiSnipsExpandTrigger="<nop>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+let g:snips_author='Vito C.'
+let g:UltiSnipsExpandTrigger='<nop>'
+let g:UltiSnipsJumpForwardTrigger='<c-j>'
+let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
 " for now i'm leaving this here but should move it to unite
-function! UltiSnipsCallUnite()
-    -start-insert -winheight=100 -immediately -no-empty ultisnips
-    return ''
-endfunction
+" function! UltiSnipsCallUnite()
+"     -start-insert -winheight=100 -immediately -no-empty ultisnips
+"     return ''
+" endfunction
 
-inoremap <silent> <F12> <C-R>=(pumvisible()? "\<LT>C-E>":"")<CR><C-R>=UltiSnipsCallUnite()<CR>
-nnoremap <silent> <F12> a<C-R>=(pumvisible()? "\<LT>C-E>":"")<CR><C-R>=UltiSnipsCallUnite()<CR>
-
-let g:UltiSnipsExpandTrigger = "<nop>"
-let g:ulti_expand_or_jump_res = 0
-function! ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+"inoremap <silent> <F12> <C-R>=(pumvisible()? "\<LT>C-E>":"")<CR><C-R>=UltiSnipsCallUnite()<CR>
+"nnoremap <silent> <F12> a<C-R>=(pumvisible()? "\<LT>C-E>":"")<CR><C-R>=UltiSnipsCallUnite()<CR>
+"
+" let g:ulti_expand_or_jump_res = 0
+" function! ExpandSnippetOrCarriageReturn()
+"     let snippet = UltiSnips#ExpandSnippetOrJump()
+"     if g:ulti_expand_or_jump_res > 0
+"         return snippet
+"     else
+"         return "\<CR>"
+"     endif
+" endfunction
+" inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
