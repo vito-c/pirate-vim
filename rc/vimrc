@@ -5,6 +5,35 @@
 " By: Vito C.
 " }}}
 "
+" Scratchy: Functions
+
+"
+" function! s:RequireScalaHost(host)
+"   try
+"     let channel_id = rpcstart('/Users/vitocutten/playground/ensime-neovim/bin/runner')
+"       echom 'not polling ' . channel_id
+"       return channel_id
+"   catch
+"     echomsg v:throwpoint
+"     echomsg v:exception
+"   endtry
+"   throw 'Failed to load '. a:host . ' host. '.
+"     \ 'See ~/.nvimlog.'
+"    " return rpcstart('/Users/vitocutten/playground/ensime-neovim/bin/runner')
+"    " return serverstart('127.0.0.1:8000')
+" endfunction
+"
+" call remote#host#Register('scala', '*.scala', function('s:RequireScalaHost'))
+" let sc=remote#host#Require('scala')
+" call remote#define#CommandOnHost('scala', 'METHOD', 0, 'ScalaCommand', {}) 
+
+" let sc=remote#host#Require('scala')
+" call remote#define#CommandOnHost('scala', 'METHOD', 1, 'HaskellCommand', {}) 
+" call rpcrequest(sc, "Sayhello()")
+
+" call remote#host#Register('haskell', "*.l\?hs", function('s:RequireHaskellHost'))
+" let hc=remote#host#Require('haskell')
+" call rpcrequest(hc, "PingNvimhs")
 
 if &compatible
     set nocompatible
