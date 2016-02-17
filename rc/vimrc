@@ -4,6 +4,7 @@
 "
 " By: Vito C.
 " }}}
+"
 
 if &compatible
     set nocompatible

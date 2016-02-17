@@ -8,6 +8,7 @@ if g:debug_startup
     echo "mappings"
 endif
 noremap ZA :wqa<CR>
+noremap ZQ :qa!<CR>
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
@@ -66,6 +67,7 @@ vnoremap <leader>ff :<C-U>
             \gV:call setreg('"', old_reg, old_regtype)<CR>
             \:copen<CR>
 " }}}
+
 
 "select the last changed or pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'

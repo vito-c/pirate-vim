@@ -65,3 +65,6 @@ noremap <leader>ss :w<CR>
 noremap <leader>sa :wa<CR>
 noremap <leader>sq :wqa<CR>
 " }}}
+
+" need to config better tabbing
+nnoremap <leader>tc :tabclose<CR>

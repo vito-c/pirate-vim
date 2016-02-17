@@ -25,7 +25,7 @@ Plug 'tpope/vim-abolish'
 let g:plug_url_format = 'git@github.com:%s.git'
 Plug 'vito-c/vim-snippets'
 Plug 'vito-c/jq.vim'
-Plug 'vito-c/ensime-vim'
+"Plug 'vito-c/ensime-vim'
 unlet! g:plug_url_format
 " }}}
 
@@ -71,12 +71,12 @@ source ~/.vim/rc/plugins/neomake.vim
 Plug 'godlygeek/tabular'
 source ~/.vim/rc/plugins/tabular.vim
 
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer --tern-completer' }
 source ~/.vim/rc/plugins/ycm.vim
 
 Plug 'nosami/Omnisharp', { 'for': 'csharp' }
-"Plug 'Shougo/unite.vim'
-" source ~/.vim/rc/plugins/unite.vim
+Plug 'Shougo/unite.vim'
+source ~/.vim/rc/plugins/unite.vim
 
 Plug 'gmarik/vundle'
 Plug 'tommcdo/vim-exchange'
