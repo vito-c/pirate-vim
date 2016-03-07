@@ -27,6 +27,9 @@
 " let sc=remote#host#Require('scala')
 " call remote#define#CommandOnHost('scala', 'METHOD', 0, 'ScalaCommand', {}) 
 
+
+
+
 " let sc=remote#host#Require('scala')
 " call remote#define#CommandOnHost('scala', 'METHOD', 1, 'HaskellCommand', {}) 
 " call rpcrequest(sc, "Sayhello()")
@@ -64,7 +67,7 @@ set lazyredraw
 set mouse=
 "set encoding=utf-8
 scriptencoding utf-8
-set history=4000
+set history=8000
 set hidden                         " Allow buffer switching without saving
 set autoread
 set autowrite

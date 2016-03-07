@@ -34,11 +34,13 @@ noremap <leader>Y "+y$
 vnoremap <leader>y "+y
 vnoremap <leader>Y "+y$
 
-vnoremap <leader>d "+d
-noremap <leader>d "+d
+" vnoremap <leader>d "+d
+" noremap <leader>d "+d
 
 noremap <leader>p "+p
 noremap <leader>P "+P
+noremap <leader>0 "0p
+noremap <leader>0 "0P
 
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
@@ -60,11 +62,8 @@ nmap <leader>f7 :set foldlevel=7<CR>
 nmap <leader>f8 :set foldlevel=8<CR>
 nmap <leader>f9 :set foldlevel=9<CR>
 " }}}
-" Saving {{{
-noremap <leader>ss :w<CR>
-noremap <leader>sa :wa<CR>
-noremap <leader>sq :wqa<CR>
-" }}}
 
 " need to config better tabbing
 nnoremap <leader>tc :tabclose<CR>
+nnoremap <leader>oq :cw<CR>
+nnoremap <leader>ol :lw<CR>

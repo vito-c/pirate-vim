@@ -39,6 +39,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 source ~/.vim/rc/plugins/ctrlp.vim
 
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-peekaboo'
+source ~/.vim/rc/plugins/peekaboo.vim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 source ~/.vim/rc/plugins/fzf.vim
 
@@ -50,7 +52,7 @@ source ~/.vim/rc/plugins/gundo.vim
 
 " javascript
 Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'html']  }
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'html']  }
+Plug 'panglossr/vim-javascript', { 'for': ['javascript', 'html']  }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'html']  }
 Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
 Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
@@ -78,7 +80,6 @@ Plug 'nosami/Omnisharp', { 'for': 'csharp' }
 Plug 'Shougo/unite.vim'
 source ~/.vim/rc/plugins/unite.vim
 
-Plug 'gmarik/vundle'
 Plug 'tommcdo/vim-exchange'
 if executable('ctags')
     Plug 'majutsushi/tagbar'

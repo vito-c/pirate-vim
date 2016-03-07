@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 import neovim
 import subprocess
-#from jq import jq
+import os
 import logging
+import glob, re, tempfile
 
 @neovim.plugin
 class Scratchy(object):
@@ -15,6 +16,7 @@ class Scratchy(object):
         self.codebuff = None
         self.databuff = None
         self.outbuff = None
+        self.tf = None
 
     def log(self, str):
         self.vim.command("echom '%s'"% str)
@@ -22,13 +24,39 @@ class Scratchy(object):
     @neovim.command('Scratchy', range='', nargs='*', sync=True)
     def command_handler(self, args, range):
         ft = self.vim.eval('&ft')
-        self.log("args %s, range %s, ft %s"%(args, range, ft))
+        self.log("setup")
         if len(args) == 0 and ft == 'json':
-            self.log("run setup")
+            self.log("setup single file")
             self.setup()
-        # elif range == 1:
-        #     self.vim.eval(args[0])
-        #     self.useinput(self.vim.current.buffer)
+        elif len(args) >= 1:
+            if bool(re.match('^!.*', args[0])):
+                print(args)
+                self.cmd_files(args)
+            else:
+                self.multi_files(args)
+            self.vim.command("setlocal bh=wipe noma nomod nonu nowrap ro nornu")
+            self.setup()
+
+    def cmd_files(self, args):
+        self.log(args[0])
+
+    # assumes args >= 1
+    def multi_files(self, args):
+        self.log("begin multi file setup")
+        paths = []
+        self.tf = tempfile.NamedTemporaryFile(mode='wb', delete=False)
+        for ar in args:
+            for fn in glob.iglob(os.path.expanduser(ar), recursive=True):
+                self.log(fn)
+                with open(fn, mode='rb') as infile:
+                    for line in infile:
+                        self.tf.write(line)
+                paths.append(fn)
+        self.tf.close()
+        self.vim.command('edit %s'% self.tf.name)
+        self.databuff = self.vim.current.buffer
+        self.databuff.name = "[Data]"
+        self.log("end multi file setup")
 
     def setup(self):
         self.databuff = self.vim.current.buffer
@@ -65,13 +93,38 @@ class Scratchy(object):
     def buffaucmd(self, aucmd, buffnum, cmd):
         self.vim.command('au %s <buffer=%s> %s'% (aucmd, buffnum, cmd))
 
-    def _modout(self, buff, content, split=True, delim='\n'):
-        self._readonly(buff, False)
+    def setoutput(self, content, split=True, delim='\n'):
+        self._readonly(self.outbuff, False)
         if split:
             self.outbuff[:] = content.split(delim)
         else:
             self.outbuff.append(content)
-        self._readonly(buff, True)
+        self._readonly(self.outbuff, True)
+
+    def _readonly(self, buff, readOnly=True):
+        buff.options["modifiable"] = not readOnly
+        buff.options["modified"] = not readOnly
+        buff.options["readonly"] = readOnly
+        #buf = self.vim.current.buffer
+
+    @neovim.command('ScratchyRun', range='', nargs='*', sync=True)
+    def run(self, args=[], range=0):
+        cmds = " ".join(self.codebuff[:])
+        try:
+            self.log("data buff: %s"%self.databuff.name)
+            if self.tf is not None:
+                self.log("using temp file")
+                content = subprocess.check_output(
+                    ['jq', '-M', cmds, self.tf.name])
+            else:
+                self.log("using buffer file")
+                content = subprocess.check_output(
+                    ['jq', '-M', cmds, self.databuff.name])
+            content = content.decode('utf-8')
+            self.setoutput(content) 
+            self.log("success")
+        except Exception as excep:
+            self.log("processed filter unfinshed")
 
     #\xe2☠
     # def _syntax(self, buff, syn):
@@ -84,31 +137,3 @@ class Scratchy(object):
     #     buff.options["buftype"]="nofile"
     #     self.vim.command("set syntax=%s"% syn)
 
-    def _readonly(self, buff, readOnly=True):
-        buff.options["modifiable"] = not readOnly
-        buff.options["modified"] = not readOnly
-        buff.options["readonly"] = readOnly
-        #buf = self.vim.current.buffer
-
-    #def run(self, args=[]):
-    @neovim.command('ScratchyRun', range='', nargs='*', sync=True)
-    def run(self, args=[], range=0):
-        cmds = " ".join(self.codebuff[:])
-        try:
-            self.log("data buff: %s"%self.databuff.name)
-            content = subprocess.check_output(
-                    ['jq', '-M', cmds, self.databuff.name])
-            content = content.decode('utf-8')
-            self._modout(self.outbuff, content) 
-            self.log("success")
-        except Exception as excep:
-            self.log("processed filter unfinshed")
-
-    # @neovim.function('Func')
-    # def function_handler(self, args):
-    #     self.log("helloo")
-        # self._increment_calls()
-        # self.vim.current.line = (
-        #         'Function: Called %d times, args: %s' % (self.calls, args))
-        #     raise Exception('Too many calls!')
-        #self.calls += 1
