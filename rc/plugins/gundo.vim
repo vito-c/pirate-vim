@@ -1,2 +1,2 @@
-nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>u :MundoToggle<CR>
 

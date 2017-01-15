@@ -17,6 +17,23 @@ function! rc#git#get_root(filepath) " {{{
     return system('cd ' . groot  . '; ' . s:root_cmd)[:-2]
 endfunction " }}}
 
+function! rc#git#groot() " {{{
+    let groot = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')[0]
+    let pwd = expand('%:p:h')
+    return v:shell_error ? {'dir': pwd } : {'dir': groot}
+endfunction " }}}
+
 function! rc#git#get_buffer_roots() " {{{
     for buf in range(1, bufnr('$'))
+endfunction " }}}
+
+function! rc#git#fugitive_diff() " {{{
+    let groot = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')[0]
+    " let oghead = system('cat ' . groot . '/.git/rebase-apply/orig-head')
+    let oghead = join(readfile( groot . '/.git/rebase-apply/orig-head'), "\n")
+    bufdo diffoff
+    if bufnr('$') > 2
+        1,3bd
+    endif
+    execute ':Gdiff ' . oghead
 endfunction " }}}

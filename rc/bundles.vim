@@ -20,6 +20,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
+Plug 'sunaku/vim-hicterm'
 
 " My plugins {{{
 let g:plug_url_format = 'git@github.com:%s.git'
@@ -28,7 +29,7 @@ Plug 'vito-c/jq.vim'
 "Plug 'vito-c/ensime-vim'
 unlet! g:plug_url_format
 " }}}
-
+Plug 'ensime/ensime-vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'jtratner/vim-flavored-markdown'
 
@@ -37,6 +38,8 @@ source ~/.vim/rc/plugins/ultisnips.vim
 
 Plug 'ctrlpvim/ctrlp.vim'
 source ~/.vim/rc/plugins/ctrlp.vim
+
+Plug 'neilagabriel/vim-geeknote'
 
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
@@ -58,6 +61,7 @@ Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
 Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
 Plug 'othree/html5.vim', { 'for': ['javascript', 'html']  }
 Plug 'goatslacker/mango.vim', { 'for': 'javascript' }
+Plug 'fatih/vim-go'
 
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
@@ -96,7 +100,7 @@ call plug#end()
 
 
 " Plug 'dhruvasagar/vim-table-mode'
-" source ~/.vim/rc/plugins/table-mode.vim
+" source ~/.vim/rc/plugins/table-mode.vim;
 
 "Plug 'scrooloose/syntastic'
 "source ~/.vim/rc/plugins/syntastic.vim

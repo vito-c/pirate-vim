@@ -22,9 +22,9 @@ vnoremap > >gv
 
 " insert mode
 inoremap jj <ESC>
-inoremap kk <ESC>
 "inoremap jk <ESC>
 "inoremap kj <ESC>
+inoremap <C-j> <C-r>"
 
 noremap gf gF
 noremap gF gf
@@ -67,7 +67,6 @@ vnoremap <leader>ff :<C-U>
             \gV:call setreg('"', old_reg, old_regtype)<CR>
             \:copen<CR>
 " }}}
-
 
 "select the last changed or pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'

@@ -12,6 +12,11 @@ if g:debug_startup
     echom "autocmds"
 endif
     autocmd!
+    augroup shell " {{{
+        au FileType sh let g:sh_fold_enabled=3
+        au FileType sh let g:is_bash=1
+        au FileType sh set foldmethod=syntax
+    augroup END " }}}
     augroup vimsource " {{{
         autocmd!
         autocmd BufWritePost .vimrc source $MYVIMRC

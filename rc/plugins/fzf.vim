@@ -6,7 +6,12 @@
 " }}}
 
 let g:fzf_layout = { 'up': '~40%' }
+function! s:w(bang)
+  return a:bang ? {} : copy(get(g:, 'fzf_layout', g:fzf#vim#default_layout))
+endfunction
+
 nnoremap <leader>l :BuffSwitch<CR>
+nnoremap <leader>s :Rag <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>fa :GitCFiles<CR>
 nnoremap <leader>ff :GitCFiles<CR>
 
@@ -23,6 +28,11 @@ function! s:warn(message)
     echom a:message
     echohl None
 endfunction
+
+" ------------------------------------------------------------------
+" Ag
+" ------------------------------------------------------------------
+
 
 " ------------------------------------------------------------------
 " Git
@@ -89,14 +99,15 @@ let s:default_action = {
   \ 'ctrl-v': 'vsplit' }
 
 function! s:bufopen(lines)
-  if len(a:lines) < 2
+  if len(a:lines) < 1
     return
   endif
-  let cmd = get(get(g:, 'fzf_action', s:default_action), a:lines[0], '')
-  if !empty(cmd)
-    execute 'silent' cmd
-  endif
-  execute 'buffer' matchstr(a:lines[1], '\[\zs[0-9]*\ze\]')
+  execute 'buffer' matchstr(a:lines[0], '\[\zs[0-9]*\ze\]')
+  " let cmd = get(get(g:, 'fzf_action', s:default_action), a:lines[0], '')
+  " if !empty(cmd)
+  "   execute 'silent' cmd
+  " endif
+  " execute 'buffer' matchstr(a:lines[1], '\[\zs[0-9]*\ze\]')
 endfunction
 
 function! s:format_buffer(b)
@@ -112,7 +123,7 @@ endfunction
 
 function! rc#plugins#fzf#buffers(...) " {{{
   let bufs = map(s:buflisted(), 's:format_buffer(v:val)')
-  call s:fzf(fzf#vim#wrap({
+  call s:fzf(fzf#wrap({
   \ 'source':  bufs,
   \ 'sink*':   s:function('s:bufopen'),
   \ 'options': '+m -x --tiebreak=index --ansi -d "\t" -n 2,1..2 --prompt="Buf> "',
@@ -122,8 +133,7 @@ endfunction " }}}
 " ------------------------------------------------------------------
 " Helpers
 " ------------------------------------------------------------------
-function! s:w(bang)
-  return a:bang ? {} : copy(get(g:, 'fzf_layout', g:fzf#vim#default_layout))
-endfunction
+command! -nargs=* Rag
+  \ call fzf#vim#ag(<q-args>, extend(g:rc#git#groot(), g:fzf_layout))
 command! -bang GitCFiles call rc#plugins#fzf#gitfiles(s:w(<bang>0))
 command! -bang BuffSwitch call rc#plugins#fzf#buffers(s:w(<bang>0))
