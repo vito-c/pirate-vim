@@ -6,8 +6,9 @@
 " }}}
 
 let g:fzf_layout = { 'up': '~40%' }
+let g:fzf_default_layout = {'down': '~40%'}
 function! s:w(bang)
-  return a:bang ? {} : copy(get(g:, 'fzf_layout', g:fzf#vim#default_layout))
+    return a:bang ? {} : copy(get(g:, 'fzf_layout', g:fzf_default_layout))
 endfunction
 
 nnoremap <leader>l :BuffSwitch<CR>
@@ -99,8 +100,9 @@ let s:default_action = {
   \ 'ctrl-v': 'vsplit' }
 
 function! s:bufopen(lines)
+  echom "bufopen: " . len(a:lines)
   if len(a:lines) < 1
-    return
+      return
   endif
   execute 'buffer' matchstr(a:lines[0], '\[\zs[0-9]*\ze\]')
   " let cmd = get(get(g:, 'fzf_action', s:default_action), a:lines[0], '')
@@ -123,6 +125,7 @@ endfunction
 
 function! rc#plugins#fzf#buffers(...) " {{{
   let bufs = map(s:buflisted(), 's:format_buffer(v:val)')
+  echom "fzf#buffers " . len(bufs)
   call s:fzf(fzf#wrap({
   \ 'source':  bufs,
   \ 'sink*':   s:function('s:bufopen'),

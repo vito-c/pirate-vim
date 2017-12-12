@@ -27,6 +27,10 @@
 " let sc=remote#host#Require('scala')
 " call remote#define#CommandOnHost('scala', 'METHOD', 0, 'ScalaCommand', {}) 
 
+" let ensime_server_v2=1
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+let g:ensime_server_v2=1
 let g:terminal_color_0  = '#2e3436'
 let g:terminal_color_1  = '#cc0000'
 let g:terminal_color_2  = '#4e9a06'
@@ -43,6 +47,15 @@ let g:terminal_color_12 = '#729fcf'
 let g:terminal_color_13 = '#ad7fa8'
 let g:terminal_color_14 = '#00f5e9'
 let g:terminal_color_15 = '#eeeeec'
+
+" function! s:fake_clearterm() abort
+"   let top = line('w0') - 1
+"   let bottom = min([line('$'), line('w$')]) + 1
+"   silent! call matchdelete(1234)
+"   call matchadd('FakeClearTerm', '\%>'.top.'l\_.*\%<'.bottom.'l', 0, 1234)
+" endfunction
+"
+" tnoremap <silent> <c-l> <c-\><c-n>:<c-u>call <sid>fake_clearterm()<cr>i
 
 " let sc=remote#host#Require('scala')
 " call remote#define#CommandOnHost('scala', 'METHOD', 1, 'HaskellCommand', {}) 
@@ -65,6 +78,8 @@ let g:debug_startup = 0
 if g:debug_startup
     echo 'sourcing...'
 endif
+
+let g:python_host_prog = '/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python'
 
 source ~/.vim/rc/git.vim
 source ~/.vim/rc/autocmds.vim
@@ -127,7 +142,7 @@ set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
 set winminheight=0              " Windows can be 0 line high
 set ignorecase                  " Case insensitive search
-"set smartcase                   " Case sensitive when uc present
+set smartcase                   " Case sensitive when uc present
 set wildmenu                    " Show list instead of just completing
 set wildmode=list:longest,full  " list matches, then longest common part, then all.
 set whichwrap+=h,l,<,>,[,],b,s,~
@@ -140,8 +155,8 @@ set nowrap
 " noma nomod nonu nobl nowrap ro nornu
 let g:netrw_bufsettings = 'bh=wipe noma nomod nonu nobl nowrap ro nornu'
 let g:netrw_altfile = 1
-let g:EclimScalaSearchSingleResult='edit'
-let g:EclimCompletionMethod ='omnifunc'
+" let g:EclimScalaSearchSingleResult='edit'
+" let g:EclimCompletionMethod ='omnifunc'
 " Abbrevs {{{
 " TODO: Abloish plugin move to own file
 iabbrev teh the

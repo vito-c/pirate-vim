@@ -29,8 +29,9 @@ nnoremap <leader>dh call :PirateDiffLeft()<CR>
 nnoremap <leader>dl call :PirateDiffRight()<CR>
 
 nnoremap <silent> <leader>gs :call ToggleBuffer('.git/index\\|.git/COMMIT_EDITMSG', 'g')<CR>
-nnoremap <silent> <leader>gdh :Gdiff HEAD<CR>
-nnoremap <silent> <leader>gdm :Gdiff master<CR>
+nnoremap <silent> <leader>gdh :Gvdiff HEAD<CR>
+nnoremap <silent> <leader>gdm :Gvdiff master<CR>
+nnoremap <silent> <leader>gdu :Gvdiff upstream/master<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>

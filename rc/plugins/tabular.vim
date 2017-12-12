@@ -12,6 +12,7 @@ nmap <Leader>a{ :Tabularize /{<CR>
 vmap <Leader>a} :Tabularize /}<CR>
 nmap <Leader>a, :Tabularize /,<CR>
 vmap <Leader>a, :Tabularize /,<CR>
+vmap <Leader>a  :Tabularize / <CR>
 nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 

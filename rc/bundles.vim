@@ -21,17 +21,21 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
 Plug 'sunaku/vim-hicterm'
+Plug 'fatih/vim-go'
+Plug 'jamessan/vim-gnupg'
 
 " My plugins {{{
 let g:plug_url_format = 'git@github.com:%s.git'
 Plug 'vito-c/vim-snippets'
 Plug 'vito-c/jq.vim'
-"Plug 'vito-c/ensime-vim'
+" Plug 'vito-c/ensime-vim'
 unlet! g:plug_url_format
 " }}}
 Plug 'ensime/ensime-vim'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'jtratner/vim-flavored-markdown'
+
+" Plug 'critiqjo/lldb.nvim'
 
 Plug 'SirVer/ultisnips'
 source ~/.vim/rc/plugins/ultisnips.vim
@@ -61,7 +65,6 @@ Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
 Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
 Plug 'othree/html5.vim', { 'for': ['javascript', 'html']  }
 Plug 'goatslacker/mango.vim', { 'for': 'javascript' }
-Plug 'fatih/vim-go'
 
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
@@ -80,13 +83,15 @@ source ~/.vim/rc/plugins/tabular.vim
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer --tern-completer' }
 source ~/.vim/rc/plugins/ycm.vim
 
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+
 Plug 'nosami/Omnisharp', { 'for': 'csharp' }
 Plug 'Shougo/unite.vim'
 source ~/.vim/rc/plugins/unite.vim
 
 Plug 'tommcdo/vim-exchange'
 if executable('ctags')
-    Plug 'majutsushi/tagbar'
+    " Plug 'majutsushi/tagbar'
 endif
 
 Plug 'tpope/vim-fugitive'
