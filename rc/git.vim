@@ -8,13 +8,14 @@
 if g:debug_startup
     echo 'git'
 endif
+let s:orphan_msg = 'fatal: not a git repository (or any of the parent directories): .git'
 let s:root_cmd = 'git rev-parse --show-toplevel;'
 function! rc#git#get_root(filepath) " {{{
     let groot = expand('%:h')
     if a:filepath !=# ''
         let groot = fnamemodify(a:filepath , ':h')
     endif
-    return system('cd ' . groot  . '; ' . s:root_cmd)[:-2]
+    return systemlist('git -C ' . groot . ' rev-parse --show-toplevel')[0]
 endfunction " }}}
 
 function! rc#git#groot() " {{{
@@ -23,8 +24,31 @@ function! rc#git#groot() " {{{
     return v:shell_error ? {'dir': pwd } : {'dir': groot}
 endfunction " }}}
 
+function! rc#git#most_popular_groot() " {{{
+    let mgroot = max(rc#git#get_root_counts())
+    return keys(filter(rc#git#get_root_counts(), {key, val -> val >= mgroot}))[0]
+endfunction " }}}
+
+function! rc#git#get_root_counts() " {{{
+
+    let dircount = {}
+    for buff in filter(copy(getbufinfo()), 
+                \ {idx, val -> val.listed && match(val.name, "term://") == -1})
+        let grr = rc#git#get_root(buff.name)
+        if has_key(dircount, grr)
+            let dircount[grr] += 1
+        else
+            let dircount[grr] = 1
+        endif
+    endfor
+
+    return dircount
+endfunction " }}}
+
 function! rc#git#get_buffer_roots() " {{{
-    for buf in range(1, bufnr('$'))
+    let buffs = map(rc#builtins#filebuffers(), 
+                \ { idx, val -> rc#git#get_root(val.name)} )
+    return buffs
 endfunction " }}}
 
 function! rc#git#fugitive_diff() " {{{

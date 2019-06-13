@@ -6,5 +6,11 @@ function! ft#scala#search() abort " {{{
   " else
   "     call eclim#scala#search#Search('')
   " endif 
-  :EnDeclaration
+  " if len(taglist(expand('<cword>'))) > 0
+      " execute('tag ' . expand('<cword>'))
+  " else
+      " LSClientGoToDefinition
+    " call LanguageClient#textDocument_definition()
+    call CocActionAsync('jumpDefinition')
+  " endif
 endfunction " }}}

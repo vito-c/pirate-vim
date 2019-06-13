@@ -41,3 +41,4 @@
 "     endif
 " endfunction
 " inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+set shortmess+=c

@@ -1,1 +1,1 @@
-/Users/vitocutten/GDrive/pirate-vim/nvimrc
+/Users/vito.cutten/code/configs/pirate-vim/nvimrc

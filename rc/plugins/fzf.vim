@@ -5,6 +5,7 @@
 " By: Vito C.
 " }}}
 
+" TODO: fix broken stuff
 let g:fzf_layout = { 'up': '~40%' }
 let g:fzf_default_layout = {'down': '~40%'}
 function! s:w(bang)
@@ -12,7 +13,7 @@ function! s:w(bang)
 endfunction
 
 nnoremap <leader>l :BuffSwitch<CR>
-nnoremap <leader>s :Rag <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>fs :Rag <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>fa :GitCFiles<CR>
 nnoremap <leader>ff :GitCFiles<CR>
 
@@ -49,7 +50,7 @@ function! rc#plugins#fzf#gitfiles(...) " {{{
                         \ 'git -C $dir ls-tree --name-only -r HEAD | sed "s,^,' . root .'/$dir/,g"; ' .
                     \ 'fi; ' .
                     \ 'done' " }}}
-        echom cmd
+        " echom cmd
     endif
     call s:fzf(fzf#vim#wrap({
             \ 'source':  cmd,
@@ -100,7 +101,6 @@ let s:default_action = {
   \ 'ctrl-v': 'vsplit' }
 
 function! s:bufopen(lines)
-  echom "bufopen: " . len(a:lines)
   if len(a:lines) < 1
       return
   endif
@@ -125,7 +125,7 @@ endfunction
 
 function! rc#plugins#fzf#buffers(...) " {{{
   let bufs = map(s:buflisted(), 's:format_buffer(v:val)')
-  echom "fzf#buffers " . len(bufs)
+  " echom "fzf#buffers " . len(bufs)
   call s:fzf(fzf#wrap({
   \ 'source':  bufs,
   \ 'sink*':   s:function('s:bufopen'),

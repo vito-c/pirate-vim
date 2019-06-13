@@ -22,6 +22,7 @@ vnoremap > >gv
 
 " insert mode
 inoremap jj <ESC>
+inoremap kk <ESC>
 "inoremap jk <ESC>
 "inoremap kj <ESC>
 inoremap <C-j> <C-r>"
@@ -31,21 +32,29 @@ noremap gF gf
 
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
+    tnoremap jj <C-\><C-n>
+    tnoremap kk <C-\><C-n>
+    tnoremap gt <C-\><C-n><Esc>gt
     tnoremap <A-h> <C-\><C-n><C-w>h
     tnoremap <A-j> <C-\><C-n><C-w>j
     tnoremap <A-k> <C-\><C-n><C-w>k
     tnoremap <A-l> <C-\><C-n><C-w>l
+    tnoremap <A-w> <C-\><C-n><C-w>w
+    tnoremap <A-c> <C-\><C-n><C-w>c
 endif
 
 inoremap <A-h> <ESC><C-w>h
 inoremap <A-j> <ESC><C-w>j
 inoremap <A-k> <ESC><C-w>k
 inoremap <A-l> <ESC><C-w>l
+inoremap <A-w> <ESC><C-w>w
 
+nnoremap <leader>ct :tabclose <CR>
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
+nnoremap <A-w> <C-w>w
 
 " Better */# Search {{{
 vnoremap <silent> * :<C-U>

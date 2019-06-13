@@ -12,30 +12,56 @@ Plug 'bling/vim-airline'
 "Plug 'tpope/vim-classpath', { 'for': 'clojure' }
 "Bundle 'spf13/vim-colors'
 
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+" \ 'for': ['rust', 'python', 'kotlin', 'javascript'],
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
+" source ~/.vim/rc/plugins/languageclient.vim
+
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+source ~/.vim/rc/plugins/coc.vim
+
+" Plug 'natebosch/vim-lsc'
+" source ~/.vim/rc/plugins/vim-lsc.vim
+" set efm=
+
+Plug 'jceb/vim-orgmode'
+" Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-speeddating'
+Plug 'racer-rust/vim-racer'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-vinegar'
+" Plug 'tpope/vim-vinegar'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'
 Plug 'sunaku/vim-hicterm'
 Plug 'fatih/vim-go'
 Plug 'jamessan/vim-gnupg'
+Plug 'vito-c/applescript.vim'
+Plug 'udalov/kotlin-vim'
+Plug 'justinmk/vim-dirvish'
 
 " My plugins {{{
 let g:plug_url_format = 'git@github.com:%s.git'
 Plug 'vito-c/vim-snippets'
-Plug 'vito-c/jq.vim'
-" Plug 'vito-c/ensime-vim'
 unlet! g:plug_url_format
+Plug '~/code/personal/scratchy'
+Plug '~/code/personal/jq.vim'
 " }}}
-Plug 'ensime/ensime-vim'
+
+" Java Junk
+" Plug 'fdinoff/neovim-java-client'
+
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'jtratner/vim-flavored-markdown'
 
 " Plug 'critiqjo/lldb.nvim'
+Plug 'mhinz/vim-startify'
+
+Plug 'tpope/vim-obsession'
 
 Plug 'SirVer/ultisnips'
 source ~/.vim/rc/plugins/ultisnips.vim
@@ -46,6 +72,7 @@ source ~/.vim/rc/plugins/ctrlp.vim
 Plug 'neilagabriel/vim-geeknote'
 
 Plug 'junegunn/fzf.vim'
+
 Plug 'junegunn/vim-peekaboo'
 source ~/.vim/rc/plugins/peekaboo.vim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -59,7 +86,8 @@ source ~/.vim/rc/plugins/gundo.vim
 
 " javascript
 Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'html']  }
-Plug 'panglossr/vim-javascript', { 'for': ['javascript', 'html']  }
+" TODO: figure this out
+" Plug 'panglossr/vim-javascript', { 'for': ['javascript', 'html']  }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'html']  }
 Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
 Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
@@ -80,14 +108,18 @@ source ~/.vim/rc/plugins/neomake.vim
 Plug 'godlygeek/tabular'
 source ~/.vim/rc/plugins/tabular.vim
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer --tern-completer' }
-source ~/.vim/rc/plugins/ycm.vim
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-go', { 'do': 'make'}
 
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+" Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 
-Plug 'nosami/Omnisharp', { 'for': 'csharp' }
-Plug 'Shougo/unite.vim'
-source ~/.vim/rc/plugins/unite.vim
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+" source ~/.vim/rc/plugins/ycm.vim
+
+" Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+
+" Plug 'Shougo/unite.vim'
+" source ~/.vim/rc/plugins/unite.vim
 
 Plug 'tommcdo/vim-exchange'
 if executable('ctags')

@@ -8,14 +8,29 @@
 if has("autocmd")
    let s:groot = rc#git#get_root("~/.vim/rc/vimrc")
     " Source the vimrc file after saving it
-if g:debug_startup
-    echom "autocmds"
-endif
-    autocmd!
+    if g:debug_startup
+        echom "autocmds"
+    endif
+    augroup kotlin " {{{
+        autocmd!
+        autocmd Filetype kotlin setlocal makeprg=./gradlew\ build
+        autocmd Filetype kotlin setlocal efm=:compileKotline:\ %f:\ (%l\\,\ %c):\ %m,e:\ %f:\ (%l\\,\ %c):\ %m,%-G%.%#
+    augroup END " }}}
+    " autocmd!
+    " " Move to deoplete
+    " augroup deoplete#plug " {{{
+    "     autocmd!
+    "     autocmd CompleteDone * silent! pclose!
+    " augroup END " }}}
     augroup shell " {{{
+        autocmd!
         au FileType sh let g:sh_fold_enabled=3
         au FileType sh let g:is_bash=1
         au FileType sh set foldmethod=syntax
+    augroup END " }}}
+    augroup builtins " {{{
+        autocmd!
+        autocmd BufWinEnter,WinEnter,TabEnter * let &path=rc#builtins#path()['dir']
     augroup END " }}}
     augroup vimsource " {{{
         autocmd!
@@ -23,10 +38,12 @@ endif
         autocmd BufWritePost vimrc source $MYVIMRC
         autocmd BufWritePost s:groot . '/rc/**' source $MYVIMRC
         autocmd BufWritePost */rc/** source $MYVIMRC
+        autocmd BufWritePost */rc/** echom s:groot
+        autocmd BufWritePost s:groot . '/rc/**' echom s:groot
         if has('nvim')
             autocmd Bufwritepost .nvimrc source $MYVIMRC
             autocmd BufWritePost ~/.nvim/rc/** source $MYVIMRC
-            autocmd bufwritepost nvimrc source $MYVIMRC
+            autocmd BufWritePost nvimrc source $MYVIMRC
         endif
     augroup END " }}}
     augroup autosave " {{{
@@ -35,7 +52,17 @@ endif
         autocmd BufWritePost * :call RestoreMarker()
         autocmd TextChanged * :call SafeSave("crrent")
         autocmd TextChangedI * :call SafeSave("crrent")
-    augroup END
+    augroup END " }}}
+    augroup cleanups " {{{
+        autocmd!
+        autocmd FileType netrw setlocal bufhidden=delete
+    augroup END " }}}
+    augroup termcmd "{{{
+        autocmd!
+        autocmd BufWinEnter,WinEnter term://* call timer_start(400, 'StartInsertInTermBuffer')
+        autocmd BufWinEnter,WinEnter term://* setlocal scrolloff=0
+        autocmd BufWinLeave,WinLeave term://* setlocal scrolloff=999
+    augroup END " }}}
 
     let g:ltickmark = getpos("'[")
     let g:rtickmark = getpos("']")
@@ -47,6 +74,12 @@ endif
     function! RestoreMarker()
         call setpos("'[", g:ltickmark)
         call setpos("']", g:rtickmark)
+    endfunction
+
+    function! StartInsertInTermBuffer(timer)
+        if match(bufname('%'), "term://") > -1
+            execute 'normal!i'
+        endif
     endfunction
 
     function! SafeSave(target)

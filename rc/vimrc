@@ -5,7 +5,9 @@
 " By: Vito C.
 " }}}
 "
+"
 " Scratchy: Functions
+" let $ENSIME_VIM_DEBUG = 1
 
 "
 " function! s:RequireScalaHost(host)
@@ -26,6 +28,18 @@
 " call remote#host#Register('scala', '*.scala', function('s:RequireScalaHost'))
 " let sc=remote#host#Require('scala')
 " call remote#define#CommandOnHost('scala', 'METHOD', 0, 'ScalaCommand', {}) 
+function! Stuff()
+    let pos = getpos('.')
+    let pt = line2byte(pos[1]) + pos[2] - 1
+endfunction
+    
+if has('nvim')
+  let $GIT_EDITOR = 'nvr -cc split --remote-wait'
+endif
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#go#gocode_binary = '/Users/vitocutten/code/go/bin/gocode'
+
 
 " let ensime_server_v2=1
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
@@ -47,6 +61,9 @@ let g:terminal_color_12 = '#729fcf'
 let g:terminal_color_13 = '#ad7fa8'
 let g:terminal_color_14 = '#00f5e9'
 let g:terminal_color_15 = '#eeeeec'
+
+" set diffopt+=iwhiteall,hiddenoff,vertical,algorithm:patience
+set diffopt=internal,filler,iwhiteall,hiddenoff,vertical,algorithm:patience
 
 " function! s:fake_clearterm() abort
 "   let top = line('w0') - 1
@@ -85,8 +102,8 @@ source ~/.vim/rc/git.vim
 source ~/.vim/rc/autocmds.vim
 source ~/.vim/rc/mappings.vim
 source ~/.vim/rc/leaders.vim
-
 source ~/.vim/rc/bundles.vim
+source ~/.vim/rc/builtins.vim
 
 syntax on                          " Syntax highlighting
 set shortmess=aTI
@@ -109,8 +126,6 @@ endif
 if !isdirectory(&backupdir)
     silent !mkdir(expand(&backupdir), "p")
 endif
-set path=~/code/**
-set path+=~/playground/**
 
 " GUI
 set background=dark              " Assume a dark background
@@ -144,6 +159,7 @@ set winminheight=0              " Windows can be 0 line high
 set ignorecase                  " Case insensitive search
 set smartcase                   " Case sensitive when uc present
 set wildmenu                    " Show list instead of just completing
+set wildignore=*.class,*/target/*
 set wildmode=list:longest,full  " list matches, then longest common part, then all.
 set whichwrap+=h,l,<,>,[,],b,s,~
 set scrolloff=999                 " Minimum lines to keep above and below cursor
@@ -152,8 +168,12 @@ set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatib
 "set virtualedit=onemore             " Allow for cursor beyond last character
 set nowrap
 
+
 " noma nomod nonu nobl nowrap ro nornu
 let g:netrw_bufsettings = 'bh=wipe noma nomod nonu nobl nowrap ro nornu'
+let g:netrw_preview   = 1
+" let g:netrw_liststyle = 3
+let g:netrw_winsize   = 30
 let g:netrw_altfile = 1
 " let g:EclimScalaSearchSingleResult='edit'
 " let g:EclimCompletionMethod ='omnifunc'
@@ -190,6 +210,15 @@ function! NumberOff()
 endfunc
 " }}}
  
+" Scala Unroll Functioin {{{
+" command! -nargs=0 ScalaUnrollFunction call ScalaUnrollFunction() 
+function! ScalaUnrollFunction() range
+    mark s
+    silent! execute a:firstline . "," . a:lastline . 's/,/,\r/g'
+    :execute "normal! 's"
+endfunction
+" }}}
+
 " Delete Empty Buffers {{{
 command! -nargs=0 DeleteEmptyBuffers call DeleteEmptyBuffers() 
 function! DeleteEmptyBuffers()
@@ -209,3 +238,4 @@ function! RefreshTagsInGitHooks()
     endif
 endfunction
 " }}}
+
