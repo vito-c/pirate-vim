@@ -136,6 +136,8 @@ endfunction " }}}
 " ------------------------------------------------------------------
 " Helpers
 " ------------------------------------------------------------------
+command! -nargs=* Cag
+  \ call fzf#vim#ag(<q-args>, extend({'dir': expand('%:h')}, g:fzf_layout))
 command! -nargs=* Rag
   \ call fzf#vim#ag(<q-args>, extend(g:rc#git#groot(), g:fzf_layout))
 command! -bang GitCFiles call rc#plugins#fzf#gitfiles(s:w(<bang>0))

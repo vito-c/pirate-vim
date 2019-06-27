@@ -6,6 +6,10 @@
 " }}}
 "
 "
+"
+"
+"
+"
 " Scratchy: Functions
 " let $ENSIME_VIM_DEBUG = 1
 
@@ -28,6 +32,7 @@
 " call remote#host#Register('scala', '*.scala', function('s:RequireScalaHost'))
 " let sc=remote#host#Require('scala')
 " call remote#define#CommandOnHost('scala', 'METHOD', 0, 'ScalaCommand', {}) 
+
 function! Stuff()
     let pos = getpos('.')
     let pt = line2byte(pos[1]) + pos[2] - 1

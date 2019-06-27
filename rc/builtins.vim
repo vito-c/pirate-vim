@@ -11,12 +11,13 @@ let &path=s:defaultpath
 let &wildignore=s:defaultwig
 let s:orphan_msg = 'fatal: not a git repository (or any of the parent directories): .git'
 function! rc#builtins#path() " {{{
-    let l:groot = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')[0]
+    let l:glist = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')
+    let l:groot = len(l:glist) == 0? 'fatal: nothing returned' : l:glist[0]
     " let l:dpath = match(bufname('%'), "term://") > -1 ? 
     " most_popular takes too long right now
     " \ rc#git#most_popular_groot() :
     let l:dpath = match(l:groot, 'fatal:.*') > -1 ?
-                \ execute('pwd') :
+                \ getcwd() :
                 \ s:defaultpath
     return match(l:groot, 'fatal:.*') > -1 ? {'dir':  l:dpath . '/**' } : {'dir': l:groot . '/**' }
 endfunction " }}}
@@ -38,10 +39,17 @@ endfunction " }}}
 " [ifo]   at com.rallyhealth.authn.adapters.delegate.RegistrationAdapter.maybeCreateSession(RegistrationAdapter.scala:676)
 " com.rallyhealth.authn.adapters.delegate.RegistrationAdapter#updateCompleteAccountAndLogin:156 tokens: LegacyAndArachneSessionResponse(
 " set includeexpr=substitute(v:fname,'\v\C[a-z\.]*([A-Z][a-zA-Z]*)#.*(:\d+)','\=submatch(1) . " " . submatch(2)', '')
-function! rc#builtins#includeexpr(filename)
-    " set includeexpr=substitute(v:fname,'\\.','/','g')
-    let l:blah = substitute(a:filename,'\v\C[a-z\.]*([A-Z][a-zA-Z]*)#.*', '\=submatch(1).".scala"', '')
-    echom l:blah
-    return l:blah
-endfunction
+" noremap <leader>gf rc#builtins#gotofile()
+" function! rc#builtins#gotofile() " {{{
+"     let l:text = getbufline(bufnr('%'),line('.'), line('.'))
+"     let l:word = expand('<cword>')
+"     if match(a:filename, l:output) == 0
+"         " let l:output = substitute(l:text,'
+"     endif
+" endfunction " }}}
+function! rc#builtins#includeexpr(filename) " {{{
+    let l:output = substitute(a:filename,'\v\.','/','g')
+    let l:output = substitute(l:output,'\v\C([^#]*)#.*', '\=submatch(1).".scala"', '')
+    return l:output
+endfunction " }}}
 set includeexpr=rc#builtins#includeexpr(v:fname)

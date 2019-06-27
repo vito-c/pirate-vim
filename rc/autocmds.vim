@@ -22,6 +22,13 @@ if has("autocmd")
     "     autocmd!
     "     autocmd CompleteDone * silent! pclose!
     " augroup END " }}}
+    augroup git " {{{
+        autocmd!
+        autocmd FileType gitcommit set bufhidden=delete
+        " move this to 
+        " ~/.vim/ftplugin/gitcommit_mappings.vim
+        autocmd FileType gitcommit noremap <buffer> ZZ :w|bd<CR>
+    augroup END " }}}
     augroup shell " {{{
         autocmd!
         au FileType sh let g:sh_fold_enabled=3
@@ -59,7 +66,7 @@ if has("autocmd")
     augroup END " }}}
     augroup termcmd "{{{
         autocmd!
-        autocmd BufWinEnter,WinEnter term://* call timer_start(400, 'StartInsertInTermBuffer')
+        " autocmd BufWinEnter,WinEnter term://* call timer_start(400, 'StartInsertInTermBuffer')
         autocmd BufWinEnter,WinEnter term://* setlocal scrolloff=0
         autocmd BufWinLeave,WinLeave term://* setlocal scrolloff=999
     augroup END " }}}

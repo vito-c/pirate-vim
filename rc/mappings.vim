@@ -35,6 +35,9 @@ if has('nvim')
     tnoremap jj <C-\><C-n>
     tnoremap kk <C-\><C-n>
     tnoremap gt <C-\><C-n><Esc>gt
+    tnoremap gT <C-\><C-n><Esc>gT
+    tnoremap [k <C-\><C-n><Esc>[k
+    tnoremap ]k <C-\><C-n><Esc>]k
     tnoremap <A-h> <C-\><C-n><C-w>h
     tnoremap <A-j> <C-\><C-n><C-w>j
     tnoremap <A-k> <C-\><C-n><C-w>k
@@ -42,6 +45,8 @@ if has('nvim')
     tnoremap <A-w> <C-\><C-n><C-w>w
     tnoremap <A-c> <C-\><C-n><C-w>c
 endif
+
+nnoremap tg gT
 
 inoremap <A-h> <ESC><C-w>h
 inoremap <A-j> <ESC><C-w>j
