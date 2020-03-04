@@ -16,18 +16,12 @@ if has("autocmd")
         autocmd Filetype kotlin setlocal makeprg=./gradlew\ build
         autocmd Filetype kotlin setlocal efm=:compileKotline:\ %f:\ (%l\\,\ %c):\ %m,e:\ %f:\ (%l\\,\ %c):\ %m,%-G%.%#
     augroup END " }}}
-    " autocmd!
-    " " Move to deoplete
-    " augroup deoplete#plug " {{{
-    "     autocmd!
-    "     autocmd CompleteDone * silent! pclose!
-    " augroup END " }}}
     augroup git " {{{
         autocmd!
         autocmd FileType gitcommit set bufhidden=delete
         " move this to 
         " ~/.vim/ftplugin/gitcommit_mappings.vim
-        autocmd FileType gitcommit noremap <buffer> ZZ :w|bd<CR>
+        " autocmd FileType gitcommit noremap <buffer> ZZ :w|bd<CR>
     augroup END " }}}
     augroup shell " {{{
         autocmd!
@@ -53,6 +47,12 @@ if has("autocmd")
             autocmd BufWritePost nvimrc source $MYVIMRC
         endif
     augroup END " }}}
+    " "Causing issues:
+    augroup autotag " {{{
+        autocmd!
+        " need to cd to groot
+        " autocmd BufNewFile,BufRead,BufEnter * call UpdatePath()
+    augroup END " }}}
     augroup autosave " {{{
         autocmd!
         autocmd FocusLost * :call SafeSave("all")
@@ -67,8 +67,8 @@ if has("autocmd")
     augroup termcmd "{{{
         autocmd!
         " autocmd BufWinEnter,WinEnter term://* call timer_start(400, 'StartInsertInTermBuffer')
-        autocmd BufWinEnter,WinEnter term://* setlocal scrolloff=0
-        autocmd BufWinLeave,WinLeave term://* setlocal scrolloff=999
+        autocmd BufWinEnter,WinEnter term:* setlocal scrolloff=0
+        autocmd BufWinLeave,WinLeave term:* setlocal scrolloff=999
     augroup END " }}}
 
     let g:ltickmark = getpos("'[")
@@ -86,6 +86,14 @@ if has("autocmd")
     function! StartInsertInTermBuffer(timer)
         if match(bufname('%'), "term://") > -1
             execute 'normal!i'
+        endif
+    endfunction
+
+    function! UpdatePath()
+        let foo = match(fnameescape(expand('%')), "fugitive://,list://")
+        if &buftype != 'terminal' && foo < 0
+            set path&vim | let &path=rc#git#groot()['dir'] . '/**'
+            execute 'cd' rc#git#groot()['dir']
         endif
     endfunction
 

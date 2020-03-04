@@ -25,19 +25,31 @@ inoremap jj <ESC>
 inoremap kk <ESC>
 "inoremap jk <ESC>
 "inoremap kj <ESC>
-inoremap <C-j> <C-r>"
+" inoremap <C-j> <C-r>"
 
 noremap gf gF
 noremap gF gf
+" noremap <leader>gf :call EditFileUnder()<CR>
+"='test'<C-M>p
+"noremap <leader>tt "=strftime('%c')<C-M>p
+func TestFileUnder()
+    "TODO: make this better
+    let df = expand('<cfile>')
+    startinsert test:Only " . df
+endfun
+
+func EditFileUnder()
+    "TODO: make this better
+    let df = substitute(expand('<cfile>'),  '\.', '/',  'g')
+    echom df
+endfun
 
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
     tnoremap jj <C-\><C-n>
     tnoremap kk <C-\><C-n>
-    tnoremap gt <C-\><C-n><Esc>gt
-    tnoremap gT <C-\><C-n><Esc>gT
-    tnoremap [k <C-\><C-n><Esc>[k
-    tnoremap ]k <C-\><C-n><Esc>]k
+    " tnoremap [k <C-\><C-n><Esc>[k
+    " tnoremap ]k <C-\><C-n><Esc>]k
     tnoremap <A-h> <C-\><C-n><C-w>h
     tnoremap <A-j> <C-\><C-n><C-w>j
     tnoremap <A-k> <C-\><C-n><C-w>k

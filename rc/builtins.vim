@@ -50,6 +50,11 @@ endfunction " }}}
 function! rc#builtins#includeexpr(filename) " {{{
     let l:output = substitute(a:filename,'\v\.','/','g')
     let l:output = substitute(l:output,'\v\C([^#]*)#.*', '\=submatch(1).".scala"', '')
+    let l:ext = fnamemodify(l:output,':e')
+    let l:fname = fnamemodify(l:output, ':t')
+    if l:ext == ""
+        let l:output = l:output . ".scala"
+    endif
     return l:output
 endfunction " }}}
 set includeexpr=rc#builtins#includeexpr(v:fname)

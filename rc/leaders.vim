@@ -37,6 +37,7 @@ noremap <leader>es :<C-U>sp %%
 " Copy Pasting Clipboard {{{
 noremap <leader>y "+y
 noremap <leader>Y "+y$
+noremap <leader>o <C-^>
 
 vnoremap <leader>y "+y
 vnoremap <leader>Y "+y$
@@ -70,32 +71,33 @@ nmap <leader>f8 :set foldlevel=8<CR>
 nmap <leader>f9 :set foldlevel=9<CR>
 " }}}
 
+" Some terminal mappings
+noremap <leader>to :call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>
+noremap <leader>ta :call chansend(&channel, ['test', ''])<CR>
+" \x1b\x5b\x41
+noremap <leader>tl :call chansend(&channel, ["!!", ''])<CR>
+
 tnoremap <C-o> <C-l><C-\><C-n>:call rc#leaders#clearterm()<CR>i
+noremap <leader>tc :call chansend(&channel, ['compile', ''])<CR>
+" noremap <C-k> :exe '!printf "\e[2J\e[H" >' nvim_get_chan_info(&channel).pty<CR>
+noremap <leader>tn :exe '!printf "\e[2J" >' nvim_get_chan_info(&channel).pty<CR>
 
 " need to config better tabbing
-nnoremap <leader>tc :tabclose<CR>
-nnoremap <leader>oq :cw<CR>
-nnoremap <leader>ol :lw<CR>
+nnoremap <leader>ct :tabclose<CR>
+" nnoremap <leader>qq :cw<CR>
+" nnoremap <leader>ll :lw<CR>
 
 nnoremap [k :tabprevious<CR>
 nnoremap ]k :tabnext<CR>
+func TermSetScrollback(timer)
+  set scrollback=0
+  set scrolloff=0
+endfunc
 
 function! rc#leaders#clearterm() " {{{
-    set scrollback=0
-    augroup hackyTerm
-        au hackyTerm CursorMoved * call rc#leaders#updateScroll()
-        au hackyTerm CursorMovedI * call rc#leaders#updateScroll()
-        au hackyTerm TextChanged * call rc#leaders#updateScroll()
-        au hackyTerm TermChanged * call rc#leaders#updateScroll()
-        au hackyTerm TextChangedI * call rc#leaders#updateScroll()
-    augroup END
-    redraw
-    " insert
-    " <C-\><C-n>
-endfunction " }}}
-    
-function! rc#leaders#updateScroll() " {{{
-    set scrollback=-1
-    echom "updated"
-    silent au! hackyTerm *
+    set scrollback=1
+    set scrolloff=0
+    exe '!printf "\e[2J" >' nvim_get_chan_info(&channel).pty
+    let timer = timer_start(200, 'TermSetScrollback',
+        \ {'repeat': 1})
 endfunction " }}}

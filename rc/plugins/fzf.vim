@@ -6,16 +6,52 @@
 " }}}
 
 " TODO: fix broken stuff
-let g:fzf_layout = { 'up': '~40%' }
+" let g:fzf_layout = { 'up': '~40%' }
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 let g:fzf_default_layout = {'down': '~40%'}
 function! s:w(bang)
     return a:bang ? {} : copy(get(g:, 'fzf_layout', g:fzf_default_layout))
 endfunction
 
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
+
+  let height = float2nr(20)
+  let width = float2nr(120)
+  let horizontal = float2nr((&columns - width) / 2)
+  let vertical = 1
+
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': vertical,
+        \ 'col': horizontal,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal'
+        \ }
+
+  call nvim_open_win(buf, v:true, opts)
+endfunction
+
+let g:height = float2nr(&lines * 0.9)
+let g:width = float2nr(&columns * 0.95)
+let g:preview_width = float2nr(&columns * 0.7)
+let g:fzf_buffers_jump = 1
+" let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+" let $FZF_DEFAULT_OPTS=" --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4 'if file -i {}|grep -q binary; then file -b {}; else bat --style=changes --color always --line-range :40 {}; fi' --preview-window right:" . g:preview_width
+let g:fzf_layout = { 'window': 'call FloatingFZF(' . g:width . ',' . g:height . ')' }
+"  call fzf#vim#files('', fzf#vim#with_preview({'options': '--prompt ""'}, 'right:70%'))
+"
 nnoremap <leader>l :BuffSwitch<CR>
-nnoremap <leader>fs :Rag <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>fa :GitCFiles<CR>
-nnoremap <leader>ff :GitCFiles<CR>
+" nnoremap <leader>fs :Rag <C-R>=expand("<cword>")<CR><CR>
+" nnoremap <leader>fa :GitCFiles<CR>
+" nnoremap <leader>ff :GitCFiles<CR>
+nnoremap <leader>ff :call fzf#vim#files('', fzf#vim#with_preview({'options': '--prompt ""'}, 'right:70%'))<CR>
+
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
 function! s:fzf(opts, extra)
     let extra  = copy(get(a:extra, 0, {}))
@@ -112,20 +148,33 @@ function! s:bufopen(lines)
   " execute 'buffer' matchstr(a:lines[1], '\[\zs[0-9]*\ze\]')
 endfunction
 
-function! s:format_buffer(b)
-  let name = bufname(a:b)
-  let name = empty(name) ? '[No Name]' : name
-  let flag = a:b == bufnr('')  ? s:blue('%') :
-          \ (a:b == bufnr('#') ? s:magenta('#') : ' ')
-  let modified = getbufvar(a:b, '&modified') ? s:red(' [+]') : ''
-  let readonly = getbufvar(a:b, '&modifiable') ? '' : s:green(' [RO]')
+function! s:format_buffer(buff, fmax, bmax)
+  let path = bufname(a:buff)
+  let path = empty(path) ? '[No Name]' : path
+  let bname = fnamemodify(bufname(path), ':t')
+
+  let flag = a:buff == bufnr('')  ? s:blue('%') :
+          \ (a:buff == bufnr('#') ? s:magenta('#') : ' ')
+
+  let modified = getbufvar(a:buff, '&modified') ? s:red(' [+]') : ''
+  let readonly = getbufvar(a:buff, '&modifiable') ? '' : s:green(' [RO]')
   let extra = join(filter([modified, readonly], '!empty(v:val)'), '')
-  return s:strip(printf("[%s] %s\t%s\t%s", s:yellow(a:b), flag, name, extra))
+  let prefix = s:strip(printf("[%s] %s", s:yellow(a:buff), flag))
+  " get the digits of the max buffer number which is log10(num) + 1 then add more padding
+  "   * digits: log10(num) + 1
+  "   * braces:  + 2
+  "   * space then len(flag) space: + 2
+  "   ie: '[23] # ' which has a char width of 6
+  let npad = str2nr(string(log10(a:bmax))) + 6 + len(flag) + 6
+  " TODO: optimize one more space off the padding
+  return printf("%-" . npad . "s %-" . a:fmax . "s  %s %s", prefix, bname, path, extra)
 endfunction
 
 function! rc#plugins#fzf#buffers(...) " {{{
-  let bufs = map(s:buflisted(), 's:format_buffer(v:val)')
-  " echom "fzf#buffers " . len(bufs)
+  let bmax = max(s:buflisted())
+  let fmax = max(map(s:buflisted(), "len(fnamemodify(bufname(v:val), ':t'))"))
+  let bufs = map(s:buflisted(), 's:format_buffer(v:val, fmax, bmax)')
+  " echom "fzf#buffers " . len(bfs)
   call s:fzf(fzf#wrap({
   \ 'source':  bufs,
   \ 'sink*':   s:function('s:bufopen'),
@@ -140,5 +189,7 @@ command! -nargs=* Cag
   \ call fzf#vim#ag(<q-args>, extend({'dir': expand('%:h')}, g:fzf_layout))
 command! -nargs=* Rag
   \ call fzf#vim#ag(<q-args>, extend(g:rc#git#groot(), g:fzf_layout))
+command! -nargs=* Tag
+  \ call fzf#vim#grep("ag --column --nogroup --color".shellescape(<q-args>), 1, <bang>0)'
 command! -bang GitCFiles call rc#plugins#fzf#gitfiles(s:w(<bang>0))
 command! -bang BuffSwitch call rc#plugins#fzf#buffers(s:w(<bang>0))

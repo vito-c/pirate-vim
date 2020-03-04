@@ -4,8 +4,8 @@
 "
 " By: Vito C.
 " }}}
+
 call plug#begin('~/.vim/bundle')
-Plug 'bling/vim-airline'
 
 "Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 "Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
@@ -19,115 +19,127 @@ Plug 'bling/vim-airline'
 "     \ }
 " source ~/.vim/rc/plugins/languageclient.vim
 
+
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 source ~/.vim/rc/plugins/coc.vim
+Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 
 " Plug 'natebosch/vim-lsc'
 " source ~/.vim/rc/plugins/vim-lsc.vim
 " set efm=
 
-Plug 'jceb/vim-orgmode'
+" Plug 'jceb/vim-orgmode'
 " Plug 'vimwiki/vimwiki'
-Plug 'tpope/vim-speeddating'
-Plug 'racer-rust/vim-racer'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-vinegar'
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-abolish'
-Plug 'sunaku/vim-hicterm'
-Plug 'fatih/vim-go'
-Plug 'jamessan/vim-gnupg'
-Plug 'vito-c/applescript.vim'
-Plug 'udalov/kotlin-vim'
-Plug 'justinmk/vim-dirvish'
 
-" My plugins {{{
-let g:plug_url_format = 'git@github.com:%s.git'
-Plug 'vito-c/vim-snippets'
-unlet! g:plug_url_format
-Plug '~/code/personal/scratchy'
-Plug '~/code/personal/jq.vim'
-" }}}
+" Plug 'fatih/vim-go'
 
-" Java Junk
-" Plug 'fdinoff/neovim-java-client'
+" Plug 'jamessan/vim-gnupg'
 
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'jtratner/vim-flavored-markdown'
+" Plug 'racer-rust/vim-racer'
+" Plug 'udalov/kotlin-vim'
 
-" Plug 'critiqjo/lldb.nvim'
-Plug 'mhinz/vim-startify'
+" Here
+ Plug 'bling/vim-airline'
+ Plug 'sunaku/vim-hicterm'
+ Plug 'tomtom/tcomment_vim'
+ Plug 'tpope/vim-abolish'
+ Plug 'tpope/vim-dispatch'
+ Plug 'tpope/vim-repeat'
+ Plug 'tpope/vim-speeddating'
+ Plug 'tpope/vim-surround'
+ Plug 'tpope/vim-unimpaired'
+  Plug 'tpope/vim-vinegar'
+ Plug 'keith/swift.vim'
+ Plug 'vito-c/applescript.vim'
+ " Plug 'justinmk/vim-dirvish'
 
-Plug 'tpope/vim-obsession'
+ " My plugins {{{
+ let g:plug_url_format = 'git@github.com:%s.git'
+ Plug 'vito-c/vim-snippets'
+ unlet! g:plug_url_format
+ Plug '~/code/personal/scratchy'
+ Plug '~/code/personal/jq.vim'
+ " }}}
 
-Plug 'SirVer/ultisnips'
-source ~/.vim/rc/plugins/ultisnips.vim
+ " Java Junk
+ " Plug 'fdinoff/neovim-java-client'
 
-Plug 'ctrlpvim/ctrlp.vim'
-source ~/.vim/rc/plugins/ctrlp.vim
+ Plug 'AndrewRadev/splitjoin.vim'
+ Plug 'jtratner/vim-flavored-markdown'
 
-Plug 'neilagabriel/vim-geeknote'
+ " Plug 'critiqjo/lldb.nvim'
+ Plug 'mhinz/vim-startify'
 
-Plug 'junegunn/fzf.vim'
+ Plug 'tpope/vim-obsession'
 
-Plug 'junegunn/vim-peekaboo'
-source ~/.vim/rc/plugins/peekaboo.vim
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-source ~/.vim/rc/plugins/fzf.vim
+ " Plug 'SirVer/ultisnips'
+ " source ~/.vim/rc/plugins/ultisnips.vim
 
-Plug 'godlygeek/csapprox'
-Plug 'flazz/vim-colorschemes'
+ Plug 'ctrlpvim/ctrlp.vim'
+ source ~/.vim/rc/plugins/ctrlp.vim
 
-Plug 'simnalamburt/vim-mundo'
-source ~/.vim/rc/plugins/gundo.vim
+ " Plug 'neilagabriel/vim-geeknote'
 
-" javascript
-Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'html']  }
-" TODO: figure this out
-" Plug 'panglossr/vim-javascript', { 'for': ['javascript', 'html']  }
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'html']  }
-Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
-Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
-Plug 'othree/html5.vim', { 'for': ['javascript', 'html']  }
-Plug 'goatslacker/mango.vim', { 'for': 'javascript' }
+ Plug 'junegunn/fzf.vim'
 
-Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+ " Plug 'junegunn/vim-peekaboo'
+ " source ~/.vim/rc/plugins/peekaboo.vim
+ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+ source ~/.vim/rc/plugins/fzf.vim
 
-Plug 'terryma/vim-multiple-cursors'
+ Plug 'godlygeek/csapprox'
+ Plug 'flazz/vim-colorschemes'
 
-Plug 'lambdalisue/vim-gista'
-Plug 'tyru/open-browser.vim'
-source ~/.vim/rc/plugins/gista.vim
+ Plug 'simnalamburt/vim-mundo'
+ source ~/.vim/rc/plugins/gundo.vim
 
-Plug 'benekastah/neomake'
-source ~/.vim/rc/plugins/neomake.vim
+ " javascript
+ " Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'html']  }
 
-Plug 'godlygeek/tabular'
-source ~/.vim/rc/plugins/tabular.vim
+ " TODO: figure this out
+ " Plug 'panglossr/vim-javascript', { 'for': ['javascript', 'html']  }
 
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'zchee/deoplete-go', { 'do': 'make'}
+ " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'html']  }
+ " Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
+ " Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
+ " Plug 'othree/html5.vim', { 'for': ['javascript', 'html']  }
+ " Plug 'goatslacker/mango.vim', { 'for': 'javascript' }
 
-" Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+ Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
-" source ~/.vim/rc/plugins/ycm.vim
+ " useless
+ " Plug 'terryma/vim-multiple-cursors'
 
-" Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+ " Plug 'lambdalisue/vim-gista'
+ " Plug 'tyru/open-browser.vim'
+ " source ~/.vim/rc/plugins/gista.vim
 
-" Plug 'Shougo/unite.vim'
-" source ~/.vim/rc/plugins/unite.vim
+ " Plug 'neomake/neomake'
+ " source ~/.vim/rc/plugins/neomake.vim
 
-Plug 'tommcdo/vim-exchange'
-if executable('ctags')
-    " Plug 'majutsushi/tagbar'
-endif
+ Plug 'godlygeek/tabular'
+ source ~/.vim/rc/plugins/tabular.vim
 
-Plug 'tpope/vim-fugitive'
-source ~/.vim/rc/plugins/fugitive.vim
+ " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+ " Plug 'zchee/deoplete-go', { 'do': 'make'}
+
+ " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+
+ " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+ " source ~/.vim/rc/plugins/ycm.vim
+
+ " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+
+ " Plug 'Shougo/unite.vim'
+ " source ~/.vim/rc/plugins/unite.vim
+
+ Plug 'tommcdo/vim-exchange'
+ if executable('ctags')
+     " Plug 'majutsushi/tagbar'
+ endif
+
+ Plug 'tpope/vim-fugitive'
+ source ~/.vim/rc/plugins/fugitive.vim
 
 call plug#end()
 
@@ -163,6 +175,31 @@ call plug#end()
 " /Users/vitocutten/.vim/bundle/vim-table-mode/
 " /Users/vitocutten/.vim/bundle/webapi-vim/
 "
+"
+" - /Users/vito.cutten/.vim/bundle/LanguageClient-neovim/
+" - /Users/vito.cutten/.vim/bundle/angular-vim-snippets/
+" - /Users/vito.cutten/.vim/bundle/deoplete-go/
+" - /Users/vito.cutten/.vim/bundle/deoplete.nvim/
+" - /Users/vito.cutten/.vim/bundle/html5.vim/
+" - /Users/vito.cutten/.vim/bundle/jq.vim/
+" - /Users/vito.cutten/.vim/bundle/kotlin-vim/
+" - /Users/vito.cutten/.vim/bundle/mango.vim/
+" - /Users/vito.cutten/.vim/bundle/neovim-java-client/
+" - /Users/vito.cutten/.vim/bundle/open-browser.vim/
+" - /Users/vito.cutten/.vim/bundle/tern_for_vim/
+" - /Users/vito.cutten/.vim/bundle/ultisnips/
+" - /Users/vito.cutten/.vim/bundle/vim-angular/
+" - /Users/vito.cutten/.vim/bundle/vim-dirvish/
+" - /Users/vito.cutten/.vim/bundle/vim-geeknote/
+" - /Users/vito.cutten/.vim/bundle/vim-gista/
+" - /Users/vito.cutten/.vim/bundle/vim-gnupg/
+" - /Users/vito.cutten/.vim/bundle/vim-go/
+" - /Users/vito.cutten/.vim/bundle/vim-gradle/
+" - /Users/vito.cutten/.vim/bundle/vim-multiple-cursors/
+" - /Users/vito.cutten/.vim/bundle/vim-orgmode/
+" - /Users/vito.cutten/.vim/bundle/vim-racer/
+" - /Users/vito.cutten/.vim/bundle/vimproc.vim/
+" - /Users/vito.cutten/.vim/bundle/vimwiki/
 " Disabled {
 " Plug 'vim-scripts/Flex-4'
 "Plug 'mattn/webapi-vim'
