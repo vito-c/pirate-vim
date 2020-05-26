@@ -72,6 +72,9 @@ nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 nnoremap <A-w> <C-w>w
+nnoremap ]d gt
+nnoremap [d gT
+nnoremap gy gT
 
 " Better */# Search {{{
 vnoremap <silent> * :<C-U>
