@@ -12,3 +12,4 @@ eclim/
 plugin/
 tmp
 autoload/plug.vim
+Session.vim

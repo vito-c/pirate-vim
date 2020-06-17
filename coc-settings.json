@@ -6,6 +6,7 @@
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "⚠ ",
   "metals.statusBarEnabled": true,
+  "suggest.autoTrigger": "always",
   "languageserver": {
     "golang": {
       "command": "gopls",

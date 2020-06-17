@@ -4,68 +4,16 @@
 "
 " By: Vito C.
 " }}}
-"
-"
-"
-"
-"
-"
-" Scratchy: Functions
-" let $ENSIME_VIM_DEBUG = 1
 
-"
-" function! s:RequireScalaHost(host)
-"   try
-"     let channel_id = rpcstart('/Users/vitocutten/playground/ensime-neovim/bin/runner')
-"       echom 'not polling ' . channel_id
-"       return channel_id
-"   catch
-"     echomsg v:throwpoint
-"     echomsg v:exception
-"   endtry
-"   throw 'Failed to load '. a:host . ' host. '.
-"     \ 'See ~/.nvimlog.'
-"    " return rpcstart('/Users/vitocutten/playground/ensime-neovim/bin/runner')
-"    " return serverstart('127.0.0.1:8000')
-" endfunction
-"
-" call remote#host#Register('scala', '*.scala', function('s:RequireScalaHost'))
-" let sc=remote#host#Require('scala')
-" call remote#define#CommandOnHost('scala', 'METHOD', 0, 'ScalaCommand', {}) 
 
-function! Stuff()
-    let pos = getpos('.')
-    let pt = line2byte(pos[1]) + pos[2] - 1
-endfunction
-    
 if has('nvim')
   let $GIT_EDITOR = 'nvr -cc split --remote-wait'
 endif
+" x
+highlight TermCursorNC ctermfg=15 guifg=#FFFFFF ctermbg=14 guibg=#56b6c2 cterm=NONE gui=NONE
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = '/Users/vitocutten/code/go/bin/gocode'
-
-
-" let ensime_server_v2=1
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
-let g:ensime_server_v2=1
-let g:terminal_color_0  = '#2e3436'
-let g:terminal_color_1  = '#cc0000'
-let g:terminal_color_2  = '#4e9a06'
-let g:terminal_color_3  = '#c4a000'
-let g:terminal_color_4  = '#3465a4'
-let g:terminal_color_5  = '#75507b'
-let g:terminal_color_6  = '#0b939b'
-let g:terminal_color_7  = '#d3d7cf'
-let g:terminal_color_8  = '#555753'
-let g:terminal_color_9  = '#ef2929'
-let g:terminal_color_10 = '#8ae234'
-let g:terminal_color_11 = '#fce94f'
-let g:terminal_color_12 = '#729fcf'
-let g:terminal_color_13 = '#ad7fa8'
-let g:terminal_color_14 = '#00f5e9'
-let g:terminal_color_15 = '#eeeeec'
+" x
+set termguicolors
 
 " set diffopt+=iwhiteall,hiddenoff,vertical,algorithm:patience
 set diffopt=internal,filler,iwhiteall,hiddenoff,vertical,algorithm:patience
@@ -133,15 +81,16 @@ if !isdirectory(&backupdir)
 endif
 
 " GUI
+colorscheme one
 set background=dark              " Assume a dark background
-color molokai                    " Load a colorscheme
+" color molokai                    " Load a colorscheme
+
 "color default
 "set background=light
 "color default "Load a colorscheme
 set tabpagemax=15               " Only show 15 tabs
 set showmode                    " Display the current mode
 set cursorline                  " Highlight current line
-highlight CursorLine  guibg=#3E3D32 ctermbg=235
 set smarttab
 set autoindent                  " Indent at the same level of the previous line
 set shiftwidth=4                " Use indents of 4 spaces
@@ -150,6 +99,7 @@ set softtabstop=4               " Let backspace delete indent
 
 " netrw ignores
 let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
+set inccommand=nosplit
 
 " Stuff
 set backspace=indent,eol,start  " Backspace for dummies

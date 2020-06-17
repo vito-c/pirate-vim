@@ -56,6 +56,7 @@ if has('nvim')
     tnoremap <A-l> <C-\><C-n><C-w>l
     tnoremap <A-w> <C-\><C-n><C-w>w
     tnoremap <A-c> <C-\><C-n><C-w>c
+    tnoremap <expr> <A-r> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 endif
 
 nnoremap tg gT
