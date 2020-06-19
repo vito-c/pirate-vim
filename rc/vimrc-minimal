@@ -1,0 +1,13 @@
+
+call plug#begin('~/.vim/bundle')
+" current theme
+Plug 'rakr/vim-one'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'joshdick/onedark.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+source ~/.vim/rc/plugins/coc.vim
+
+call plug#end()
+
+source ~/.vim/rc/core.vim

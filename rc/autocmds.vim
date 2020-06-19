@@ -55,10 +55,11 @@ if has("autocmd")
     augroup END " }}}
     augroup autosave " {{{
         autocmd!
-        autocmd FocusLost * :call SafeSave("all")
-        autocmd BufWritePost * :call RestoreMarker()
+        " keep it simple
+        autocmd InsertLeave * :call SafeSave("crrent")
         autocmd TextChanged * :call SafeSave("crrent")
-        autocmd TextChangedI * :call SafeSave("crrent")
+        " autocmd FocusLost * :call SafeSave("all")
+    "     autocmd BufWritePost * :call RestoreMarker()
     augroup END " }}}
     augroup cleanups " {{{
         autocmd!
@@ -99,13 +100,13 @@ if has("autocmd")
 
     function! SafeSave(target)
         if expand('%') != ''
-            call BackupMarker()
+            " call BackupMarker()
             if a:target == "all"
                 silent! wall
             else
                 silent! update
             endif
-            call RestoreMarker()
+            " call RestoreMarker()
         endif
     endfunction
     " }}}
