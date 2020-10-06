@@ -26,10 +26,10 @@
 
 " when expanding snippet always prefer <c-l>
 " JumpForward/Backward are for when you have alread expanded the snippet
-" let g:UltiSnipsExpandTrigger="<c-l>"
-" let g:UltiSnipsJumpForwardTrigger="<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-"
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
 " " this is convience so that snippet completions will work the same as regular ones
 " let g:ulti_expand_or_jump_res = 0
 " function! ExpandSnippetOrCarriageReturn()
@@ -41,4 +41,5 @@
 "     endif
 " endfunction
 " inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
-set shortmess+=c
+" set shortmess+=c
+

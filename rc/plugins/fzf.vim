@@ -4,23 +4,53 @@
 "
 " By: Vito C.
 " }}}
+    let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
 
 " TODO: fix broken stuff
-" let g:fzf_layout = { 'up': '~40%' }
+let g:fzf_layout = { 'up': '~40%' }
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 let g:fzf_default_layout = {'down': '~40%'}
-function! s:w(bang)
+function! s:loadfiles(bang)
     return a:bang ? {} : copy(get(g:, 'fzf_layout', g:fzf_default_layout))
 endfunction
 
 function! FloatingFZF()
+
   let buf = nvim_create_buf(v:false, v:true)
   call setbufvar(buf, '&signcolumn', 'no')
 
-  let height = float2nr(20)
-  let width = float2nr(120)
+  " let height = float2nr((&lines - 2) * 0.6)
+  " let row = float2nr((&lines - height) / 2)
+  " let width = float2nr(&columns * 0.6)
+  " let col = float2nr((&columns - width) / 2)
+  " " Border Window
+  " let opts = {
+  "       \ 'relative': 'editor',
+  "       \ 'row': row - 1,
+  "       \ 'col': col - 2,
+  "       \ 'width': width + 4,
+  "       \ 'height': height + 2,
+  "       \ 'style': 'minimal'
+  "       \ }
+
+  let height = float2nr((&lines - 2) * 0.90)
+  " let height = float2nr(40)
+  let width = float2nr(140)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 1
+  let vertical = 2
 
   let opts = {
         \ 'relative': 'editor',
@@ -35,19 +65,37 @@ function! FloatingFZF()
 endfunction
 
 let g:height = float2nr(&lines * 0.9)
-let g:width = float2nr(&columns * 0.95)
-let g:preview_width = float2nr(&columns * 0.7)
+let g:width = float2nr(&columns * 0.5)
+" let g:preview_width = float2nr(&columns * 0.7)
 let g:fzf_buffers_jump = 1
 " let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 " let $FZF_DEFAULT_OPTS=" --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4 'if file -i {}|grep -q binary; then file -b {}; else bat --style=changes --color always --line-range :40 {}; fi' --preview-window right:" . g:preview_width
 let g:fzf_layout = { 'window': 'call FloatingFZF(' . g:width . ',' . g:height . ')' }
 "  call fzf#vim#files('', fzf#vim#with_preview({'options': '--prompt ""'}, 'right:70%'))
 "
+
+" TODO: 
+" 1. Search tags
+" 2. Populate references to fuzzy finder from coc?
+" 3. Chaange directory to local git project
+" 4. Better search
 nnoremap <leader>l :BuffSwitch<CR>
-" nnoremap <leader>fs :Rag <C-R>=expand("<cword>")<CR><CR>
-" nnoremap <leader>fa :GitCFiles<CR>
-" nnoremap <leader>ff :GitCFiles<CR>
-nnoremap <leader>ff :call fzf#vim#files('', fzf#vim#with_preview({'options': '--prompt ""'}, 'right:70%'))<CR>
+nnoremap <leader>fr :call fzf#vim#files('', fzf#vim#with_preview({'options': '--prompt ""'}, 'down:70%'))<CR>
+nnoremap <leader>ff :call fzf#vim#gitfiles('', fzf#vim#with_preview({'options': '--prompt ""'}, 'down:70%'))<CR>
+" nnoremap <leader>rg :call fzf#vim#rg(expand('<cword>'), fzf#vim#with_preview('down:70%'))<CR>
+
+" nnoremap <leader>rg :call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".expand('<cword>'),
+"   \ 1, fzf#vim#with_preview({'options': '--prompt ""'}, 'down:70%'), 1)<CR>
+function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec, 'down:70%'), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+nnoremap <leader>rg :<C-U>call RipgrepFzf(expand('<cword>'), 0)<CR>
 
 let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
@@ -170,16 +218,30 @@ function! s:format_buffer(buff, fmax, bmax)
   return printf("%-" . npad . "s %-" . a:fmax . "s  %s %s", prefix, bname, path, extra)
 endfunction
 
+
+":call fzf#vim#buffers('', fzf#vim#with_preview({'options': '+m -x -d "\t" -n 2,1..2 --tiebreak=index --prompt ""'}, 'down:70%'))
+  " return fzf#run(s:wrap(a:name, merged, bang))
+function! rc#plugins#fzf#bufferz(...) " {{{
+  let [query, args] = (a:0 && type(a:1) == type('')) ?
+        \ [a:1, a:000[1:]] : ['', a:000]
+  call s:fzf(fzf#vim#with_preview({
+  \ 'source':  map(fzf#vim#_buflisted_sorted(), 'fzf#vim#_format_buffer(v:val)'),
+  \ 'sink*':   s:function('s:bufopen'),
+  \ 'options': '+m -x --tiebreak=index --header-lines=1 --ansi -d \t --with-nth 1.. -n 2,1..2 --prompt=">"'
+  \}), a:000)
+endfunction
+
 function! rc#plugins#fzf#buffers(...) " {{{
   let bmax = max(s:buflisted())
   let fmax = max(map(s:buflisted(), "len(fnamemodify(bufname(v:val), ':t'))"))
   let bufs = map(s:buflisted(), 's:format_buffer(v:val, fmax, bmax)')
   " echom "fzf#buffers " . len(bfs)
-  call s:fzf(fzf#wrap({
+  call s:fzf(fzf#vim#with_preview({
   \ 'source':  bufs,
   \ 'sink*':   s:function('s:bufopen'),
-  \ 'options': '+m -x --tiebreak=index --ansi -d "\t" -n 2,1..2 --prompt="Buf> "',
+  \ 'options': '+m -x --tiebreak=index --header-lines=1 --ansi -d \t --with-nth 1.. -n 2,1..2 --prompt=">"'
   \}), a:000)
+  " \ 'options': '+m -x --tiebreak=index --ansi -d "\t" -n 2,1..2 --prompt="Buf> "',
 endfunction " }}}
 
 " ------------------------------------------------------------------
@@ -191,5 +253,5 @@ command! -nargs=* Rag
   \ call fzf#vim#ag(<q-args>, extend(g:rc#git#groot(), g:fzf_layout))
 command! -nargs=* Tag
   \ call fzf#vim#grep("ag --column --nogroup --color".shellescape(<q-args>), 1, <bang>0)'
-command! -bang GitCFiles call rc#plugins#fzf#gitfiles(s:w(<bang>0))
-command! -bang BuffSwitch call rc#plugins#fzf#buffers(s:w(<bang>0))
+" command! -bang BuffSwitch call rc#plugins#fzf#buffers(s:loadfiles(<bang>0))
+command! -bang BuffSwitch call fzf#vim#buffers('', fzf#vim#with_preview({'options': '+m -x -d "\t" -n 2,1..2 --tiebreak=index --prompt ">"'}, 'down:70%'))

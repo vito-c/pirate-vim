@@ -1,3 +1,10 @@
+let g:debug_startup = 0
+" source ~/.vim/rc/git.vim
+" source ~/.vim/rc/builtins.vim
+" source ~/.vim/rc/autocmds.vim
+" source ~/.vim/rc/mappings.vim
+" source ~/.vim/rc/leaders.vim
+let g:mapleader = ' '
 
 call plug#begin('~/.vim/bundle')
 " current theme
@@ -6,8 +13,20 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'joshdick/onedark.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
-source ~/.vim/rc/plugins/coc.vim
+Plug 'puremourning/vimspector'
 
 call plug#end()
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gw <Plug>(coc-type-definition)
+nmap <silent> gm <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Used to expand decorations in worksheets
+nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
+nmap <Leader><cr> <Plug>(coc-metals-expand-decoration)
+nnoremap <leader>cl :<C-u>call CocActionAsync('codeLensAction')<CR>
+
 
 source ~/.vim/rc/core.vim

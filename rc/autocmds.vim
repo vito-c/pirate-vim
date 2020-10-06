@@ -68,8 +68,12 @@ if has("autocmd")
     augroup termcmd "{{{
         autocmd!
         " autocmd BufWinEnter,WinEnter term://* call timer_start(400, 'StartInsertInTermBuffer')
-        autocmd BufWinEnter,WinEnter term:* setlocal scrolloff=0
-        autocmd BufWinLeave,WinLeave term:* setlocal scrolloff=999
+        " autocmd BufWinEnter,WinEnter,TabEnter term* setlocal scrolloff=0
+        " autocmd BufWinLeave,WinLeave,TabLeave term* setlocal scrolloff=999
+        " autocmd BufEnter * if &buftype=="terminal" | setlocal scrolloff=0 | endif
+        " autocmd BufLeave * if &buftype=="terminal" | setlocal scrolloff=999 | endif
+        autocmd BufEnter *.term setlocal scrolloff=0
+        autocmd BufLeave *.term setlocal scrolloff=999
     augroup END " }}}
 
     let g:ltickmark = getpos("'[")

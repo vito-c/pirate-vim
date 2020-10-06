@@ -120,11 +120,11 @@ let g:airline#extensions#coc#enabled = 1
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " Used in the tab autocompletion for coc
 function! s:check_back_space() abort
@@ -133,7 +133,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-space> coc#refresh()
 
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
@@ -176,6 +176,11 @@ nmap <leader>rn <Plug>(coc-rename)
 " xmap <leader>f  <Plug>(coc-format-selected)
 " nmap <leader>f  <Plug>(coc-format-selected)
 
+" Trigger for code actions
+" Make sure `"codeLens.enable": true` is set in your coc config
+nnoremap <leader>cl :<C-u>call CocActionAsync('codeLensAction')<CR>
+
+
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -195,7 +200,7 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
 " Remap for do action format
-nnoremap <silent> F :call CocAction('format')<CR>
+nnoremap <leader>F :call CocAction('format')<CR>
 
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
@@ -231,5 +236,5 @@ nnoremap <silent> <leader>ct :<C-u>CocCommand metals.tvp<CR>
 nnoremap <silent> <leader>ctb :<C-u>CocCommand metals.tvp metalsBuild<CR>
 " Toggle Tree View 'metalsCompile'
 nnoremap <silent> <leader>ctc :<C-u>CocCommand metals.tvp metalsCompile<CR>
-" Reveal current current class (trait or object) in Tree View 'metalsBuild'
+" Reveal current class (trait or object) in Tree View 'metalsBuild'
 nnoremap <silent> <leader>ctf :<C-u>CocCommand metals.revealInTreeView metalsBuild<CR>

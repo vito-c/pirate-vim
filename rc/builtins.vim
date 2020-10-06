@@ -6,9 +6,9 @@
 " }}}
 
 let s:defaultpath='~/code/**'
-let s:defaultwig='*.class,*/target/*'
+" let s:defaultwig='*.class,*/target/*'
 let &path=s:defaultpath
-let &wildignore=s:defaultwig
+" let &wildignore=s:defaultwig
 let s:orphan_msg = 'fatal: not a git repository (or any of the parent directories): .git'
 function! rc#builtins#path() " {{{
     let l:glist = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')

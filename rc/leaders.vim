@@ -59,28 +59,98 @@ nnoremap <leader>ws :sp<Bar>bn <CR>
 nnoremap <leader>ww :wincmd w<Bar>wincmd _<CR>
 " }}}
 " Fold Levels {{{
-nmap <leader>f0 :set foldlevel=0<CR>
-nmap <leader>f1 :set foldlevel=1<CR>
-nmap <leader>f2 :set foldlevel=2<CR>
-nmap <leader>f3 :set foldlevel=3<CR>
-nmap <leader>f4 :set foldlevel=4<CR>
-nmap <leader>f5 :set foldlevel=5<CR>
-nmap <leader>f6 :set foldlevel=6<CR>
-nmap <leader>f7 :set foldlevel=7<CR>
-nmap <leader>f8 :set foldlevel=8<CR>
-nmap <leader>f9 :set foldlevel=9<CR>
+" disabling find a better key
+" nmap <leader>f0 :set foldlevel=0<CR>
+" nmap <leader>f1 :set foldlevel=1<CR>
+" nmap <leader>f2 :set foldlevel=2<CR>
+" nmap <leader>f3 :set foldlevel=3<CR>
+" nmap <leader>f4 :set foldlevel=4<CR>
+" nmap <leader>f5 :set foldlevel=5<CR>
+" nmap <leader>f6 :set foldlevel=6<CR>
+" nmap <leader>f7 :set foldlevel=7<CR>
+" nmap <leader>f8 :set foldlevel=8<CR>
+" nmap <leader>f9 :set foldlevel=9<CR>
 " }}}
 
 " Some terminal mappings
-noremap <leader>to :call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>
-noremap <leader>ta :call chansend(&channel, ['test', ''])<CR>
+noremap <leader>to $:call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>
+noremap <leader>ta $:call chansend(&channel, ['test', ''])<CR>
 " \x1b\x5b\x41
-noremap <leader>tl :call chansend(&channel, ["!!", ''])<CR>
+noremap <leader>tl $:call chansend(&channel, ["!!", ''])<CR>G
+noremap <leader>ts :<C-U>call rc#leaders#opensbt()<CR>
+noremap <leader>tss :<C-U>call rc#leaders#opensbt()<CR>
+noremap <leader>tst :<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['test', ''])<CR>G
+noremap <leader>tsl :<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ["!!" , ''])<CR>G
+noremap <leader>tsq :<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['testQuick' , ''])<CR>G
+
+
+" noremap <leader>tsl :<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['test:testOnly org.scalafmt.FormatTests -- -z "add braces def single line"' , ''])<CR>G
+
+function! rc#leaders#opensbt() " {{{
+    if bufexists('sbt.term')
+        if getbufvar(bufnr('sbt.term'), '&buftype') == 'terminal' 
+            if len(win_findbuf(bufnr('sbt.term'))) == 0
+                buffer sbt.term
+            else
+                call rc#leaders#jump_to_buffer('sbt.term')
+            endif
+        else
+            bw! sbt.term
+            call rc#leaders#openterminal('sbt.term','sbt')
+        endif
+    else
+        call rc#leaders#openterminal('sbt.term','sbt')
+    endif
+endfunction " }}}
+
+" TODO: Move these to utility
+function! rc#leaders#openterminal(name, cmd) " {{{
+    wincmd s
+    wincmd T
+    terminal
+    file sbt.term
+    call chansend(&channel, [a:cmd, ''])
+endfunction " }}}
+
+function! rc#leaders#jump_to_buffer(name)
+    if len(win_findbuf(bufnr(a:name))) != 0
+        let [t, w] = rc#leaders#find_open_window(bufnr(a:name))
+        if t
+          call rc#leaders#jump_tab_win(t, w)
+          return
+        endif
+    endif
+endfunction
+
+function! rc#leaders#jump_tab_win(t, w)
+  execute a:t.'tabnext'
+  execute a:w.'wincmd w'
+endfunction
+
+function! rc#leaders#find_open_window(bnr) " buffer number
+  let [tcur, tcnt] = [tabpagenr() - 1, tabpagenr('$')]
+  for toff in range(0, tabpagenr('$') - 1)
+    let t = (tcur + toff) % tcnt + 1
+    let buffers = tabpagebuflist(t)
+    for w in range(1, len(buffers))
+      let b = buffers[w - 1]
+      if b == a:bnr
+        return [t, w]
+      endif
+    endfor
+  endfor
+  return [0, 0]
+endfunction
+" end
 
 tnoremap <C-o> <C-l><C-\><C-n>:call rc#leaders#clearterm()<CR>i
 noremap <leader>tc :call chansend(&channel, ['compile', ''])<CR>
 " noremap <C-k> :exe '!printf "\e[2J\e[H" >' nvim_get_chan_info(&channel).pty<CR>
-noremap <leader>tn :exe '!printf "\e[2J" >' nvim_get_chan_info(&channel).pty<CR>
+
+"clear terminal
+"\033c clear screen moving cursor to upper left
+"\e[2J wipe screen clean as well ass scroll back I think
+noremap <leader>tk :exe '!printf "\033c\e[2J" >' nvim_get_chan_info(&channel).pty<CR>
 
 " need to config better tabbing
 nnoremap <leader>ct :tabclose<CR>

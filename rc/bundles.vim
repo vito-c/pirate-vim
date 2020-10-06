@@ -20,7 +20,17 @@ source ~/.vim/rc/plugins/airline.vim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 source ~/.vim/rc/plugins/coc.vim
+Plug 'puremourning/vimspector'
+noremap <leader>ds :call vimspector#StepOver()<CR>
+noremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
+noremap <leader>dc :call vimspector#Continue()<CR>
+Plug 'neoclide/coc-snippets'
+Plug 'antoinemadec/coc-fzf'
+Plug 'vim-test/vim-test'
 " }}}
+        
+"  Plug 'SirVer/ultisnips'
+"  source ~/.vim/rc/plugins/ultisnips.vim
 
 " Tpope {{{
  Plug 'tomtom/tcomment_vim'
@@ -29,6 +39,7 @@ source ~/.vim/rc/plugins/coc.vim
  Plug 'tpope/vim-repeat'
  Plug 'tpope/vim-speeddating'
  Plug 'tpope/vim-surround'
+ source ~/.vim/rc/plugins/surround.vim
  Plug 'tpope/vim-unimpaired'
  Plug 'tpope/vim-vinegar'
  Plug 'tpope/vim-fugitive'
@@ -54,6 +65,7 @@ source ~/.vim/rc/plugins/coc.vim
  Plug 'jtratner/vim-flavored-markdown'
 
  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+ Plug 'junegunn/fzf.vim'
  source ~/.vim/rc/plugins/fzf.vim
  Plug 'pbogut/fzf-mru.vim'
 
@@ -72,6 +84,7 @@ source ~/.vim/rc/plugins/coc.vim
  source ~/.vim/rc/plugins/tabular.vim
 
  Plug 'tommcdo/vim-exchange'
+"  Plug 'fatih/vim-go'
 
 
 call plug#end()
@@ -102,7 +115,6 @@ call plug#end()
 " Plug 'majutsushi/tagbar'
 " Plug 'jceb/vim-orgmode'
 " Plug 'vimwiki/vimwiki'
-" Plug 'fatih/vim-go'
 " Plug 'jamessan/vim-gnupg'
 " Plug 'racer-rust/vim-racer'
 " Plug 'udalov/kotlin-vim'
@@ -111,4 +123,3 @@ call plug#end()
 " elzr/vim-json - concealment in json
 " Plug 'dhruvasagar/vim-table-mode'
 " source ~/.vim/rc/plugins/table-mode.vim;
-
