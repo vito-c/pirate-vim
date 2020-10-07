@@ -1,1 +1,1 @@
-/Users/vito.cutten/code/configs/pirate-vim/nvimrc
+nvimrc
