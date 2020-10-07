@@ -9,7 +9,7 @@
 call plug#begin('~/.vim/bundle')
 
 " {{{ GUI Stuff
-Plug 'rakr/vim-one'
+Plug 'vito-c/vim-one'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'joshdick/onedark.vim'
 Plug 'bling/vim-airline'
