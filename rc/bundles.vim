@@ -17,7 +17,8 @@ source ~/.vim/rc/plugins/airline.vim
 " }}}
 
 " {{{ LSP Plugins
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 source ~/.vim/rc/plugins/coc.vim
 Plug 'puremourning/vimspector'
