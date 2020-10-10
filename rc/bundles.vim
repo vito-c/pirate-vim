@@ -48,9 +48,9 @@ Plug 'vim-test/vim-test'
 " }}}
 
 " My plugins {{{
- let g:plug_url_format = 'git@github.com:%s.git'
+"  let g:plug_url_format = 'git@github.com:%s.git'
  Plug 'vito-c/vim-snippets'
- unlet! g:plug_url_format
+"  unlet! g:plug_url_format
  Plug '~/code/personal/scratchy'
  Plug '~/code/personal/jq.vim'
  " }}}
