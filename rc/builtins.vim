@@ -47,13 +47,21 @@ endfunction " }}}
 "         " let l:output = substitute(l:text,'
 "     endif
 " endfunction " }}}
+
+" used for appending scala to file types when searching
+" if you hit this from inside a terminal it means the file you were searching for doesn't
+" exist as well as "/file/you/were/searching/for/ext.scala
 function! rc#builtins#includeexpr(filename) " {{{
-    let l:output = substitute(a:filename,'\v\.','/','g')
-    let l:output = substitute(l:output,'\v\C([^#]*)#.*', '\=submatch(1).".scala"', '')
-    let l:ext = fnamemodify(l:output,':e')
-    let l:fname = fnamemodify(l:output, ':t')
-    if l:ext == ""
-        let l:output = l:output . ".scala"
+    let l:bt = getbufvar(bufnr('%'), '&buftype', 'ERROR')
+    let l:output = "" . a:filename . ""
+    if l:bt == "terminal" && (filereadable(a:filename) == 0 || isdirectory(a:filename) == 0)
+        let l:output = substitute(a:filename,'\v\.','/','g')
+        let l:output = substitute(l:output,'\v\C([^#]*)#.*', '\=submatch(1).".scala"', '')
+        let l:ext = fnamemodify(l:output,':e')
+        let l:fname = fnamemodify(l:output, ':t')
+        if l:ext == ""
+            let l:output = l:output . ".scala"
+        endif
     endif
     return l:output
 endfunction " }}}

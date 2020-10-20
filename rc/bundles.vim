@@ -19,9 +19,7 @@ source ~/.vim/rc/plugins/airline.vim
 " {{{ LSP Plugins
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
-if &rtp =~ 'coc.nvim'
-    source ~/.vim/rc/plugins/coc.vim
-endif
+" loading coc confings after plugins loaded
 Plug 'puremourning/vimspector'
 noremap <leader>ds :call vimspector#StepOver()<CR>
 noremap <leader>db :call vimspector#ToggleBreakpoint()<CR>

@@ -53,7 +53,7 @@ set winminheight=0              " Windows can be 0 line high
 set ignorecase                  " Case insensitive search
 set smartcase                   " Case sensitive when uc present
 set wildmenu                    " Show list instead of just completing
-" set wildignore=*.class,*/target/*
+set wildignore=*.class,*/target/*
 set wildmode=list:longest,full  " list matches, then longest common part, then all.
 set whichwrap+=h,l,<,>,[,],b,s,~
 set scrolloff=999                 " Minimum lines to keep above and below cursor
@@ -64,14 +64,7 @@ set nowrap
 " }}}
 
 " Legacy undo fieles {{{
-set undodir=~/.vim/tmp/undo//     " undo files
-set backupdir=~/.vim/tmp/backup// " backups
-if !isdirectory(&undodir)
-    silent !mkdir(expand(&undodir), "p")
-endif
-if !isdirectory(&backupdir)
-    silent !mkdir(expand(&backupdir), "p")
-endif
+set nobackup
 " }}}
 
 " netrw {{{
