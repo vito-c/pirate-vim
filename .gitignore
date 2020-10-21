@@ -9,7 +9,6 @@ vim
 vim/bundle/vundle
 .netrwhist
 eclim/
-plugin/
 tmp
 autoload/plug.vim
 Session.vim
