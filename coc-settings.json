@@ -1,6 +1,6 @@
 {
   "coc.preferences.messageLevel": "error",
-  "metals.javaHome": "/Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home",
+  "metals.javaHome": "/usr/lib/jvm/default",
   "coc.preferences.formatOnType": true,
   "codeLens.enable": true,
   "diagnostic.errorSign": "✘",
