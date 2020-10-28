@@ -1,6 +1,5 @@
 {
   "coc.preferences.messageLevel": "error",
-  "metals.javaHome": "/usr/lib/jvm/default",
   "coc.preferences.formatOnType": true,
   "codeLens.enable": true,
   "diagnostic.errorSign": "✘",
