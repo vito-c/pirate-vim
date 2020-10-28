@@ -15,7 +15,8 @@ let g:mapleader = ' '
 
 " TODO: move this to experimental;
 noremap <leader>; :<C-F>i
-noremap <leader>s /<C-F>i
+noremap <leader>' /<C-F>i
+noremap <leader>w :<C-u>w<CR>
 noremap <leader><leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
 inoremap <C-k> <C-o>gk
 inoremap <C-h> <Left>
@@ -54,9 +55,9 @@ vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 " }}}
 " Windows Actions {{{
-nnoremap <leader>wv :vsp<Bar>bn<Bar>wincmd L<CR>
-nnoremap <leader>ws :sp<Bar>bn <CR>
-nnoremap <leader>ww :wincmd w<Bar>wincmd _<CR>
+" nnoremap <leader>wv :vsp<Bar>bn<Bar>wincmd L<CR>
+" nnoremap <leader>ws :sp<Bar>bn<CR>
+" nnoremap <leader>ww :wincmd w<Bar>wincmd _<CR>
 " }}}
 " Fold Levels {{{
 " disabling find a better key
