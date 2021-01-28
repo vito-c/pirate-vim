@@ -36,27 +36,28 @@ noremap <leader>ew :<C-U>e <C-R>=expand('%:h').'/'<cr>
 noremap <leader>es :<C-U>sp %%
 " }}}
 " Copy Pasting Clipboard {{{
-noremap <leader>y "+y
-noremap <leader>Y "+y$
+noremap <leader>y "*y
+noremap <leader>Y "*y$
 noremap <leader>o <C-^>
 
-vnoremap <leader>y "+y
-vnoremap <leader>Y "+y$
+vnoremap <leader>y "*y
+vnoremap <leader>Y "*y$
 
 " vnoremap <leader>d "+d
 " noremap <leader>d "+d
 
-noremap <leader>p "+p
-noremap <leader>P "+P
+noremap <leader>p "*p
+noremap <leader>P "*P
 noremap <leader>0 "0p
 noremap <leader>0 "0P
 
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
+vnoremap <leader>p "*p
+vnoremap <leader>P "*P
 " }}}
 " Windows Actions {{{
 " nnoremap <leader>wv :vsp<Bar>bn<Bar>wincmd L<CR>
 " nnoremap <leader>ws :sp<Bar>bn<CR>
+" nnoremap <leader>ww :wincmd w<Bar>wincmd _<CR>
 " nnoremap <leader>ww :wincmd w<Bar>wincmd _<CR>
 " }}}
 " Fold Levels {{{

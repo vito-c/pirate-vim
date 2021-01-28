@@ -18,6 +18,7 @@ source ~/.vim/rc/plugins/airline.vim
 
 " {{{ LSP Plugins
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+source ~/.vim/rc/plugins/coc.vim
 Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 " loading coc confings after plugins loaded
 Plug 'puremourning/vimspector'
@@ -25,7 +26,6 @@ noremap <leader>ds :call vimspector#StepOver()<CR>
 noremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
 noremap <leader>dc :call vimspector#Continue()<CR>
 Plug 'neoclide/coc-snippets'
-Plug 'antoinemadec/coc-fzf'
 Plug 'vim-test/vim-test'
 " }}}
         
@@ -40,6 +40,7 @@ Plug 'vim-test/vim-test'
  Plug 'tpope/vim-speeddating'
  Plug 'tpope/vim-surround'
  source ~/.vim/rc/plugins/surround.vim
+ Plug 'tpope/rhubarb.vim'
  Plug 'tpope/vim-unimpaired'
  Plug 'tpope/vim-vinegar'
  Plug 'tpope/vim-fugitive'
@@ -68,6 +69,7 @@ Plug 'vim-test/vim-test'
  Plug 'junegunn/fzf.vim'
  source ~/.vim/rc/plugins/fzf.vim
  Plug 'pbogut/fzf-mru.vim'
+ Plug 'antoinemadec/coc-fzf'
 
 
  Plug 'simnalamburt/vim-mundo'
