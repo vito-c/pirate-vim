@@ -62,7 +62,10 @@ set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatib
 set nowrap
 "set virtualedit=onemore             " Allow for cursor beyond last character
 " }}}
-
+let s:uname = system("echo -n \"$(uname)\"")
+if !v:shell_error && s:uname == "Linux"
+    let &shell='/usr/bin/bash'
+endif
 " Legacy undo fieles {{{
 set nobackup
 " }}}
@@ -79,6 +82,7 @@ let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
 iabbrev teh the
 iabbrev chomd chmod
 iabbrev ehco echo
+iabbrev pritnln println
 cabbrev ehco echo
 iabbrev <expr> dtl strftime("%c")
 iabbrev <expr> dts strftime("%m/%d/%Y")
