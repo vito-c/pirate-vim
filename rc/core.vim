@@ -65,6 +65,11 @@ set nowrap
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Linux"
     let &shell='/usr/bin/bash'
+    command! -nargs=0 SetupCoc call SetupCoc() 
+    function! SetupCoc()
+        CocInstall -sync coc-metals
+    endfunction
+
 endif
 " Legacy undo fieles {{{
 set nobackup
