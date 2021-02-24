@@ -51,7 +51,7 @@ nmap <silent> gm <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Used to expand decorations in worksheets
-nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
+nmap <Leader>sw <Plug>(coc-metals-expand-decoration)
 nmap <Leader><cr> <Plug>(coc-metals-expand-decoration)
 
 " Use K to either doHover or show documentation in preview window

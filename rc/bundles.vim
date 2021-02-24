@@ -40,7 +40,7 @@ Plug 'vim-test/vim-test'
  Plug 'tpope/vim-speeddating'
  Plug 'tpope/vim-surround'
  source ~/.vim/rc/plugins/surround.vim
- Plug 'tpope/rhubarb.vim'
+ Plug 'tpope/vim-rhubarb'
  Plug 'tpope/vim-unimpaired'
  Plug 'tpope/vim-vinegar'
  Plug 'tpope/vim-fugitive'
