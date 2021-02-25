@@ -77,7 +77,6 @@ set nobackup
 
 " netrw {{{
 let g:netrw_preview = 1
-let g:netrw_winsize = 30
 let g:netrw_altfile = 1
 let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
 " }}}

@@ -63,7 +63,7 @@ if has("autocmd")
     augroup END " }}}
     augroup cleanups " {{{
         autocmd!
-        autocmd FileType netrw setlocal bufhidden=delete
+        " autocmd FileType netrw setlocal bufhidden=delete
     augroup END " }}}
     augroup termcmd "{{{
         autocmd!
