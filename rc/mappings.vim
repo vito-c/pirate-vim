@@ -114,5 +114,4 @@ command! -bang QA qa<bang>
 command! -bang Qa qa<bang>
 
 map <silent> <C-]> <Plug>(coc-definition)
-map <silent> <C-[> <Plug>(coc-references)
 " }}}
