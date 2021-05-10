@@ -48,7 +48,7 @@ endfunction
 " ~/code/configs/pirate-vim/bundle/vim-fugitive/.git/index
 nnoremap <silent> <leader>gs :call OpenGStatusTab()<CR>
 nnoremap <silent> <leader>gdh :Gvdiff HEAD<CR>
-nnoremap <silent> <leader>gdm :Gvdiff master<CR>
+nnoremap <silent> <leader>gdm :Gvdiff origin/master<CR>
 nnoremap <silent> <leader>gdu :Gvdiff upstream/master<CR>
 nnoremap <silent> <leader>gdd :Gvdiff upstream/develop<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
