@@ -1,5 +1,6 @@
 {
   "coc.preferences.messageLevel": "error",
+//  "metals.serverVersion": "0.10.2+46-e7ab8592-SNAPSHOT",
   "coc.preferences.formatOnType": true,
   "codeLens.enable": true,
   "diagnostic.errorSign": "✘",

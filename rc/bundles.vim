@@ -19,13 +19,13 @@ source ~/.vim/rc/plugins/airline.vim
 " {{{ LSP Plugins
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 source ~/.vim/rc/plugins/coc.vim
-Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 " loading coc confings after plugins loaded
 Plug 'puremourning/vimspector'
 noremap <leader>ds :call vimspector#StepOver()<CR>
 noremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
 noremap <leader>dc :call vimspector#Continue()<CR>
-Plug 'neoclide/coc-snippets'
+" Plug 'neoclide/coc-snippets'
 Plug 'vim-test/vim-test'
 " }}}
         
@@ -50,7 +50,7 @@ Plug 'vim-test/vim-test'
 
 " My plugins {{{
 "  let g:plug_url_format = 'git@github.com:%s.git'
- Plug 'vito-c/vim-snippets'
+"  Plug 'vito-c/vim-snippets'
 "  unlet! g:plug_url_format
  Plug '~/code/personal/scratchy'
  Plug '~/code/personal/jq.vim'
