@@ -61,7 +61,7 @@ function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
@@ -104,7 +104,7 @@ command! -nargs=0 Format :call CocActionAsync('format')
 nnoremap <leader>F :call CocActionAsync('format')<CR>
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call  CocAction('fold', <f-args>)
 
 " Add status line support, for integration with other plugins, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
