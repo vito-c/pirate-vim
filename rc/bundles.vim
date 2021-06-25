@@ -25,6 +25,7 @@ Plug 'puremourning/vimspector'
 noremap <leader>ds :call vimspector#StepOver()<CR>
 noremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
 noremap <leader>dc :call vimspector#Continue()<CR>
+
 " Plug 'neoclide/coc-snippets'
 Plug 'vim-test/vim-test'
 " }}}

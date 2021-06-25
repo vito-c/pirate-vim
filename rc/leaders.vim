@@ -16,7 +16,7 @@ let g:mapleader = ' '
 " TODO: move this to experimental;
 noremap <leader>; :<C-F>i
 noremap <leader>' /<C-F>i
-noremap <leader>w :<C-u>w<CR>
+noremap <leader>w :<C-u>wa<CR>
 noremap <leader><leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
 inoremap <C-k> <C-o>gk
 inoremap <C-h> <Left>
@@ -145,14 +145,14 @@ function! rc#leaders#find_open_window(bnr) " buffer number
 endfunction
 " end
 
-tnoremap <C-o> <C-l><C-\><C-n>:call rc#leaders#clearterm()<CR>i
+tnoremap <C-o> <C-l><C-\><C-n>:call rc#leaders#reclearterm()<CR>i
 noremap <leader>tc :call chansend(&channel, ['compile', ''])<CR>
 " noremap <C-k> :exe '!printf "\e[2J\e[H" >' nvim_get_chan_info(&channel).pty<CR>
 
 "clear terminal
 "\033c clear screen moving cursor to upper left
 "\e[2J wipe screen clean as well ass scroll back I think
-noremap <leader>tk :exe '!printf "\033c\e[2J" >' nvim_get_chan_info(&channel).pty<CR>
+noremap <leader>tk :exe '!printf "\033c\e[2J" >' nvim_get_chan_info(&channel).pty<CR>i
 
 " need to config better tabbing
 nnoremap <leader>ct :tabclose<CR>
@@ -165,6 +165,18 @@ func TermSetScrollback(timer)
   set scrollback=0
   set scrolloff=0
 endfunc
+function! rc#leaders#reclearterm() " {{{
+    set scrollback=1
+    set scrolloff=0
+    exe '!printf "\e[2J" >' nvim_get_chan_info(&channel).pty
+    exe '!printf "\e[2J" >' nvim_get_chan_info(&channel).pty
+    sleep 200m
+    set scrollback=0
+    set scrolloff=0
+    call chansend(&channel, ['',''])
+    sleep 200m
+    set scrollback=0
+endfunction " }}}
 
 function! rc#leaders#clearterm() " {{{
     set scrollback=1
