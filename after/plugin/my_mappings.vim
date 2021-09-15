@@ -17,3 +17,19 @@ highlight CursorLineNr ctermbg=69 guifg=#000000 guibg=#8fc964
 "  ------------------------------------------------------------------------------
 "  - SubHeading																	-
 "  ------------------------------------------------------------------------------
+" set guifont=monospace:h30
+" function! OnUIEnter(event)
+" 	let l:ui = nvim_get_chan_info(a:event.chan)
+" 	if has_key(l:ui, 'client') && has_key(l:ui.client, 'name')
+" 		if l:ui.client.name ==# 'Firenvim'
+" 			set guifont=monospace:h30
+" 		endif
+" 	endif
+" endfunction
+"
+" augroup fireui
+"     autocmd!
+    " au UIEnter * call OnUIEnter(deepcopy(v:event))
+" augroup END
+"
+

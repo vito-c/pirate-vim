@@ -21,15 +21,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 source ~/.vim/rc/plugins/coc.vim
 " Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 " loading coc confings after plugins loaded
-Plug 'puremourning/vimspector'
-noremap <leader>ds :call vimspector#StepOver()<CR>
-noremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
-noremap <leader>dc :call vimspector#Continue()<CR>
+" Plug 'puremourning/vimspector'
+" noremap <leader>ds :call vimspector#StepOver()<CR>
+" noremap <leader>db :call vimspector#ToggleBreakpoint()<CR>
+" noremap <leader>dc :call vimspector#Continue()<CR>
 
 " Plug 'neoclide/coc-snippets'
 Plug 'vim-test/vim-test'
 " }}}
-        
+
 "  Plug 'SirVer/ultisnips'
 "  source ~/.vim/rc/plugins/ultisnips.vim
 
@@ -90,39 +90,42 @@ Plug 'vim-test/vim-test'
 "  Plug 'fatih/vim-go'
 
 
+ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+ source ~/.vim/rc/plugins/firenvim.vim
+
 call plug#end()
- " Compiler Stuff
- "
- " Plug 'justinmk/vim-dirvish'
-
- " javascript
- " Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'html']  }
-
- " TODO: figure this out
- " Plug 'panglossr/vim-javascript', { 'for': ['javascript', 'html']  }
-
- " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'html']  }
- " Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
- " Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
- " Plug 'othree/html5.vim', { 'for': ['javascript', 'html']  }
- " Plug 'goatslacker/mango.vim', { 'for': 'javascript' }
-" Old Stuff
- " Plug 'SirVer/ultisnips'
- " source ~/.vim/rc/plugins/ultisnips.vim
-"  Plug 'ctrlpvim/ctrlp.vim'
-"  source ~/.vim/rc/plugins/ctrlp.vim
- " Plug 'neilagabriel/vim-geeknote'
- " Plug 'junegunn/vim-peekaboo'
- " source ~/.vim/rc/plugins/peekaboo.vim
-" Plug 'godlygeek/csapprox'
-" Plug 'majutsushi/tagbar'
-" Plug 'jceb/vim-orgmode'
-" Plug 'vimwiki/vimwiki'
-" Plug 'jamessan/vim-gnupg'
-" Plug 'racer-rust/vim-racer'
-" Plug 'udalov/kotlin-vim'
-
-" Want to try:
-" elzr/vim-json - concealment in json
-" Plug 'dhruvasagar/vim-table-mode'
-" source ~/.vim/rc/plugins/table-mode.vim;
+"  " Compiler Stuff
+"  "
+"  " Plug 'justinmk/vim-dirvish'
+"
+"  " javascript
+"  " Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'html']  }
+"
+"  " TODO: figure this out
+"  " Plug 'panglossr/vim-javascript', { 'for': ['javascript', 'html']  }
+"
+"  " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'html']  }
+"  " Plug 'matthewsimo/angular-vim-snippets', { 'for': ['javascript', 'html']  }
+"  " Plug 'burnettk/vim-angular', { 'for': ['javascript', 'html']  }
+"  " Plug 'othree/html5.vim', { 'for': ['javascript', 'html']  }
+"  " Plug 'goatslacker/mango.vim', { 'for': 'javascript' }
+" " Old Stuff
+"  " Plug 'SirVer/ultisnips'
+"  " source ~/.vim/rc/plugins/ultisnips.vim
+" "  Plug 'ctrlpvim/ctrlp.vim'
+" "  source ~/.vim/rc/plugins/ctrlp.vim
+"  " Plug 'neilagabriel/vim-geeknote'
+"  " Plug 'junegunn/vim-peekaboo'
+"  " source ~/.vim/rc/plugins/peekaboo.vim
+" " Plug 'godlygeek/csapprox'
+" " Plug 'majutsushi/tagbar'
+" " Plug 'jceb/vim-orgmode'
+" " Plug 'vimwiki/vimwiki'
+" " Plug 'jamessan/vim-gnupg'
+" " Plug 'racer-rust/vim-racer'
+" " Plug 'udalov/kotlin-vim'
+"
+" " Want to try:
+" " elzr/vim-json - concealment in json
+" " Plug 'dhruvasagar/vim-table-mode'
+" " source ~/.vim/rc/plugins/table-mode.vim;

@@ -11,7 +11,7 @@ if g:debug_startup
     echo 'sourcing...'
 endif
 
-let g:python_host_prog = '/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python'
+" let g:python_host_prog = '/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python'
 
 source ~/.vim/rc/git.vim
 source ~/.vim/rc/builtins.vim

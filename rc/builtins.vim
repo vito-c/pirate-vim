@@ -50,13 +50,17 @@ endfunction " }}}
 
 " used for appending scala to file types when searching
 " if you hit this from inside a terminal it means the file you were searching for doesn't
-" exist as well as "/file/you/were/searching/for/ext.scala
+" exist as well as "/file/you/were/searching/for/exm.scala
+" vito/easy/LinkedListCycleEasyTest/test1.scala
 function! rc#builtins#includeexpr(filename) " {{{
     let l:bt = getbufvar(bufnr('%'), '&buftype', 'ERROR')
     let l:output = "" . a:filename . ""
     if l:bt == "terminal" && (filereadable(a:filename) == 0 || isdirectory(a:filename) == 0)
         let l:output = substitute(a:filename,'\v\.','/','g')
         let l:output = substitute(l:output,'\v\C([^#]*)#.*', '\=submatch(1).".scala"', '')
+        " if stridx("src/test", l:output) != -1
+        " add stuff here if you want to do a conditional file name
+        " endif
         let l:ext = fnamemodify(l:output,':e')
         let l:fname = fnamemodify(l:output, ':t')
         if l:ext == ""

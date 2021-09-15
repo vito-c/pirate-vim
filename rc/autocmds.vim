@@ -48,19 +48,22 @@ if has("autocmd")
         endif
     augroup END " }}}
     " "Causing issues:
-    augroup autotag " {{{
-        autocmd!
-        " need to cd to groot
-        " autocmd BufNewFile,BufRead,BufEnter * call UpdatePath()
-    augroup END " }}}
+    " augroup autotag " {{{
+    "     autocmd!
+    "     " need to cd to groot
+    "     " autocmd BufNewFile,BufRead,BufEnter * call UpdatePath()
+    " augroup END " }}}
     augroup autosave " {{{
         autocmd!
         " keep it simple
-        autocmd InsertLeave * :call SafeSave("crrent")
-        autocmd TextChanged * :call SafeSave("crrent")
+        au TextChanged * ++nested call Delay_My_Write()
+        au TextChangedI * ++nested call Delay_My_Write()
+        " autocmd InsertLeave * :call SafeSave("crrent")
+        " autocmd TextChanged * :call SafeSave("crrent")
         " autocmd FocusLost * :call SafeSave("all")
-    "     autocmd BufWritePost * :call RestoreMarker()
+        " autocmd BufWritePost * :call RestoreMarker()
     augroup END " }}}
+    
     augroup cleanups " {{{
         autocmd!
         " autocmd FileType netrw setlocal bufhidden=delete
@@ -101,18 +104,41 @@ if has("autocmd")
             execute 'cd' rc#git#groot()['dir']
         endif
     endfunction
+    
+    " function! SafeSave(target)
+    "     if expand('%') != ''
+    "         " call BackupMarker()
+    "         if a:target == "all"
+    "             silent! wall
+    "         else
+    "             echo 'saving'
+    "             silent! write
+    "         endif
+    "         " call RestoreMarker()
+    "     endif
+    " endfunction
 
-    function! SafeSave(target)
-        if expand('%') != ''
-            " call BackupMarker()
-            if a:target == "all"
-                silent! wall
-            else
-                silent! update
-            endif
-            " call RestoreMarker()
-        endif
+    let g:dont_write = v:false
+    function! My_Write(timer) abort
+        let g:dont_write = v:false
+        silent! write
     endfunction
+
+    function! Delay_My_Write() abort
+        if &bt =~ "terminal"
+            return
+        end
+        if g:dont_write
+            return
+        end
+        let g:dont_write = v:true
+        if &ft == "python"
+            call timer_start(100, 'My_Write')
+        else
+            call timer_start(10000, 'My_Write')
+        end
+    endfunction
+
     " }}}
     "au BufReadPost quickfix setlocal modifiable
     "autocmd bufwritepost .vimrc source $MYVIMRC
