@@ -5,7 +5,7 @@
 ------------------------------------------------------------
 -- Neovim API aliases
 ------------------------------------------------------------
---local map = vim.api.nvim_set_keymap  -- set global keymap
+local map = vim.api.nvim_set_keymap  -- set global keymap
 local cmd = vim.cmd     	    -- execute Vim commands
 local exec = vim.api.nvim_exec 	-- execute Vimscript
 local fn = vim.fn       		-- call Vim functions
@@ -17,7 +17,7 @@ local opt = vim.opt         	-- global/buffer/windows-scoped options
 ------------------------------------------------------------
 opt.termguicolors = true
 opt.background = 'dark'
--- cmd('colorscheme one')
+cmd('colorscheme one')
 opt.showmode = true       -- Display the current mode
 opt.cursorline = true     -- Highlight current line
 opt.showmatch = false     -- Show matching brackets/parenthesis
