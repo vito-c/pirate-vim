@@ -1,0 +1,11 @@
+local g = vim.g         	    -- global variables
+g["airline_theme"] = 'one'
+g["airline_powerline_fonts"]  = 1
+g["airline#extensions#tabline#enabled"]  = 1
+g["airline#extensions#tabline#show_buffers"]  = 0
+g["airline#extensions#tabline#show_splits"]  = 0
+g["airline#extensions#tabline#show_tabs"]  = 1
+g["airline#extensions#tabline#show_tab_nr"]  = 0
+g["airline#extensions#tabline#show_tab_type"]  = 0
+g["airline#extensions#tabline#close_symbol"]  = '×'
+g["airline#extensions#tabline#show_close_button"]  = 0

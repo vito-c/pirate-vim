@@ -20,6 +20,6 @@ cmd("Plug 'vito-c/vim-one'")
 cmd("Plug 'vim-airline/vim-airline-themes'")
 cmd("Plug 'joshdick/onedark.vim'")
 cmd("Plug 'bling/vim-airline'")
--- source ~/.vim/rc/plugins/airline.vim
+require('plugins/airline')
 
 cmd('call plug#end()')
