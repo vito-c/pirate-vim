@@ -41,19 +41,6 @@ let g:netrw_altfile = 1
 let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
 " }}}
 
-" Abbrevs {{{
-" TODO: Abloish plugin move to own file
-iabbrev teh the
-iabbrev chomd chmod
-iabbrev ehco echo
-iabbrev pritnln println
-cabbrev ehco echo
-iabbrev <expr> dtl strftime("%c")
-iabbrev <expr> dts strftime("%m/%d/%Y")
-iabbrev <expr> cdf expand('%')
-iabbrev <expr> cdp expand('%:p')
-iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),'.'),'\v^\.+','','g') . ";\r"
-" }}}
 
 " Delete Empty Buffers {{{
 command! -nargs=0 DeleteEmptyBuffers call DeleteEmptyBuffers() 
