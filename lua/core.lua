@@ -17,14 +17,14 @@ local opt = vim.opt         	-- global/buffer/windows-scoped options
 -----------------------------------------------------------
 opt.termguicolors = true
 opt.background = 'dark'
-cmd('colorscheme one')
+-- cmd('colorscheme one')
 opt.showmode = true       -- Display the current mode
 opt.cursorline = true     -- Highlight current line
-opt.noshowmatch = true    -- Show matching brackets/parenthesis
+opt.showmatch = false     -- Show matching brackets/parenthesis
 opt.matchtime = 1         -- tenths of a second
 opt.linespace = 0         -- No extra spaces between rows
 opt.winminheight = 0      -- Windows can be 0 line high
-opt.listchars = 'tab:▸\ ,eol:¬,extends:❯,precedes:❮'
+opt.listchars = 'tab:▸\\ ,eol:¬,extends:❯,precedes:❮'
 
 
 -----------------------------------------------------------
@@ -66,8 +66,8 @@ opt.hlsearch = true       -- Highlight search terms
 -----------------------------------------------------------
 opt.autoread = true
 opt.autowrite = true
-opt.noswapfile = true
-opt.nobackup = true
+opt.swapfile = false
+opt.backup = false
 
 -----------------------------------------------------------
 -- Wild Menu
@@ -85,3 +85,19 @@ opt.history = 800         -- remember n lines in history
 opt.lazyredraw = true     -- faster scrolling
 opt.synmaxcol = 240       -- max column for syntax highlight
 opt.tabpagemax=15         -- Only show 15 tabs
+
+-----------------------------------------------------------
+-- Abbreviations
+-- TODO move this to another file/use abolish
+-----------------------------------------------------------
+cmd('iabbrev teh the')
+cmd('iabbrev chomd chmod')
+cmd('iabbrev ehco echo')
+cmd('iabbrev pritnln println')
+cmd('cabbrev ehco echo')
+cmd("iabbrev <expr> dtl strftime('%c')")
+cmd("iabbrev <expr> dts strftime('%m/%d/%Y')")
+cmd("iabbrev <expr> cdf expand('%')")
+cmd("iabbrev <expr> cdp expand('%:p')")
+cmd("iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),'.'),'\\v^\\.+','','g') . \";\\r\"")
+
