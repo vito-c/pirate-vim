@@ -18,15 +18,17 @@ noremap <leader>; :<C-F>i
 noremap <leader>' /<C-F>i
 noremap <leader>w :<C-u>wa<CR>
 noremap <leader><leader>jt <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+
+" movement bindings
 inoremap <C-k> <C-o>gk
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 inoremap <C-j> <C-o>gj
 
 " Quick Edits {{{
-let g:VITORC=fnamemodify($MYVIMRC,':h')."/rc/vimrc"
+" let g:VITORC=fnamemodify($MYVIMRC,':h')."/rc/vimrc"
 " CODE_CONFIGS/pirate-vim/rc/vimrc
-noremap <leader>ev :<C-U>execute "tabedit " . g:VITORC<CR>
+" noremap <leader>ev :<C-U>execute "tabedit " . g:VITORC<CR>
 noremap <leader>eb :<C-U>tabedit $CODE_CONFIGS/pirate-setup/bashrc<CR>
 noremap <leader>eg :<C-U>tabedit $CODE_CONFIGS/pirate-setup/gitconfig<CR>
 " Some helpers to edit mode

@@ -3,9 +3,10 @@ List = require 'pl.List'
 pretty = require 'pl.pretty'
 
 if suitetype == "full" then
-    require('plugins') -- ./lua/plugins.lua
-    require('core') -- ./lua/core.lua
+    require('plugins')  -- ./lua/plugins.lua
+    require('core')     -- ./lua/core.lua
     require('builtins') -- ./lua/builtins.lua
+    require('leaders')
 end
 
 -- function bufdump()
