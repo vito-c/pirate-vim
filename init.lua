@@ -7,6 +7,7 @@ if suitetype == "full" then
     require('core')     -- ./lua/core.lua
     require('builtins') -- ./lua/builtins.lua
     require('leaders')
+    require('mappings')
 end
 
 -- function bufdump()
