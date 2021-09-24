@@ -118,6 +118,6 @@ cmd("iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),
 exec([[
   augroup YankHighlight
     autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
   augroup end
 ]], false)

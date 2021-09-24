@@ -91,71 +91,14 @@ return require("packer").startup(function(use)
 -- cmd("Plug 'neovim/nvim-lspconfig'")
 end)
 
--- cmd("call plug#begin('~/.vim/bundle')")
--- ------------------------------------------------------------
---  GUI Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'vito-c/vim-one'")
--- cmd("Plug 'joshdick/onedark.vim'")
--- cmd("Plug 'kyazdani42/nvim-web-devicons'")
--- cmd("Plug 'hoob3rt/lualine.nvim'")
--- cmd("Plug 'alvarosevilla95/luatab.nvim'")
--- cmd("Plug 'mhinz/vim-startify'")
---
--- ------------------------------------------------------------
--- -- Editing Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'tomtom/tcomment_vim'")
--- cmd("Plug 'tpope/vim-repeat'")
--- cmd("Plug 'tpope/vim-repeat'")
--- cmd("Plug 'tpope/vim-surround'")
--- cmd("Plug 'AndrewRadev/splitjoin.vim'")
--- cmd("Plug 'tommcdo/vim-exchange'")
--- cmd("Plug 'godlygeek/tabular'")
--- cmd("Plug 'tpope/vim-abolish'")
---
--- ------------------------------------------------------------
--- -- Syntax Plugins
--- ------------------------------------------------------------
--- cmd("Plug '~/code/personal/jq.vim'")
--- cmd("Plug 'jtratner/vim-flavored-markdown'")
--- cmd("Plug 'vito-c/applescript.vim'")
---
--- ------------------------------------------------------------
--- -- Git Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'tpope/vim-rhubarb'")
--- cmd("Plug 'tpope/vim-fugitive'")
---
--- ------------------------------------------------------------
--- -- Text Navigation Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'tpope/vim-unimpaired'")
---
--- ------------------------------------------------------------
--- -- File Navigation Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'tpope/vim-vinegar'")
--- cmd("Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }")
--- cmd("Plug 'junegunn/fzf.vim'")
--- cmd("Plug 'pbogut/fzf-mru.vim'")
---
--- ------------------------------------------------------------
--- -- Misc Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'tpope/vim-obsession'")
---
--- ------------------------------------------------------------
--- -- LSP Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'neovim/nvim-lspconfig'")
---
--- cmd('call plug#end()')
---
---
---
--- vim.o.tabline = '%!v:lua.require\'luatab\'.tabline()'
--- require('lualine').setup {
---   options = {theme = 'onedark'},
---   extensions = { 'fzf', 'nvim-tree', 'fugitive' }
--- }
+-- nvim-telescope/telescope.nvim
+-- require("telescope").setup({})
+--   defaults = {
+--     color_devicons = false,
+--     mappings = {
+--       i = {
+--         ["<c-j>"] = require('telescope.actions').next,
+--       },
+--     },
+--   },
+-- })
