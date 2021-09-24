@@ -3,11 +3,12 @@ List = require 'pl.List'
 pretty = require 'pl.pretty'
 
 if suitetype == "full" then
-    require('plugins')  -- ./lua/plugins.lua
-    require('core')     -- ./lua/core.lua
-    require('builtins') -- ./lua/builtins.lua
+    require('plugins.packs')  -- ./lua/plugins.lua
+    require('core')           -- ./lua/core.lua
+    require('builtins')       -- ./lua/builtins.lua
     require('leaders')
     require('mappings')
+    require('plugins.telescope')
 end
 
 -- function bufdump()

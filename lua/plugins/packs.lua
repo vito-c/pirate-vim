@@ -91,6 +91,10 @@ return require("packer").startup(function(use)
 -- cmd("Plug 'neovim/nvim-lspconfig'")
 end)
 
+-------------------------------------------------------------------------------
+-- Plugin Mappigns
+-------------------------------------------------------------------------------
+
 -- nvim-telescope/telescope.nvim
 -- require("telescope").setup({})
 --   defaults = {
