@@ -1,6 +1,46 @@
+------------------------------------------------------------
+-- Neovim API aliases
+------------------------------------------------------------
+local kmap = vim.api.nvim_set_keymap  -- set global keymap
+local cmd  = vim.cmd     	          -- execute Vim commands
+local exec = vim.api.nvim_exec 	      -- execute Vimscript
+local fn   = vim.fn       		      -- call Vim functions
+local g    = vim.g         	          -- global variables
+local opt  = vim.opt         	      -- global/buffer/windows-scoped options
+
+function nmap(keys, command)
+    vim.api.nvim_set_keymap('n', keys, command, {noremap = true})
+end
+
 require("telescope").setup({
   defaults = {
     color_devicons = false,
+    layout_config = {
+        bottom_pane = {
+            height = 25
+        },
+        center = {
+            height = 0.95,
+            preview_cutoff = 40,
+            width = 0.9
+        },
+        cursor = {
+            height = 0.95,
+            preview_cutoff = 40,
+            width = 0.9
+        },
+        horizontal = {
+            height = 0.95,
+            preview_cutoff = 120,
+            prompt_position = "bottom",
+            width = 0.9
+        },
+        vertical = {
+            height = 0.95,
+            preview_cutoff = 40,
+            width = 0.9
+        }
+    },
     mappings = {
       i = {
         ["<c-j>"] = require('telescope.actions').move_selection_next,
@@ -24,4 +64,11 @@ require("telescope").setup({
 })
 
 require("telescope").load_extension("fzy_native")
+require("telescope").load_extension("fzy_native")
+
+-------------------------------------------------------------------------------
+-- Mappings
+-------------------------------------------------------------------------------
+nmap('<leader>ff', ":lua require('telescope.builtin').find_files({layout_strategy='vertical'})<CR>")
+nmap('<leader>l', ":lua require('telescope.builtin').buffers({layout_strategy='vertical'})<CR>")
 

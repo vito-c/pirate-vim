@@ -1,6 +1,6 @@
 local suitetype = "full"
-List = require 'pl.List'
-pretty = require 'pl.pretty'
+-- List = require 'pl.List'
+-- pretty = require 'pl.pretty'
 
 if suitetype == "full" then
     require('plugins.packs')  -- ./lua/plugins.lua
@@ -9,6 +9,7 @@ if suitetype == "full" then
     require('leaders')
     require('mappings')
     require('plugins.telescope')
+    require('plugins.lsp')
 end
 
 -- function bufdump()

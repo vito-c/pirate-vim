@@ -16,6 +16,15 @@ cmd([[packadd packer.nvim]])
 return require("packer").startup(function(use)
     use 'wbthomason/packer.nvim'
     ------------------------------------------------------------
+    -- Visual Plugins
+    ------------------------------------------------------------
+    use {
+        'junegunn/goyo.vim',
+        requires = {
+            'junegunn/limelight.vim'
+        }
+    }
+    ------------------------------------------------------------
     -- GUI Plugins
     ------------------------------------------------------------
     use 'vito-c/vim-one'
@@ -45,7 +54,6 @@ return require("packer").startup(function(use)
     use 'vito-c/applescript.vim'
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
-
     ------------------------------------------------------------
     -- Git Plugins
     ------------------------------------------------------------
@@ -61,15 +69,14 @@ return require("packer").startup(function(use)
     -- File Navigation Plugins
     ------------------------------------------------------------
     use 'tpope/vim-vinegar'
-    -- use 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    -- use 'junegunn/fzf.vim'
-    -- use 'pbogut/fzf-mru.vim'
     use {
         'nvim-telescope/telescope.nvim',
         requires = { 
-            { "nvim-lua/popup.nvim" },
-            { "nvim-lua/plenary.nvim" },
-            { "nvim-telescope/telescope-fzy-native.nvim" },
+            { 'nvim-lua/popup.nvim' },
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-telescope/telescope-fzy-native.nvim' },
+            { 'pwntester/octo.nvim' },
+            { 'sudormrfbin/cheatsheet.nvim'},
         }
     }
 
@@ -84,25 +91,8 @@ return require("packer").startup(function(use)
         cmd = 'MarkdownPreview'
     }
 
---
--- ------------------------------------------------------------
--- -- LSP Plugins
--- ------------------------------------------------------------
--- cmd("Plug 'neovim/nvim-lspconfig'")
+    ------------------------------------------------------------
+    -- LSP Plugins
+    ------------------------------------------------------------
+    use { 'neovim/nvim-lspconfig' }
 end)
-
--------------------------------------------------------------------------------
--- Plugin Mappigns
--------------------------------------------------------------------------------
-
--- nvim-telescope/telescope.nvim
--- require("telescope").setup({})
---   defaults = {
---     color_devicons = false,
---     mappings = {
---       i = {
---         ["<c-j>"] = require('telescope.actions').next,
---       },
---     },
---   },
--- })

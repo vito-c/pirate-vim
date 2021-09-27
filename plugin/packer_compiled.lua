@@ -44,8 +44,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/vito.cutten/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/Users/vito.cutten/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/Users/vito.cutten/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/Users/vito.cutten/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/vito.cutten/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+local package_path_str = "/Users/vitocutten/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/Users/vitocutten/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/Users/vitocutten/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/Users/vitocutten/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/vitocutten/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -69,17 +69,149 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["applescript.vim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/applescript.vim"
+  },
+  ["cheatsheet.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/cheatsheet.nvim"
+  },
+  ["goyo.vim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/goyo.vim"
+  },
+  ["jq.vim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/jq.vim"
+  },
+  ["limelight.vim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/limelight.vim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/lualine.nvim"
+  },
+  ["luatab.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/luatab.nvim"
+  },
+  ["markdown-preview.nvim"] = {
+    commands = { "MarkdownPreview" },
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/opt/markdown-preview.nvim"
+  },
+  ["nvim-lspconfig"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
+  },
+  ["nvim-treesitter"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
+  },
+  ["octo.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/octo.nvim"
+  },
+  ["onedark.vim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/onedark.vim"
+  },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/Users/vito.cutten/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/packer.nvim"
+  },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/plenary.nvim"
+  },
+  ["popup.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/popup.nvim"
+  },
+  ["splitjoin.vim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/splitjoin.vim"
+  },
+  tabular = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/tabular"
+  },
+  tcomment_vim = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/tcomment_vim"
+  },
+  ["telescope-fzy-native.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/telescope.nvim"
+  },
+  ["vim-abolish"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-abolish"
+  },
+  ["vim-exchange"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-exchange"
+  },
+  ["vim-flavored-markdown"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-flavored-markdown"
+  },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-fugitive"
+  },
+  ["vim-obsession"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-obsession"
   },
   ["vim-one"] = {
     loaded = true,
-    path = "/Users/vito.cutten/.local/share/nvim/site/pack/packer/start/vim-one"
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-one"
+  },
+  ["vim-repeat"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-repeat"
+  },
+  ["vim-rhubarb"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-rhubarb"
+  },
+  ["vim-startify"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-startify"
+  },
+  ["vim-surround"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-surround"
+  },
+  ["vim-unimpaired"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-unimpaired"
+  },
+  ["vim-vinegar"] = {
+    loaded = true,
+    path = "/Users/vitocutten/.local/share/nvim/site/pack/packer/start/vim-vinegar"
   }
 }
 
 time([[Defining packer_plugins]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file MarkdownPreview lua require("packer.load")({'markdown-preview.nvim'}, { cmd = "MarkdownPreview", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]])
+time([[Defining lazy-load commands]], false)
+
 if should_profile then save_profiles() end
 
 end)

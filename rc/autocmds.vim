@@ -11,11 +11,13 @@ if has("autocmd")
     if g:debug_startup
         echom "autocmds"
     endif
+
     augroup kotlin " {{{
         autocmd!
         autocmd Filetype kotlin setlocal makeprg=./gradlew\ build
         autocmd Filetype kotlin setlocal efm=:compileKotline:\ %f:\ (%l\\,\ %c):\ %m,e:\ %f:\ (%l\\,\ %c):\ %m,%-G%.%#
     augroup END " }}}
+
     augroup git " {{{
         autocmd!
         autocmd FileType gitcommit set bufhidden=delete
@@ -23,16 +25,19 @@ if has("autocmd")
         " ~/.vim/ftplugin/gitcommit_mappings.vim
         " autocmd FileType gitcommit noremap <buffer> ZZ :w|bd<CR>
     augroup END " }}}
+
     augroup shell " {{{
         autocmd!
         au FileType sh let g:sh_fold_enabled=3
         au FileType sh let g:is_bash=1
         au FileType sh set foldmethod=syntax
     augroup END " }}}
+
     augroup builtins " {{{
         autocmd!
         autocmd BufWinEnter,WinEnter,TabEnter * let &path=rc#builtins#path()['dir']
     augroup END " }}}
+
     augroup vimsource " {{{
         autocmd!
         autocmd BufWritePost .vimrc source $MYVIMRC
@@ -47,6 +52,7 @@ if has("autocmd")
             autocmd BufWritePost nvimrc source $MYVIMRC
         endif
     augroup END " }}}
+    
     " "Causing issues:
     " augroup autotag " {{{
     "     autocmd!
@@ -68,6 +74,7 @@ if has("autocmd")
         autocmd!
         " autocmd FileType netrw setlocal bufhidden=delete
     augroup END " }}}
+
     augroup termcmd "{{{
         autocmd!
         " autocmd BufWinEnter,WinEnter term://* call timer_start(400, 'StartInsertInTermBuffer')
