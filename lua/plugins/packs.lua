@@ -15,6 +15,10 @@ local opt = vim.opt         	-- global/buffer/windows-scoped options
 cmd([[packadd packer.nvim]])
 return require("packer").startup(function(use)
     use 'wbthomason/packer.nvim'
+
+    --TODO: time tracking
+    -- wakatime/vim-wakatime
+
     ------------------------------------------------------------
     -- Visual Plugins
     ------------------------------------------------------------
@@ -71,7 +75,7 @@ return require("packer").startup(function(use)
     use 'tpope/vim-vinegar'
     use {
         'nvim-telescope/telescope.nvim',
-        requires = { 
+        requires = {
             { 'nvim-lua/popup.nvim' },
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-telescope/telescope-fzy-native.nvim' },
@@ -85,11 +89,12 @@ return require("packer").startup(function(use)
     ------------------------------------------------------------
     use 'tpope/vim-obsession'
     use 'mhinz/vim-startify'
-    use {
-        'iamcco/markdown-preview.nvim', 
-        run = 'cd app && yarn install', 
-        cmd = 'MarkdownPreview'
-    }
+    use {'iamcco/markdown-preview.nvim', run = [[sh -c 'cd app && yarn install']]}
+    -- use {
+    --     'iamcco/markdown-preview.nvim',
+    --     run = 'cd app && yarn install',
+    --     cmd = 'MarkdownPreview'
+    -- }
 
     ------------------------------------------------------------
     -- LSP Plugins
