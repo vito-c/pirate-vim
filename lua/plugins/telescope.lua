@@ -16,30 +16,30 @@ require("telescope").setup({
   defaults = {
     color_devicons = false,
     layout_config = {
-        bottom_pane = {
-            height = 25
-        },
-        center = {
-            height = 0.95,
-            preview_cutoff = 40,
-            width = 0.9
-        },
-        cursor = {
-            height = 0.95,
-            preview_cutoff = 40,
-            width = 0.9
-        },
-        horizontal = {
-            height = 0.95,
-            preview_cutoff = 120,
-            prompt_position = "bottom",
-            width = 0.9
-        },
-        vertical = {
-            height = 0.95,
-            preview_cutoff = 40,
-            width = 0.9
-        }
+      bottom_pane = {
+        height = 25
+      },
+      center = {
+        height = 0.9,
+        preview_cutoff = 40,
+        width = 0.8
+      },
+      cursor = {
+        height = 0.9,
+        preview_cutoff = 40,
+        width = 0.8
+      },
+      horizontal = {
+        height = 0.9,
+        preview_cutoff = 120,
+        prompt_position = "bottom",
+        width = 0.8
+      },
+      vertical = {
+        height = 0.95,
+        preview_cutoff = 20,
+        width = 0.9
+      }
     },
     mappings = {
       i = {
@@ -70,5 +70,7 @@ require("telescope").load_extension("fzy_native")
 -- Mappings
 -------------------------------------------------------------------------------
 nmap('<leader>ff', ":lua require('telescope.builtin').find_files({layout_strategy='vertical'})<CR>")
-nmap('<leader>l', ":lua require('telescope.builtin').buffers({layout_strategy='vertical'})<CR>")
+nmap('<leader>l',  ":lua require('telescope.builtin').buffers({layout_strategy='vertical'})<CR>")
+nmap('<leader>gc', ":lua require('telescope.builtin').git_bcommits({layout_strategy='vertical'})<CR>")
+-- Telescope git_bcommits
 

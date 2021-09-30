@@ -11,7 +11,6 @@ if suitetype == "full" then
     require('plugins.telescope')
     require('plugins.lsp')
 end
-print("hello")
 
 -- function bufdump()
 --     local l = List(vim.fn.getbufinfo({buflisted = 1})):filter(

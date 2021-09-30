@@ -8,10 +8,10 @@ local fn = vim.fn       		-- call Vim functions
 local g = vim.g         	    -- global variables
 local opt = vim.opt         	-- global/buffer/windows-scoped options
 
-function nmap(keys, command)
+local function nmap(keys, command)
     vim.api.nvim_set_keymap('n', keys, command, {noremap = true})
 end
-function vmap(keys, command)
+local function vmap(keys, command)
     vim.api.nvim_set_keymap('v', keys, command, {noremap = true})
 end
 
