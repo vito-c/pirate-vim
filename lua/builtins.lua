@@ -2,7 +2,7 @@
 -- Neovim API aliases
 ------------------------------------------------------------
 -- local map = vim.api.nvim_set_keymap  -- set global keymap
--- local cmd = vim.cmd     	    -- execute Vim commands
+local cmd = vim.cmd     	    -- execute Vim commands
 -- local exec = vim.api.nvim_exec 	-- execute Vimscript
 -- local fn = vim.fn       		-- call Vim functions
 -- local g = vim.g         	    -- global variables
@@ -53,15 +53,31 @@ end
 function M.dumpbf()
     pretty.dump(M.builtins_file_buffers())
 end
+function M.reload(fname)
+    for k in pairs(package.loaded) do
+        if k:match("^" .. fname) then
+            package.loaded[k] = nil
+        end
+    end
+    require(fname)
+end
 
 -- Tip: to call a something on the global table use v:lua
 -- call v:lua.builtins_path()
 -- to set something on the global table use _G
-vim.cmd [[
+cmd [[
     augroup builtins
         autocmd!
         autocmd BufWinEnter,WinEnter,TabEnter * lua vim.o.path=groot
     augroup END
 ]]
 _G.groot=M.groot_path()
+function M.test(str)
+    print(str)
+end
+
+cmd [[
+    command! -nargs=* -range Reload  lua require('builtins').reload(unpack({<f-args>}))
+]]
+
 return M

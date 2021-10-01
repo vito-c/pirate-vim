@@ -1,0 +1,8 @@
+repos:
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v2.15.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json

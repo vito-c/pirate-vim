@@ -10,15 +10,16 @@ if suitetype == "full" then
     require('mappings')
     require('plugins.telescope')
     require('plugins.lsp')
+    require('plugins.fugitive')
 end
 
 -- function bufdump()
 --     local l = List(vim.fn.getbufinfo({buflisted = 1})):filter(
---         function(x) 
+--         function(x)
 --             print(x.bufnr)
 --             local v = vim.fn.getbufvar(x.bufnr, '&buftype', 'terminal')
 --             pretty.dump(v)
---             return v == "" 
+--             return v == "
 --         end
 --     )
 --     pretty.dump(l)
