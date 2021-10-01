@@ -1,7 +1,7 @@
 " Header {{{
 "--------------------------------------------------------------------------------
 " vim: set sw=4 ts=4 sts=4 et tw=90 foldmethod=marker :
-"  
+"
 " By: Vito C.
 " }}}
 
@@ -13,7 +13,7 @@ let s:orphan_msg = 'fatal: not a git repository (or any of the parent directorie
 function! rc#builtins#path() " {{{
     let l:glist = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')
     let l:groot = len(l:glist) == 0? 'fatal: nothing returned' : l:glist[0]
-    " let l:dpath = match(bufname('%'), "term://") > -1 ? 
+    " let l:dpath = match(bufname('%'), "term://") > -1 ?
     " most_popular takes too long right now
     " \ rc#git#most_popular_groot() :
     let l:dpath = match(l:groot, 'fatal:.*') > -1 ?
@@ -23,12 +23,12 @@ function! rc#builtins#path() " {{{
 endfunction " }}}
 
 function! rc#builtins#filebuffers() " {{{
-    return filter(copy(getbufinfo()), 
+    return filter(copy(getbufinfo()),
                 \ {idx, val -> val.listed && match(val.name, "term://") == -1})
 endfunction " }}}
 
 function! rc#builtins#termbuffers() " {{{
-    return filter(copy(getbufinfo()), 
+    return filter(copy(getbufinfo()),
                 \ {idx, val -> val.listed && match(val.name, "term://") > -1})
 endfunction " }}}
 

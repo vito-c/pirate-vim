@@ -21,7 +21,7 @@ if has("autocmd")
     augroup git " {{{
         autocmd!
         autocmd FileType gitcommit set bufhidden=delete
-        " move this to 
+        " move this to
         " ~/.vim/ftplugin/gitcommit_mappings.vim
         " autocmd FileType gitcommit noremap <buffer> ZZ :w|bd<CR>
     augroup END " }}}
@@ -52,7 +52,7 @@ if has("autocmd")
             autocmd BufWritePost nvimrc source $MYVIMRC
         endif
     augroup END " }}}
-    
+
     " "Causing issues:
     " augroup autotag " {{{
     "     autocmd!
@@ -69,7 +69,7 @@ if has("autocmd")
         " autocmd FocusLost * :call SafeSave("all")
         " autocmd BufWritePost * :call RestoreMarker()
     augroup END " }}}
-    
+
     augroup cleanups " {{{
         autocmd!
         " autocmd FileType netrw setlocal bufhidden=delete
@@ -111,7 +111,7 @@ if has("autocmd")
             execute 'cd' rc#git#groot()['dir']
         endif
     endfunction
-    
+
     " function! SafeSave(target)
     "     if expand('%') != ''
     "         " call BackupMarker()

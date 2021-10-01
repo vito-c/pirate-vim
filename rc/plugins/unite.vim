@@ -1,7 +1,7 @@
 " Information {
 "--------------------------------------------------------------------------------
 " vim: set sw=4 ts=4 sts=4 et tw=90 foldmarker={,} foldmethod=marker :
-"  
+"
 " By: Vito C.
 " }
 " echo 'plugins unite'

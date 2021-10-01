@@ -74,7 +74,7 @@ let g:fzf_layout = { 'window': 'call FloatingFZF(' . g:width . ',' . g:height . 
 "  call fzf#vim#files('', fzf#vim#with_preview({'options': '--prompt ""'}, 'right:70%'))
 "
 
-" TODO: 
+" TODO:
 " 1. Search tags
 " 4. Better search
 nnoremap <leader>l :BuffSwitch<CR>

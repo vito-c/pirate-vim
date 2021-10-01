@@ -93,7 +93,7 @@ noremap <leader>tsq :<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, 
 function! rc#leaders#opensbt() " {{{
     :update
     if bufexists('sbt.term')
-        if getbufvar(bufnr('sbt.term'), '&buftype') == 'terminal' 
+        if getbufvar(bufnr('sbt.term'), '&buftype') == 'terminal'
             if len(win_findbuf(bufnr('sbt.term'))) == 0
                 buffer sbt.term
             else

@@ -32,4 +32,3 @@ highlight CursorLineNr ctermbg=69 guifg=#000000 guibg=#8fc964
     " au UIEnter * call OnUIEnter(deepcopy(v:event))
 " augroup END
 "
-

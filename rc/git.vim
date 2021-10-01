@@ -1,7 +1,7 @@
 " Header {{{
 "--------------------------------------------------------------------------------
 " vim: set sw=4 ts=4 sts=4 et tw=90 foldmethod=marker :
-"  
+"
 " By: Vito C.
 " }}}
 
@@ -32,7 +32,7 @@ endfunction " }}}
 function! rc#git#get_root_counts() " {{{
 
     let dircount = {}
-    for buff in filter(copy(getbufinfo()), 
+    for buff in filter(copy(getbufinfo()),
                 \ {idx, val -> val.listed && match(val.name, "term://") == -1})
         let grr = rc#git#get_root(buff.name)
         if has_key(dircount, grr)
@@ -46,7 +46,7 @@ function! rc#git#get_root_counts() " {{{
 endfunction " }}}
 
 function! rc#git#get_buffer_roots() " {{{
-    let buffs = map(rc#builtins#filebuffers(), 
+    let buffs = map(rc#builtins#filebuffers(),
                 \ { idx, val -> rc#git#get_root(val.name)} )
     return buffs
 endfunction " }}}

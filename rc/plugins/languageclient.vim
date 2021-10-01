@@ -20,4 +20,4 @@
 " let g:LanguageClient_devel = 1 " Use rust debug build
 " let g:LanguageClient_loggingLevel='DEBUG'
 " let g:LanguageClient_autoStart=0
-" let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log') 
+" let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')

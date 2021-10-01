@@ -33,7 +33,7 @@ autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
 au BufEnter github.com_*.txt set filetype=markdown
 au BufEnter leetcode.com_*.txt set filetype=scala
 
-let g:firenvim_config = { 
+let g:firenvim_config = {
     \ 'globalSettings': {
         \ 'alt': 'all',
     \  },

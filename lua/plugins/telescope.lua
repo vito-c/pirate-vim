@@ -73,4 +73,3 @@ nmap('<leader>ff', ":lua require('telescope.builtin').find_files({layout_strateg
 nmap('<leader>l',  ":lua require('telescope.builtin').buffers({layout_strategy='vertical'})<CR>")
 nmap('<leader>gc', ":lua require('telescope.builtin').git_bcommits({layout_strategy='vertical'})<CR>")
 -- Telescope git_bcommits
-

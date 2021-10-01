@@ -26,7 +26,7 @@ scriptencoding utf-8
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Linux"
     let &shell='/usr/bin/bash'
-    command! -nargs=0 SetupCoc call SetupCoc() 
+    command! -nargs=0 SetupCoc call SetupCoc()
     function! SetupCoc()
         CocInstall -sync coc-metals
     endfunction
@@ -43,7 +43,7 @@ let g:netrw_list_hide= '.*\.swp$,.*\.meta$'
 
 
 " Delete Empty Buffers {{{
-command! -nargs=0 DeleteEmptyBuffers call DeleteEmptyBuffers() 
+command! -nargs=0 DeleteEmptyBuffers call DeleteEmptyBuffers()
 function! DeleteEmptyBuffers()
   let buffers = filter(range(0, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0')
   if !empty(buffers)

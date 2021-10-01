@@ -54,4 +54,3 @@ nnoremap <silent> <leader>gdd :Gvdiff upstream/develop<CR>
 nnoremap <silent> <leader>gc :Gcommit<CR>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gl :Glog<CR>
-

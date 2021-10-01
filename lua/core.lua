@@ -108,7 +108,7 @@ cmd("iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),
 -- let s:uname = system("echo -n \"$(uname)\"")
 -- if !v:shell_error && s:uname == "Linux"
 --     let &shell='/usr/bin/bash'
---     command! -nargs=0 SetupCoc call SetupCoc() 
+--     command! -nargs=0 SetupCoc call SetupCoc()
 --     function! SetupCoc()
 --         CocInstall -sync coc-metals
 --     endfunction
