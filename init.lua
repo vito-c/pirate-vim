@@ -3,14 +3,16 @@ local suitetype = "full"
 -- pretty = require 'pl.pretty'
 
 if suitetype == "full" then
-    require('plugins.packs')  -- ./lua/plugins.lua
-    require('core')           -- ./lua/core.lua
+    require('autocmds')
     require('builtins')       -- ./lua/builtins.lua
+    require('core')           -- ./lua/core.lua
     require('leaders')
     require('mappings')
-    require('plugins.telescope')
-    require('plugins.lsp')
     require('plugins.fugitive')
+    require('plugins.lsp')
+    require('plugins.packs')  -- ./lua/plugins.lua
+    require('plugins.tabularize')
+    require('plugins.telescope')
 end
 
 -- function bufdump()

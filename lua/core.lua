@@ -5,11 +5,11 @@
 ------------------------------------------------------------
 -- Neovim API aliases
 ------------------------------------------------------------
-local map = vim.api.nvim_set_keymap  -- set global keymap
+-- local map = vim.api.nvim_set_keymap  -- set global keymap
 local cmd = vim.cmd     	    -- execute Vim commands
 local exec = vim.api.nvim_exec 	-- execute Vimscript
-local fn = vim.fn       		-- call Vim functions
-local g = vim.g         	    -- global variables
+-- local fn = vim.fn       		-- call Vim functions
+-- local g = vim.g         	    -- global variables
 local opt = vim.opt         	-- global/buffer/windows-scoped options
 
 ------------------------------------------------------------
@@ -25,6 +25,7 @@ opt.matchtime = 1         -- tenths of a second
 opt.linespace = 0         -- No extra spaces between rows
 opt.winminheight = 0      -- Windows can be 0 line high
 opt.listchars = 'tab:▸\\ ,eol:¬,extends:❯,precedes:❮'
+opt.mouse = "a"
 
 
 ------------------------------------------------------------
@@ -48,6 +49,7 @@ opt.relativenumber = true
 ------------------------------------------------------------
 -- Scrolling, folding
 ------------------------------------------------------------
+opt.scrollback = 0
 opt.scrolloff = 999       -- Minimum lines to keep above and below cursor
 opt.foldenable = true
 opt.viewoptions = 'folds,options,cursor,unix,slash' -- Better Unix / Windows compatibility

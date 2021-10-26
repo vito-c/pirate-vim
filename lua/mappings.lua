@@ -59,6 +59,7 @@ nmap('gF', 'gf')
 --     echom df
 -- endfun
 
+tmap('<C-o>', "<C-\\><C-n>:lua require('builtins').clearterm()<CR>")
 tmap('<Esc>', '<C-\\><C-n>')
 tmap('jj', '<C-\\><C-n>')
 tmap('kk', '<C-\\><C-n>')
@@ -135,6 +136,7 @@ kmap(
     "'`[' . strpart(getregtype(), 0, 1) . '`]'",
     {expr = true, noremap = true}
 )
+
 -- alternate select pasted text only nmap gp `[v`]
 -- command shift keys?
 -- command! -bang -nargs=* -complete=file E e<bang> <args>

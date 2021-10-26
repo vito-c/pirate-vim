@@ -6,17 +6,18 @@ local cmd = vim.cmd     	    -- execute Vim commands
 local exec = vim.api.nvim_exec 	-- execute Vimscript
 local fn = vim.fn       		-- call Vim functions
 local g = vim.g         	    -- global variables
-local opt = vim.opt         	-- global/buffer/windows-scoped options
-
+local opt = vim.opt         	-- global/buffer/windows-scoped options local function nmap(keys, command)
 local function nmap(keys, command)
     vim.api.nvim_set_keymap('n', keys, command, {noremap = true})
 end
 local function vmap(keys, command)
     vim.api.nvim_set_keymap('v', keys, command, {noremap = true})
 end
+function tmap(keys, command)
+    vim.api.nvim_set_keymap('t', keys, command, {noremap = true})
+end
 
 g.mapleader = ' '
-g.VITORC = fn.fnamemodify('$MYVIMRC', ':p:h') .. "/init.lua"
 
 -------------------------------------------------------------------------------
 -- File 📁 actions
@@ -26,7 +27,7 @@ nmap(
     '<leader><leader>jt',
     ':<C-u>%!python -m json.tool<CR><Esc>:set filetype=json<CR>'
 )
-nmap('<leader>ev', ':<C-u>execute "tabedit " . g:VITORC<CR>')
+nmap('<leader>ev', ':<C-u>execute "tabedit " . $MYVIMRC<CR>')
 nmap('<leader>eb', ':<C-U>tabedit $CODE_CONFIGS/pirate-setup/bashrc<CR>')
 nmap('<leader>eg', ':<C-U>tabedit $CODE_CONFIGS/pirate-setup/gitconfig<CR>')
 -- to previous file
@@ -58,53 +59,34 @@ vmap('<leader>0P', '"0P')
 -------------------------------------------------------------------------------
 nmap(
     '<leader>to',
-    "$:call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>"
+    ":lua cf = vim.fn.expand('<cfile>'); require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make mypy mypy_args=' .. cf, ''})<CR>"
 )
-nmap('<leader>ta', "$:call chansend(&channel, ['test', ''])<CR>")
+nmap(
+    '<leader>tf',
+    ":lua cf = vim.fn.expand('%'); require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make mypy mypy_args=' .. cf, ''})<CR>"
+)
+-- "$:call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>"
+nmap('<leader>ta', "$:call chansend(&channel, ['make unit-test', ''])<CR>")
 --  \x1b\x5b\x41
-nmap('<leader>tl', "$:call chansend(&channel, ['!!', ''])<CR>G")
-nmap('<leader>ts', ':<C-U>call rc#leaders#opensbt()<CR>')
-nmap('<leader>tss', ':<C-U>call rc#leaders#opensbt()<CR>')
+-- nmap('<leader>tl', "$:call chansend(&channel, ['!!', ''])<CR>G")
+nmap('<leader>tt', ":lua require('builtins').opentestterm()<CR>")
 nmap(
-    '<leader>tst',
-    ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['test', ''])<CR>G"
+    '<leader>ts',
+    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make unit-test', ''})<CR>"
 )
 nmap(
-    '<leader>tsl',
-    ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['!!' , ''])<CR>G"
+    '<leader>tl',
+    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'!!', ''})<CR>"
 )
 nmap(
-    '<leader>tsq',
-    ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['testQuick' , ''])<CR>G"
+    '<leader>tg',
+    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make lint', ''})<CR>"
 )
+-- ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['!!' , ''])<CR>G"
+-- nmap(
+--     '<leader>tsq',
+--     ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['testQuick' , ''])<CR>G"
+-- )
 
 nmap('<leader>ct', ':tabclose <CR>')
 
-function leaders_opensbt()
-
-    print("implement")
-end
-
-function leaders_openterminal(name, command)
-    cmd('wincmd s')
-    cmd('wincmd T')
-    cmd('terminal')
-    cmd('file ' .. name)
-    -- vim.o.channel
-    -- vim.fn.chansend( 3, {'echo hi', ''})
-    -- :lua vim.api.nvim_call_function('chansend', { 3, {'echo hi', ''}})
-    fn.chansend(vim.o.channel, {command, ''})
-end
-
-function leaders_jump_to_buffer(name)
-    print("implement")
-end
-
-function leaders_jump_tab_win(t,w)
-    cmd('tabnext')
-    cmd('wincmd w')
-end
-
-function leaders_find_open_window(bnr)
-    print("implement")
-end
