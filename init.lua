@@ -13,6 +13,7 @@ if suitetype == "full" then
     require('plugins.packs')  -- ./lua/plugins.lua
     require('plugins.tabularize')
     require('plugins.telescope')
+    require('plugins.luasnip')
 end
 
 -- function bufdump()

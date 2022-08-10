@@ -59,20 +59,21 @@ vmap('<leader>0P', '"0P')
 -------------------------------------------------------------------------------
 nmap(
     '<leader>to',
-    ":lua cf = vim.fn.expand('<cfile>'); require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make mypy mypy_args=' .. cf, ''})<CR>"
+    ":lua require('builtins').test_only_file(); <CR>"
 )
 nmap(
     '<leader>tf',
-    ":lua cf = vim.fn.expand('%'); require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make mypy mypy_args=' .. cf, ''})<CR>"
+    ":lua require('builtins').test_function(); <CR>"
 )
+
 -- "$:call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>"
-nmap('<leader>ta', "$:call chansend(&channel, ['make unit-test', ''])<CR>")
+nmap('<leader>ta', "$:call chansend(&channel, ['pytest tests/unit', ''])<CR>")
 --  \x1b\x5b\x41
 -- nmap('<leader>tl', "$:call chansend(&channel, ['!!', ''])<CR>G")
 nmap('<leader>tt', ":lua require('builtins').opentestterm()<CR>")
 nmap(
     '<leader>ts',
-    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make unit-test', ''})<CR>"
+    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'pytest tests/unit', ''})<CR>"
 )
 nmap(
     '<leader>tl',
@@ -81,6 +82,10 @@ nmap(
 nmap(
     '<leader>tg',
     ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make lint', ''})<CR>"
+)
+nmap(
+    '<leader>tm',
+    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make format mypy', ''})<CR>"
 )
 -- ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['!!' , ''])<CR>G"
 -- nmap(

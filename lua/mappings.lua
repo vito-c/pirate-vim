@@ -87,8 +87,8 @@ nmap('<A-j>', '<C-w>j')
 nmap('<A-k>', '<C-w>k')
 nmap('<A-l>', '<C-w>l')
 nmap('<A-w>', '<C-w>w')
-nmap(']d', 'gt')
-nmap('[d', 'gT')
+-- nmap(']d', 'gt')
+-- nmap('[d', 'gT')
 nmap('gy', 'gT')
 kmap(
     'n',

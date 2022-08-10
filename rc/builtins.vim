@@ -52,6 +52,7 @@ endfunction " }}}
 " if you hit this from inside a terminal it means the file you were searching for doesn't
 " exist as well as "/file/you/were/searching/for/exm.scala
 " vito/easy/LinkedListCycleEasyTest/test1.scala
+" use this for handling output from sbt
 function! rc#builtins#includeexpr(filename) " {{{
     let l:bt = getbufvar(bufnr('%'), '&buftype', 'ERROR')
     let l:output = "" . a:filename . ""

@@ -49,8 +49,8 @@ opt.relativenumber = true
 ------------------------------------------------------------
 -- Scrolling, folding
 ------------------------------------------------------------
-opt.scrollback = 0
 opt.scrolloff = 999       -- Minimum lines to keep above and below cursor
+opt.scrollback = 0
 opt.foldenable = true
 opt.viewoptions = 'folds,options,cursor,unix,slash' -- Better Unix / Windows compatibility
 opt.wrap = false
@@ -123,3 +123,6 @@ exec([[
     autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
   augroup end
 ]], false)
+
+opt.scrollback=100000
+

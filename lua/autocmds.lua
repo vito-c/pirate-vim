@@ -1,6 +1,12 @@
 local cmd = vim.cmd     	    -- execute Vim commands
 local M = {}
 cmd [[
+    augroup builtins
+        autocmd!
+        autocmd BufEnter,BufWinEnter,WinEnter,TabEnter * lua if require('builtins') and require('builtins').groot_path() then vim.o.path=require('builtins').groot_path() end
+    augroup END
+]]
+cmd [[
     augroup git
         autocmd!
         autocmd FileType gitcommit set bufhidden=delete
