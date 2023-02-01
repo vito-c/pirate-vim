@@ -14,6 +14,7 @@ if suitetype == "full" then
     require('plugins.tabularize')
     require('plugins.telescope')
     require('plugins.luasnip')
+    require('plugins.airline')
 end
 
 -- function bufdump()

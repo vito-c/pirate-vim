@@ -61,3 +61,4 @@ function! rc#git#fugitive_diff() " {{{
     endif
     execute ':Gdiff ' . oghead
 endfunction " }}}
+

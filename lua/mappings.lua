@@ -61,7 +61,6 @@ nmap('gF', 'gf')
 
 tmap('<C-o>', "<C-\\><C-n>:lua require('builtins').clearterm()<CR>")
 tmap('<Esc>', '<C-\\><C-n>')
-tmap('jj', '<C-\\><C-n>')
 tmap('kk', '<C-\\><C-n>')
 -- tnoremap [k <C-\><C-n><Esc>[k
 -- tnoremap ]k <C-\><C-n><Esc>]k

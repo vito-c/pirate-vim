@@ -93,10 +93,10 @@ opt.tabpagemax=15         -- Only show 15 tabs
 -- Abbreviations
 -- TODO move this to another file/use abolish
 ------------------------------------------------------------
-cmd('iabbrev teh the')
-cmd('iabbrev chomd chmod')
-cmd('iabbrev ehco echo')
-cmd('iabbrev pritnln println')
+-- cmd('iabbrev teh the')
+-- cmd('iabbrev chomd chmod')
+-- cmd('iabbrev ehco echo')
+-- cmd('iabbrev pritnln println')
 cmd('cabbrev ehco echo')
 cmd("iabbrev <expr> dtl strftime('%c')")
 cmd("iabbrev <expr> dts strftime('%m/%d/%Y')")

@@ -12,3 +12,4 @@ nmap('<leader>gdu', ':Gvdiff upstream/master<CR>')
 nmap('<leader>gb', ':Git blame<CR>')
 nmap('<leader>gl', ':Gclog<CR>')
 nmap('<leader>gs', ':Git<CR>')
+

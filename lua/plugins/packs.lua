@@ -10,7 +10,7 @@ local cmd = vim.cmd     	    -- execute Vim commands
 local exec = vim.api.nvim_exec 	-- execute Vimscript
 local fn = vim.fn       		-- call Vim functions
 local g = vim.g         	    -- global variables
-local opt = vim.opt         	-- global/buffer/windows-scoped options
+-- local opt = vim.opt         	-- global/buffer/windows-scoped options
 
 cmd([[packadd packer.nvim]])
 return require("packer").startup(function(use)
@@ -39,6 +39,11 @@ return require("packer").startup(function(use)
     }
     use { 'alvarosevilla95/luatab.nvim', requires='kyazdani42/nvim-web-devicons' }
 
+    use {
+        'glacambre/firenvim',
+        run = function() vim.fn['firenvim#install'](0) end
+    }
+
     ------------------------------------------------------------
     -- Editing Plugins
     ------------------------------------------------------------
@@ -48,12 +53,26 @@ return require("packer").startup(function(use)
     use 'AndrewRadev/splitjoin.vim'
     use 'tommcdo/vim-exchange'
     use 'godlygeek/tabular'
-    use 'tpope/vim-abolish'
+    use {
+      'tpope/vim-abolish',
+      cond = 'true',
+      config = function ()
+        vim.cmd('Abolish teh the')
+        vim.cmd('Abolish chomd chmod')
+        vim.cmd('Abolish ehco echo')
+        vim.cmd('Abolish pritnln println')
+        vim.cmd('Abolish pritn print')
+        vim.cmd('Abolish orig original')
+        vim.cmd('Abolish vheicle vehicle')
+      end,
+    }
 
     ------------------------------------------------------------
     -- Syntax Plugins
     ------------------------------------------------------------
-    use 'vito-c/jq.vim'
+    -- use 'vito-c/jq.vim'
+    -- use { 'Freed-Wu/jq.vim', branch = 'compiler' }
+    use { '~/code/personal/jq.vim' }
     use 'aklt/plantuml-syntax'
     use 'jtratner/vim-flavored-markdown'
     use 'vito-c/applescript.vim'

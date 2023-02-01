@@ -33,8 +33,8 @@ function M.groot_stub()
     local groot = handle:read("*all"):gsub('\n', '')
     handle:close()
     if groot:match('fatal.*') then
-        vim.o.path = defaultpath
-        return defaultpath
+        vim.o.path = cpath
+        return cpath
     end
     return groot
 end

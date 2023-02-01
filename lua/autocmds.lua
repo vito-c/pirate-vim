@@ -20,7 +20,8 @@ cmd [[
         autocmd!
         au FileType sh let g:sh_fold_enabled=3
         au FileType sh let g:is_bash=1
-        au FileType sh set foldmethod=syntax
+        au FileType sh setlocal foldmethod=expr
+        au FileType sh setlocal foldexpr=nvim_treesitter#foldexpr()
     augroup END
 ]]
 cmd [[
@@ -37,6 +38,13 @@ cmd [[
         au BufEnter *.term setlocal scrolloff=0
         au TabEnter *.term setlocal scrolloff=0
         au WinEnter *.term setlocal scrolloff=0
+    augroup END
+]]
+cmd [[
+    augroup textmagic
+        autocmd!
+        au FileType text set wrap linebreak
+        au FileType text set spell spelllang=en_us
     augroup END
 ]]
 local dont_write = false
