@@ -12,3 +12,4 @@ eclim/
 tmp
 autoload/plug.vim
 Session.vim
+plugin/packer_compiled.lua
