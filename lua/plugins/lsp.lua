@@ -137,8 +137,17 @@ local lsp_flags = {
 --   },
 -- }
 
-local sumneko_root_path = '/usr/lib/lua-language-server/bin'
-local sumneko_binary = sumneko_root_path .. '/lua-language-server'
+local uname = vim.loop.os_uname().sysname
+local sumneko_root_path = ""
+local sumneko_main = ""
+if uname == "Darwin" then 
+   sumneko_root_path = '/opt/homebrew/opt/lua-language-server'
+   sumneko_main = sumneko_root_path .. "/libexec/main.lua"
+else 
+   sumneko_root_path = '/usr/lib/lua-language-server'
+   sumneko_main = sumneko_root_path .. ""
+end
+local sumneko_binary = sumneko_root_path .. '/bin/lua-language-server'
 
 -- local runtime_path = vim.split(package.path, ';')
 -- table.insert(runtime_path, "lua/?.lua")
@@ -146,7 +155,7 @@ local sumneko_binary = sumneko_root_path .. '/lua-language-server'
 -- table.insert(runtime_path, "~/.luarocks/share/lua/5.1/?/?.lua")
 
 require'lspconfig'.lua_ls.setup {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+    cmd = {sumneko_binary, "-E", sumneko_main};
     settings = {
         Lua = {
             runtime = {
@@ -158,7 +167,7 @@ require'lspconfig'.lua_ls.setup {
                   local rtp = vim.split(package.path, ';')
                   rtp[#rtp+1] = 'lua/?.lua'
                   rtp[#rtp+1] = 'lua/?/init.lua'
-                  rtp[#rtp+1] = '/Users/vitocutten/.luarocks/share/lua/5.1/?.lua'
+                  rtp[#rtp+1] = os.getenv( "HOME" ) .. '/.luarocks/share/lua/5.1/?.lua'
                   return rtp
                 end)(),
                 pathStrict = true,
@@ -170,6 +179,7 @@ require'lspconfig'.lua_ls.setup {
             workspace = {
                 -- Make the server aware of Neovim runtime files
                 library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
             },
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {
