@@ -137,15 +137,15 @@ local lsp_flags = {
 --   },
 -- }
 
-local sumneko_root_path = '/Users/vitocutten/code/configs/lua-language-server'
-local sumneko_binary = sumneko_root_path .. '/bin/macOS/lua-language-server'
+local sumneko_root_path = '/usr/lib/lua-language-server/bin'
+local sumneko_binary = sumneko_root_path .. '/lua-language-server'
 
 -- local runtime_path = vim.split(package.path, ';')
 -- table.insert(runtime_path, "lua/?.lua")
 -- table.insert(runtime_path, "lua/?/init.lua")
 -- table.insert(runtime_path, "~/.luarocks/share/lua/5.1/?/?.lua")
 
-require'lspconfig'.sumneko_lua.setup {
+require'lspconfig'.lua_ls.setup {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
     settings = {
         Lua = {
