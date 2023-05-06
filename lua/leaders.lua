@@ -67,7 +67,7 @@ nmap(
 )
 
 -- "$:call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>"
-nmap('<leader>ta', "$:call chansend(&channel, ['pytest tests/unit', ''])<CR>")
+-- nmap('<leader>ta', "$:call chansend(&channel, ['pytest tests/unit', ''])<CR>")
 --  \x1b\x5b\x41
 -- nmap('<leader>tl', "$:call chansend(&channel, ['!!', ''])<CR>G")
 nmap('<leader>tt', ":lua require('builtins').opentestterm()<CR>")
@@ -75,18 +75,41 @@ nmap(
     '<leader>ts',
     ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'pytest tests/unit', ''})<CR>"
 )
-nmap(
+vim.keymap.set(
+    'n',
     '<leader>tl',
-    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'!!', ''})<CR>"
+    function()
+        require('builtins').opentestterm()
+        vim.fn.chansend(vim.o.channel, {'!!', ''})
+    end,
+    {noremap = true }
 )
-nmap(
-    '<leader>tg',
-    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make lint', ''})<CR>"
+
+vim.keymap.set(
+    'n',
+    '<leader>tk',
+    function()
+        -- Get the job ID of the current process
+        require('builtins').opentestterm()
+        local job_id = vim.b.terminal_job_id
+        if not job_id then
+            print('Error: No job running in the terminal')
+            return
+        end
+        -- Send the Control-C signal to the job
+        vim.fn.chansend(vim.o.channel, {string.char(3), ''})
+    end,
+    {noremap = true }
 )
-nmap(
-    '<leader>tm',
-    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make format mypy', ''})<CR>"
-)
+
+-- nmap(
+--     '<leader>tg',
+--     ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make lint', ''})<CR>"
+-- )
+-- nmap(
+--     '<leader>tm',
+--     ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'make format mypy', ''})<CR>"
+-- )
 -- ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['!!' , ''])<CR>G"
 -- nmap(
 --     '<leader>tsq',

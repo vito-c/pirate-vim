@@ -15,6 +15,7 @@ local opt = vim.opt         	-- global/buffer/windows-scoped options
 ------------------------------------------------------------
 -- UI
 ------------------------------------------------------------
+vim.opt.runtimepath:append('/Applications/love.app/Contents/Resources')
 opt.termguicolors = true
 opt.background = 'dark'
 cmd('colorscheme one')
