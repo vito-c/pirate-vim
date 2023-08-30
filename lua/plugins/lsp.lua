@@ -140,10 +140,10 @@ local lsp_flags = {
 local uname = vim.loop.os_uname().sysname
 local sumneko_root_path = ""
 local sumneko_main = ""
-if uname == "Darwin" then 
+if uname == "Darwin" then
    sumneko_root_path = '/opt/homebrew/opt/lua-language-server'
    sumneko_main = sumneko_root_path .. "/libexec/main.lua"
-else 
+else
    sumneko_root_path = '/usr/lib/lua-language-server'
    sumneko_main = sumneko_root_path .. ""
 end
@@ -220,6 +220,14 @@ require('lspconfig')['rust_analyzer'].setup{
       ["rust-analyzer"] = {}
     }
 }
+require('lspconfig')['clangd'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    -- Server-specific settings...
+    settings = {
+      ["clangd"] = {}
+    }
+}
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -235,7 +243,7 @@ require('lspconfig')['rust_analyzer'].setup{
 
 require'nvim-treesitter.configs'.setup {
     -- A list of parser names, or "all"
-    ensure_installed = { "c", "lua", "rust", "python", "go", "bash", "toml", "json", "yaml" },
+    ensure_installed = { "c", "lua", "vim", "help","rust", "python", "go", "bash", "toml", "json", "yaml", "scala" },
     -- Automatically install missing parsers when entering buffer
     auto_install = true,
     highlight = {

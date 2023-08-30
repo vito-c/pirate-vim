@@ -10,8 +10,10 @@ local opt = vim.opt         	-- global/buffer/windows-scoped options
 local M = {}
 List = require 'pl.List'
 
-local trees = require("nvim-treesitter")
+local ts = require("nvim-treesitter")
 local pretty = require 'pl.pretty'
+local plenary = require("plenary")
+local Path = require "plenary.path"
 local defaultpath='~/code/**'
 -- when nvim is first opened we set the path to be the top levle code dir
 vim.o.path = defaultpath
@@ -66,15 +68,15 @@ end
 
 function M.test_only_file()
     local file = M.get_file()
-    M.opentestterm(M.test(file))
+    M.open_test_term(M.test(file))
 end
 
 function M.test_function()
-    local funky = trees.statusline()
+    local funky = ts.statusline()
     local file = M.get_file()
     local fcmd = 'pytest ' .. file .. '::' .. string.gsub(funky, "def ([^(]*).*", "%1")
 
-    M.opentestterm(fcmd)
+    M.open_test_term(fcmd)
 end
 
 function M.test(file)
@@ -84,6 +86,14 @@ function M.test(file)
                     '--follow-imports=silent ' ..
                     '--implicit-reexport ' .. file .. ' && ' ..
                 'pytest ' .. file
+    end
+    if vim.o.filetype == "scala" or string.find(file, ".scala") then
+        local package = M.package_name(vim.fn.bufnr('%'))
+        local class_name = M.get_class_name(vim.fn.bufnr('%'))
+        return 'testOnly ' .. package .. '.' .. class_name
+        -- local pkg_node = vim.treesitter.get_node("(class_definition)")
+        -- local package = vim.treesitter.get_node_text(pkg_node, 0)
+        -- test_class = ""
     end
 end
 
@@ -112,7 +122,7 @@ function _G.groot()
     return M.groot_stub()
 end
 
-function M.openterminal(name, command)
+function M.open_term(name, command)
     cmd('wall')
     cmd('wincmd s')
     cmd('wincmd T')
@@ -151,15 +161,48 @@ function M.jump_to_buffer(name)
     end
 end
 
+function M.test_create_file()
+    local file = vim.fn.expand('%:p')
+    local file_path = vim.fn.expand('%:h')
+
+    local test_path = file_path:gsub("src/main", "src/test", 1)
+    local test_file = file:gsub("%.scala", "Spec.scala", 1):gsub("src/main", "src/test", 1)
+
+    test_path = Path:new(test_path)
+
+    if not test_path:exists() then
+        test_path:mkdir { parents = true }
+    end
+    if not Path:new(test_file):exists() then
+        -- local new_file = io.open(test_file)
+        -- local parser = require('nvim-treesitter.parsers').get_parser(0, 'scala')  -- Assuming buffer number is 0
+        -- local query = vim.treesitter.query.parse("scala", "((package_identifier) @package)")
+        local package = M.package_name(vim.fn.bufnr('%'))
+        vim.api.nvim_command("edit " .. test_file)
+        vim.api.nvim_buf_set_lines(0, 0, 1, true, {package})
+        -- if new_file then
+
+            -- if package then
+            --     new_file:write(package)
+            -- end
+            -- new_file:close()
+        -- else
+        --     print("Error creating file: " .. test_file)
+        -- end
+    else
+        vim.api.nvim_command("edit " .. test_file)
+    end
+end
+
 function M.find_open_window(bnr)
     local tcur = fn.tabpagenr() - 1
     local tcnt = fn.tabpagenr('$')
     for i = 0, tcnt - 1 do
-        local ts = (tcur + i) % tcnt + 1
-        local bs = fn.tabpagebuflist(ts)
+        local tabs = (tcur + i) % tcnt + 1
+        local bs = fn.tabpagebuflist(tabs)
         for j, b in pairs(bs) do
             if b == bnr then
-                return {ts, j}
+                return {tabs, j}
             end
         end
     end
@@ -171,7 +214,7 @@ function M.jump_tab_win(t,w)
     cmd(w .. ' wincmd w')
 end
 
-function M.opentestterm(command)
+function M.open_test_term(command)
     cmd(":update")
     if fn.bufexists('test.term') == 1 then
         if fn.getbufvar(fn.bufnr('test.term'), '&buftype') == 'terminal' then
@@ -193,10 +236,10 @@ function M.opentestterm(command)
             end
         else
             cmd("bw! test.term")
-            M.openterminal('test.term', command)
+            M.open_term('test.term', command)
         end
     else
-        M.openterminal('test.term', command)
+        M.open_term('test.term', command)
     end
 end
 -- " TODO: Move these to utility
@@ -239,4 +282,34 @@ cmd [[
     -- endfunction
     -- nnoremap gF <Cmd>call CustomgF()<CR>
 
+function M.print_scala_types()
+    -- Create a new buffer
+    local new_buffer = vim.api.nvim_create_buf(false, true)
+
+    -- Evaluate the vim.inspect function
+    local tree_sitter_output = vim.inspect(vim.treesitter.language.inspect("scala"))
+
+    -- Set the captured output as the contents of the new buffer
+    vim.api.nvim_buf_set_lines(new_buffer, 0, -1, true, vim.fn.split(tree_sitter_output, "\n"))
+    vim.api.nvim_command("tabnew | b" .. new_buffer)
+end
+
+function M.get_class_name(bufnr)
+    local ps = vim.treesitter.get_parser(bufnr, 'scala');
+    local tree = ps:parse()
+    local q = vim.treesitter.query.parse('scala', '(class_definition name: (identifier) @class_definition)')
+    local root = tree[1]:root()
+    for _, captures, _ in q:iter_matches(root, 1) do
+        return vim.treesitter.get_node_text(captures[1],bufnr)
+    end
+end
+function M.package_name(bufnr)
+    local ps = vim.treesitter.get_parser(bufnr, 'scala');
+    local tree = ps:parse()
+    local q = vim.treesitter.query.parse('scala', '(package_clause name: (package_identifier) @package_identifier)')
+    local root = tree[1]:root()
+    for _, captures, _ in q:iter_matches(root, 1) do
+        return vim.treesitter.get_node_text(captures[1],bufnr)
+    end
+end
 return M

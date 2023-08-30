@@ -1,14 +1,13 @@
 -------------------------------------------------------------------------------
 -- Neovim API aliases
 -------------------------------------------------------------------------------
-local kmap = vim.api.nvim_set_keymap  -- set global keymap
-local cmd = vim.cmd     	    -- execute Vim commands
-local exec = vim.api.nvim_exec 	-- execute Vimscript
-local fn = vim.fn       		-- call Vim functions
+-- local cmd = vim.cmd     	    -- execute Vim commands
+-- local exec = vim.api.nvim_exec 	-- execute Vimscript
+-- local fn = vim.fn       		-- call Vim functions
 local g = vim.g         	    -- global variables
-local opt = vim.opt         	-- global/buffer/windows-scoped options local function nmap(keys, command)
+-- local opt = vim.opt         	-- global/buffer/windows-scoped options local function nmap(keys, command)
 local function nmap(keys, command)
-    vim.api.nvim_set_keymap('n', keys, command, {noremap = true})
+    vim.keymap.set('n', keys, command)
 end
 local function vmap(keys, command)
     vim.api.nvim_set_keymap('v', keys, command, {noremap = true})
@@ -59,30 +58,40 @@ vmap('<leader>0P', '"0P')
 -------------------------------------------------------------------------------
 nmap(
     '<leader>to',
-    ":lua require('builtins').test_only_file(); <CR>"
+    require('builtins').test_only_file
 )
+
+nmap(
+    '<leader>tc',
+    function() require('builtins').test_create_file("toots") end
+)
+
 nmap(
     '<leader>tf',
-    ":lua require('builtins').test_function(); <CR>"
+    require('builtins').test_function
 )
 
 -- "$:call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>"
 -- nmap('<leader>ta', "$:call chansend(&channel, ['pytest tests/unit', ''])<CR>")
 --  \x1b\x5b\x41
 -- nmap('<leader>tl', "$:call chansend(&channel, ['!!', ''])<CR>G")
-nmap('<leader>tt', ":lua require('builtins').opentestterm()<CR>")
+nmap(
+    '<leader>tt',
+    require('builtins').open_test_term
+)
 nmap(
     '<leader>ts',
-    ":lua require('builtins').opentestterm(); vim.fn.chansend(vim.o.channel, {'pytest tests/unit', ''})<CR>"
+    function()
+        require('builtins').open_test_term()
+        vim.fn.chansend(vim.o.channel, {'pytest tests/unit', ''})
+    end
 )
-vim.keymap.set(
-    'n',
+nmap(
     '<leader>tl',
     function()
-        require('builtins').opentestterm()
+        require('builtins').open_test_term()
         vim.fn.chansend(vim.o.channel, {'!!', ''})
-    end,
-    {noremap = true }
+    end
 )
 
 vim.keymap.set(
@@ -90,7 +99,7 @@ vim.keymap.set(
     '<leader>tk',
     function()
         -- Get the job ID of the current process
-        require('builtins').opentestterm()
+        require('builtins').open_test_term()
         local job_id = vim.b.terminal_job_id
         if not job_id then
             print('Error: No job running in the terminal')

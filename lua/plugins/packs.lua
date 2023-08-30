@@ -77,6 +77,9 @@ return require("packer").startup(function(use)
     use 'jtratner/vim-flavored-markdown'
     use 'vito-c/applescript.vim'
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+    use { 'nvim-treesitter/playground', requires = {'nvim-treesitter/nvim-treesitter'} }
+    use({'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }})
+
 
     ------------------------------------------------------------
     -- Git Plugins
