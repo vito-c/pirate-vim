@@ -5,7 +5,9 @@ local suitetype = "full"
 if suitetype == "bootstrap" then
 	require('plugins.packs')       -- ./lua/plugins/packs.lua
 end
+
 if suitetype == "full" then
+
     require('plugins.packs')       -- ./lua/plugins/packs.lua
     require('autocmds')            -- ./lua/autocmds.lua
     require('builtins')            -- ./lua/builtins.lua
