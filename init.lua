@@ -11,6 +11,10 @@ if suitetype == "bootstrap" then
     require('plugins.packs') -- ./lua/plugins/packs.lua
 end
 
+if suitetype == "none" then
+	print("vanilla")
+end
+
 if suitetype == "full" then
     require('plugins.packs')      -- ./lua/plugins/packs.lua
     require('autocmds')           -- ./lua/autocmds.lua
