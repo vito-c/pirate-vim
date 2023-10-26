@@ -105,6 +105,7 @@ cmp.setup {
   },
 }
 
+
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
@@ -192,6 +193,12 @@ require'lspconfig'.lua_ls.setup {
     capabilities = capabilities
 }
 
+
+require'lspconfig'.tsserver.setup {
+    on_attach = on_attach,
+    flags = lsp_flags,
+    capabilities = capabilities
+}
 require('lspconfig')['pyright'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
