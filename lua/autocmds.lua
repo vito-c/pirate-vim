@@ -47,6 +47,21 @@ cmd [[
         au FileType text set spell spelllang=en_us
     augroup END
 ]]
+
+-- Create an anonymous autocommand group (equivalent to augroup in Vimscript)
+-- cmd [[
+--   augroup PopupSettings
+--     autocmd!
+--     
+--     " Set scrolloff to 0 when entering a popup buffer
+--     autocmd BufEnter * if &buftype == 'popup' | set scrolloff=0 | endif
+--     
+--     " Set scrolloff to 999 when leaving a popup buffer
+--     autocmd BufLeave * if &buftype == 'popup' | set scrolloff=999 | endif
+--     
+--   augroup END
+-- ]]
+
 local dont_write = false
 function M.delaywrite()
     if vim.bo.bt == "terminal" then

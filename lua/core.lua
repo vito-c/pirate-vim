@@ -27,6 +27,7 @@ opt.linespace = 0         -- No extra spaces between rows
 opt.winminheight = 0      -- Windows can be 0 line high
 opt.listchars = 'tab:▸\\ ,eol:¬,extends:❯,precedes:❮'
 opt.mouse = "a"
+vim.opt_global.completeopt = { "menuone", "noinsert", "noselect" }
 
 
 ------------------------------------------------------------

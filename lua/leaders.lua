@@ -12,6 +12,7 @@ end
 local function vmap(keys, command)
     vim.api.nvim_set_keymap('v', keys, command, {noremap = true})
 end
+
 function tmap(keys, command)
     vim.api.nvim_set_keymap('t', keys, command, {noremap = true})
 end

@@ -7,7 +7,6 @@ if suitetype == "bootstrap" then
 end
 
 if suitetype == "full" then
-
     require('plugins.packs')       -- ./lua/plugins/packs.lua
     require('autocmds')            -- ./lua/autocmds.lua
     require('builtins')            -- ./lua/builtins.lua
@@ -24,12 +23,16 @@ if suitetype == "full" then
 end
 if suitetype == "small" then
     require('core')                -- ./lua/core.lua
-    require('leaders')             -- ./lua/leaders.lua
-    require('mappings')            -- ./lua/mappings.lua
-
+    -- require('leaders')             -- ./lua/leaders.lua
+    -- require('mappings')            -- ./lua/mappings.lua
+    require('plugins.metals')    -- ./lua/plugins/metals.lua
     vim.cmd [[packadd packer.nvim]]
 
     return require('packer').startup(function(use)
+        use { 'neovim/nvim-lspconfig' }
+        -- Implementation for code snippets, allowing for quick insertion of templated code blocks.
+        use { 'hrsh7th/vim-vsnip' }
+        use({'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }})
         -- Packer can manage itself
         use 'wbthomason/packer.nvim'
         use 'vito-c/vim-one'
@@ -39,8 +42,6 @@ if suitetype == "small" then
     end)
 
 end
-
-
 
 -- function bufdump()
 --     local l = List(vim.fn.getbufinfo({buflisted = 1})):filter(
