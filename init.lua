@@ -14,12 +14,14 @@ if suitetype == "full" then
     require('leaders')             -- ./lua/leaders.lua
     require('mappings')            -- ./lua/mappings.lua
     require('plugins.fugitive')    -- ./lua/plugins/fugitive.lua
-    require('plugins.metals')    -- ./lua/plugins/metals.lua
+    require('plugins.metals')      -- ./lua/plugins/metals.lua
     require('plugins.lsp')         -- ./lua/plugins/lsp.lua
     require('plugins.tabularize')  -- ./lua/plugins/tabularize.lua
     require('plugins.telescope')   -- ./lua/plugins/telescope.lua
+    require('plugins.hologram')    -- ./lua/plugins/hologram.lua
     require('plugins.luasnip')     -- ./lua/plugins/luasnip.lua
     require('plugins.airline')     -- ./lua/plugins/airline.lua
+    
 end
 if suitetype == "small" then
     require('core')                -- ./lua/core.lua

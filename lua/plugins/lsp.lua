@@ -107,7 +107,26 @@ cmp.setup {
     { name = "path" },
     { name = "nvim_lsp_signature_help" },
   },
+  preselect = cmp.PreselectMode.None, -- disable preselection
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      cmp.config.offset, -- we still want offset to be higher to order after 3rd letter
+      cmp.config.score, -- same as above
+      cmp.config.recently_used,
+      cmp.config.sort_text, -- add higher precedence for sort_text, it must be above `kind`
+      cmp.config.kind,
+      cmp.config.length,
+      cmp.config.order,
+    },
+  },
+  -- if you want to add preselection you have to set completeopt to new values
+  completion = {
+    -- completeopt = 'menu,menuone,noselect', <---- this is default value,
+    completeopt = 'menu,menuone', -- remove noselect
+  },
 }
+
 
 
 local lsp_flags = {

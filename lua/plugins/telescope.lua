@@ -12,6 +12,8 @@ function nmap(keys, command)
     vim.api.nvim_set_keymap('n', keys, command, {noremap = true})
 end
 
+require('telescope').load_extension('media_files')
+
 require("telescope").setup({
   defaults = {
     color_devicons = false,
@@ -53,6 +55,9 @@ require("telescope").setup({
     },
   },
   extensions = {
+    media_files = {
+        filetypes = {"png", "jgp", "webp", "jpeg"}
+    },
     fzf = {
       fuzzy = true,                    -- false will only do exact matching
       override_generic_sorter = true,  -- override the generic sorter

@@ -148,6 +148,7 @@ return require("packer").startup(function(use)
     -- File Navigation Plugins
     ------------------------------------------------------------
     use 'tpope/vim-vinegar'
+    use {'edluffy/hologram.nvim'}
     use {
         'nvim-telescope/telescope.nvim',
         requires = {
@@ -157,6 +158,10 @@ return require("packer").startup(function(use)
             { 'pwntester/octo.nvim' },
             { 'sudormrfbin/cheatsheet.nvim'},
         }
+    }
+
+    use { 'nvim-telescope/telescope-media-files.nvim',
+        requires = { 'nvim-telescope/telescope.nvim' }
     }
 
     ------------------------------------------------------------
