@@ -12,7 +12,7 @@ local lsp = require("lspconfig") -----------------------------------------------
 -------------------------------------------------------------------------------
 
 
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -21,34 +21,36 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-  -- local function bmap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    -- local function bmap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<leader>d', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<leader>td', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
-  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
---   -- bmap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
---   -- bmap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
---   -- bmap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    -- Mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<leader>d', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+    -- vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<leader>td', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', '<leader>wl', function() print(
+        vim.inspect(vim.lsp.buf.list_workspace_folders())
+    ) end, bufopts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<leader>F', vim.lsp.buf.format({ async = true }), opts)
+    --   -- bmap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    --   -- bmap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 end
 
 
@@ -64,74 +66,74 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- nvim-cmp setup
 local cmp = require('cmp')
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      -- Comes from vsnip
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
+    snippet = {
+        expand = function(args)
+            -- Comes from vsnip
+            vim.fn["vsnip#anonymous"](args.body)
+        end,
     },
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      -- elseif luasnip.expand_or_jumpable() then
-      --   luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      -- elseif luasnip.jumpable(-1) then
-      --   luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end,
-  },
-  sources = {
-    { name = "nvim_lsp", priority = 10 },
-    { name = "buffer" },
-    { name = "vsnip" },
-    { name = "path" },
-    { name = "nvim_lsp_signature_help" },
-  },
-  preselect = cmp.PreselectMode.None, -- disable preselection
-  sorting = {
-    priority_weight = 2,
-    comparators = {
-      cmp.config.offset, -- we still want offset to be higher to order after 3rd letter
-      cmp.config.score, -- same as above
-      cmp.config.recently_used,
-      cmp.config.sort_text, -- add higher precedence for sort_text, it must be above `kind`
-      cmp.config.kind,
-      cmp.config.length,
-      cmp.config.order,
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
+        ['<Tab>'] = function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+                -- elseif luasnip.expand_or_jumpable() then
+                --   luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end,
+        ['<S-Tab>'] = function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+                -- elseif luasnip.jumpable(-1) then
+                --   luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end,
     },
-  },
-  -- if you want to add preselection you have to set completeopt to new values
-  completion = {
-    -- completeopt = 'menu,menuone,noselect', <---- this is default value,
-    completeopt = 'menu,menuone', -- remove noselect
-  },
+    sources = {
+        { name = "nvim_lsp",               priority = 10 },
+        { name = "buffer" },
+        { name = "vsnip" },
+        { name = "path" },
+        { name = "nvim_lsp_signature_help" },
+    },
+    preselect = cmp.PreselectMode.None, -- disable preselection
+    sorting = {
+        priority_weight = 2,
+        comparators = {
+            cmp.config.offset,    -- we still want offset to be higher to order after 3rd letter
+            cmp.config.score,     -- same as above
+            cmp.config.recently_used,
+            cmp.config.sort_text, -- add higher precedence for sort_text, it must be above `kind`
+            cmp.config.kind,
+            cmp.config.length,
+            cmp.config.order,
+        },
+    },
+    -- if you want to add preselection you have to set completeopt to new values
+    completion = {
+        -- completeopt = 'menu,menuone,noselect', <---- this is default value,
+        completeopt = 'menu,menuone', -- remove noselect
+    },
 }
 
 
 
 local lsp_flags = {
-  -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
+    -- This is the default in Nvim 0.7+
+    debounce_text_changes = 150,
 }
 
 -- lspconfig.sumneko_lua.setup {
@@ -165,11 +167,11 @@ local uname = vim.loop.os_uname().sysname
 local sumneko_root_path = ""
 local sumneko_main = ""
 if uname == "Darwin" then
-   sumneko_root_path = '/opt/homebrew/opt/lua-language-server'
-   sumneko_main = sumneko_root_path .. "/libexec/main.lua"
+    sumneko_root_path = '/opt/homebrew/opt/lua-language-server'
+    sumneko_main = sumneko_root_path .. "/libexec/main.lua"
 else
-   sumneko_root_path = '/usr/lib/lua-language-server'
-   sumneko_main = sumneko_root_path .. ""
+    sumneko_root_path = '/usr/lib/lua-language-server'
+    sumneko_main = sumneko_root_path .. ""
 end
 local sumneko_binary = sumneko_root_path .. '/bin/lua-language-server'
 
@@ -178,8 +180,8 @@ local sumneko_binary = sumneko_root_path .. '/bin/lua-language-server'
 -- table.insert(runtime_path, "lua/?/init.lua")
 -- table.insert(runtime_path, "~/.luarocks/share/lua/5.1/?/?.lua")
 
-require'lspconfig'.lua_ls.setup {
-    cmd = {sumneko_binary, "-E", sumneko_main};
+require 'lspconfig'.lua_ls.setup {
+    cmd = { sumneko_binary, "-E", sumneko_main },
     settings = {
         Lua = {
             runtime = {
@@ -188,17 +190,17 @@ require'lspconfig'.lua_ls.setup {
                 -- Setup your lua path
                 -- path = runtime_path,
                 path = (function()
-                  local rtp = vim.split(package.path, ';')
-                  rtp[#rtp+1] = 'lua/?.lua'
-                  rtp[#rtp+1] = 'lua/?/init.lua'
-                  rtp[#rtp+1] = os.getenv( "HOME" ) .. '/.luarocks/share/lua/5.1/?.lua'
-                  return rtp
+                    local rtp = vim.split(package.path, ';')
+                    rtp[#rtp + 1] = 'lua/?.lua'
+                    rtp[#rtp + 1] = 'lua/?/init.lua'
+                    rtp[#rtp + 1] = os.getenv("HOME") .. '/.luarocks/share/lua/5.1/?.lua'
+                    return rtp
                 end)(),
                 pathStrict = true,
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {'vim'},
+                globals = { 'vim' },
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
@@ -217,17 +219,17 @@ require'lspconfig'.lua_ls.setup {
 }
 
 
-require'lspconfig'.tsserver.setup {
+require 'lspconfig'.tsserver.setup {
     on_attach = on_attach,
     flags = lsp_flags,
     capabilities = capabilities
 }
-require('lspconfig')['pyright'].setup{
+require('lspconfig')['pyright'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
     capabilities = capabilities
 }
-require('lspconfig')['bashls'].setup{
+require('lspconfig')['bashls'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
     capabilities = capabilities
@@ -237,25 +239,25 @@ require('lspconfig')['bashls'].setup{
 --     flags = lsp_flags,
 --     capabilities = capabilities
 -- }
-require('lspconfig')['gopls'].setup{
+require('lspconfig')['gopls'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
     capabilities = capabilities
 }
-require('lspconfig')['rust_analyzer'].setup{
+require('lspconfig')['rust_analyzer'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
     -- Server-specific settings...
     settings = {
-      ["rust-analyzer"] = {}
+        ["rust-analyzer"] = {}
     }
 }
-require('lspconfig')['clangd'].setup{
+require('lspconfig')['clangd'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
     -- Server-specific settings...
     settings = {
-      ["clangd"] = {}
+        ["clangd"] = {}
     }
 }
 
@@ -271,22 +273,35 @@ require('lspconfig')['clangd'].setup{
 --   }
 -- end
 
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
     -- A list of parser names, or "all"
-    ensure_installed = { "c", "lua", "vim", "help","rust", "python", "go", "bash", "toml", "json", "yaml", "scala" },
+    ensure_installed = { "c", "lua", "vim", "vimdoc", "rust", "python", "go", "bash", "toml", "json", "yaml", "scala" },
     -- Automatically install missing parsers when entering buffer
     auto_install = true,
     highlight = {
-      -- `false` will disable the whole extension
-      enable = true,
+        -- `false` will disable the whole extension
+        enable = true,
 
-      -- list of language that will be disabled
-      -- disable = { "rust" },
+        -- list of language that will be disabled
+        -- disable = { "rust" },
 
-      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-      -- Using this option may slow down your editor, and you may see some duplicate highlights.
-      -- Instead of true it can also be a list of languages
-      additional_vim_regex_highlighting = { "jq" },
-  }
+        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+        -- Using this option may slow down your editor, and you may see some duplicate highlights.
+        -- Instead of true it can also be a list of languages
+        additional_vim_regex_highlighting = { "jq" },
+    },
+    indent = {
+        enable = true, -- Enable Treesitter-based indentation
+    },
+    fold = {
+        enable = true
+    }
 }
+
+-- Enable folding with Treesitter
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
+vim.opt.foldlevel = 99     -- Start with all folds open
+vim.opt.foldenable = false -- Disable folding by default

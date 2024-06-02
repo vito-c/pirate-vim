@@ -138,6 +138,20 @@ return require("packer").startup(function(use)
     ------------------------------------------------------------
     use 'tpope/vim-rhubarb'
     use 'tpope/vim-fugitive'
+    use {
+        'pwntester/octo.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope.nvim',
+            -- OR 'ibhagwan/fzf-lua',
+            'nvim-tree/nvim-web-devicons',
+        },
+        config = function ()
+            require"octo".setup({
+                default_to_projects_v2 = true
+            })
+        end
+    }
 
     ------------------------------------------------------------
     -- Text Navigation Plugins
@@ -148,7 +162,6 @@ return require("packer").startup(function(use)
     -- File Navigation Plugins
     ------------------------------------------------------------
     use 'tpope/vim-vinegar'
-    use {'edluffy/hologram.nvim'}
     use {
         'nvim-telescope/telescope.nvim',
         requires = {

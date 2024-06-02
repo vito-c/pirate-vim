@@ -13,10 +13,28 @@ function nmap(keys, command)
 end
 
 require('telescope').load_extension('media_files')
+-- function _G.print_telescope_config()
+--   local config_str = vim.inspect(require('telescope').setup{})
+--   local bufnr = vim.api.nvim_create_buf(false, true)
+--   vim.api.nvim_set_current_buf(bufnr)
+--   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, vim.split(config_str, "\n"))
+-- end
 
+-- vim.api.nvim_create_autocmd("User TelescopeSelectionChanged", {
+--     callback = function()
+--         local action_state = require('telescope.actions.state')
+--         local entry = action_state.get_selected_entry()
+--         if entry then
+--             -- Print the file name
+--             print(entry.value)
+--         end
+--     end
+-- })
 require("telescope").setup({
   defaults = {
-    color_devicons = false,
+    color_devicons = true,
+    path_display = {"tail"},
+    results_title = "foobar",
     layout_config = {
       bottom_pane = {
         height = 25
