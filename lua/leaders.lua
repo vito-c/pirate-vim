@@ -4,17 +4,17 @@
 -- local cmd = vim.cmd     	    -- execute Vim commands
 -- local exec = vim.api.nvim_exec 	-- execute Vimscript
 -- local fn = vim.fn       		-- call Vim functions
-local g = vim.g         	    -- global variables
+local g = vim.g -- global variables
 -- local opt = vim.opt         	-- global/buffer/windows-scoped options local function nmap(keys, command)
 local function nmap(keys, command)
     vim.keymap.set('n', keys, command)
 end
 local function vmap(keys, command)
-    vim.api.nvim_set_keymap('v', keys, command, {noremap = true})
+    vim.api.nvim_set_keymap('v', keys, command, { noremap = true })
 end
 
 function tmap(keys, command)
-    vim.api.nvim_set_keymap('t', keys, command, {noremap = true})
+    vim.api.nvim_set_keymap('t', keys, command, { noremap = true })
 end
 
 g.mapleader = ' '
@@ -84,14 +84,14 @@ nmap(
     '<leader>ts',
     function()
         require('builtins').open_test_term()
-        vim.fn.chansend(vim.o.channel, {'pytest tests/unit', ''})
+        vim.fn.chansend(vim.o.channel, { 'pytest tests/unit', '' })
     end
 )
 nmap(
     '<leader>tl',
     function()
         require('builtins').open_test_term()
-        vim.fn.chansend(vim.o.channel, {'!!', ''})
+        vim.fn.chansend(vim.o.channel, { '!!', '' })
     end
 )
 
@@ -107,9 +107,9 @@ vim.keymap.set(
             return
         end
         -- Send the Control-C signal to the job
-        vim.fn.chansend(vim.o.channel, {string.char(3), ''})
+        vim.fn.chansend(vim.o.channel, { string.char(3), '' })
     end,
-    {noremap = true }
+    { noremap = true }
 )
 
 -- nmap(
@@ -127,4 +127,3 @@ vim.keymap.set(
 -- )
 
 nmap('<leader>ct', ':tabclose <CR>')
-

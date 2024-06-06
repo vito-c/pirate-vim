@@ -1,24 +1,27 @@
 -------------------------------------------------------------------------------
 -- Neovim API aliases
 -------------------------------------------------------------------------------
-local kmap = vim.api.nvim_set_keymap  -- set global keymap
-local cmd  = vim.cmd     	          -- execute Vim commands
-local exec = vim.api.nvim_exec 	      -- execute Vimscript
-local fn   = vim.fn       		      -- call Vim functions
-local g    = vim.g         	          -- global variables
-local opt  = vim.opt         	      -- global/buffer/windows-scoped options
+local kmap = vim.api.nvim_set_keymap -- set global keymap
+local cmd  = vim.cmd                 -- execute Vim commands
+local exec = vim.api.nvim_exec       -- execute Vimscript
+local fn   = vim.fn                  -- call Vim functions
+local g    = vim.g                   -- global variables
+local opt  = vim.opt                 -- global/buffer/windows-scoped options
 
 function nmap(keys, command)
-    vim.api.nvim_set_keymap('n', keys, command, {noremap = true})
+    vim.api.nvim_set_keymap('n', keys, command, { noremap = true })
 end
+
 function vmap(keys, command)
-    vim.api.nvim_set_keymap('v', keys, command, {noremap = true})
+    vim.api.nvim_set_keymap('v', keys, command, { noremap = true })
 end
+
 function imap(keys, command)
-    vim.api.nvim_set_keymap('i', keys, command, {noremap = true})
+    vim.api.nvim_set_keymap('i', keys, command, { noremap = true })
 end
+
 function tmap(keys, command)
-    vim.api.nvim_set_keymap('t', keys, command, {noremap = true})
+    vim.api.nvim_set_keymap('t', keys, command, { noremap = true })
 end
 
 nmap('ZA', ':wqa<CR>')
@@ -93,13 +96,13 @@ kmap(
     'n',
     '*',
     '"zyiw*',
-    {silent = true, noremap = true}
+    { silent = true, noremap = true }
 )
 kmap(
     'n',
     '#',
     '"zyiw*',
-    {silent = true, noremap = true}
+    { silent = true, noremap = true }
 )
 
 kmap(
@@ -112,7 +115,7 @@ kmap(
         :call setreg('z', oreg)<CR>
         gV
     ]], '  +', ''):gsub('\r?\n+', ' '),
-    {silent = true, noremap = true}
+    { silent = true, noremap = true }
 )
 
 kmap(
@@ -125,7 +128,7 @@ kmap(
         :call setreg('z', oreg)<CR>
         gV
     ]], '  +', ''):gsub('\r?\n+', ' '),
-    {silent = true, noremap = true}
+    { silent = true, noremap = true }
 )
 
 -- select the last changed or pasted text
@@ -133,7 +136,7 @@ kmap(
     'n',
     'gp',
     "'`[' . strpart(getregtype(), 0, 1) . '`]'",
-    {expr = true, noremap = true}
+    { expr = true, noremap = true }
 )
 
 -- alternate select pasted text only nmap gp `[v`]

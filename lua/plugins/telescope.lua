@@ -95,6 +95,12 @@ require("telescope").load_extension("fzy_native")
 nmap('<leader>ff', ":lua require('telescope.builtin').find_files({cwd=_G.groot(), layout_strategy='vertical'})<CR>")
 nmap('<leader>fc', ":lua require('telescope.builtin').find_files({layout_strategy='vertical'})<CR>")
 nmap('<leader>fr', ":lua require('telescope.builtin').lsp_references({cwd=_G.groot(), layout_strategy='vertical'})<CR>")
+-- vim.keymap.set(
+--     'n',
+--     '<leader>fr',
+--     -- function() vim.lsp.buf.format({ async = true }) end
+-- )
+--     -- vim.lsp.buf.references
 nmap('<leader>l',  ":lua require('telescope.builtin').buffers({layout_strategy='vertical'})<CR>")
 nmap('<leader>gc', ":lua require('telescope.builtin').git_bcommits({cwd=_G.groot(), layout_strategy='vertical'})<CR>")
 nmap('<leader>sg', ":lua require('telescope.builtin').grep_string({cwd=_G.groot(), layout_strategy='vertical'})<CR>")
