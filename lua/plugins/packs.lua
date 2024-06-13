@@ -80,6 +80,7 @@ return require("packer").startup(function(use)
             'junegunn/limelight.vim'
         }
     }
+    use 'mbbill/undotree'
     ------------------------------------------------------------
     -- GUI Plugins
     ------------------------------------------------------------
