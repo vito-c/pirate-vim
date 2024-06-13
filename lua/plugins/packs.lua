@@ -100,6 +100,7 @@ return require("packer").startup(function(use)
     -- Editing Plugins
     ------------------------------------------------------------
     use 'tomtom/tcomment_vim'
+    use 'mbbill/undotree'
     use 'tpope/vim-repeat'
     use 'tpope/vim-surround'
     use 'AndrewRadev/splitjoin.vim'
