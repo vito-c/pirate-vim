@@ -151,7 +151,4 @@ kmap(
 -- command! -bang QA qa<bang>
 -- command! -bang Qa qa<bang>
 
--- nmap('<silent> <C-]>', '<Plug>(coc-definition)')
-
---
 --actions.move_selection_next

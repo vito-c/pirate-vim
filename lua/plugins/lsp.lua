@@ -18,6 +18,22 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 
+local function jump_to_first_definition()
+  local params = vim.lsp.util.make_position_params()
+  vim.lsp.buf_request(0, 'textDocument/definition', params, function(_, result, ctx, _)
+    if result == nil or vim.tbl_isempty(result) then
+      print("No definitions found")
+      return
+    end
+
+    if vim.tbl_islist(result) then
+      vim.lsp.util.jump_to_location(result[1])
+    else
+      vim.lsp.util.jump_to_location(result)
+    end
+  end)
+end
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -29,7 +45,9 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, bufopts)
+  -- vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, bufopts)
+
+  vim.api.nvim_set_keymap('n', '<C-]>', jump_to_first_definition, { noremap = true, silent = true })
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<leader>d', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
@@ -133,8 +151,6 @@ cmp.setup {
         completeopt = 'menu,menuone', -- remove noselect
     },
 }
-
-
 
 local lsp_flags = {
     -- This is the default in Nvim 0.7+
