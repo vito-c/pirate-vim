@@ -99,6 +99,7 @@ return require("packer").startup(function(use)
     ------------------------------------------------------------
     -- Editing Plugins
     ------------------------------------------------------------
+    use 'github/copilot.vim'
     use 'tomtom/tcomment_vim'
     use 'mbbill/undotree'
     use 'tpope/vim-repeat'
