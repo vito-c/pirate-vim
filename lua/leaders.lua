@@ -17,6 +17,18 @@ function tmap(keys, command)
     vim.api.nvim_set_keymap('t', keys, command, { noremap = true })
 end
 
+-- Check the operating system
+local is_mac = vim.fn.has("macunix") == 1
+local is_linux = vim.fn.has("unix") == 1
+
+-- Clipboard register based on OS
+local clipboard_register = ""
+if is_mac then
+    clipboard_register = "*"
+elseif is_linux then
+    clipboard_register = "+"
+end
+
 g.mapleader = ' '
 
 -------------------------------------------------------------------------------
@@ -37,15 +49,16 @@ nmap('<leader>o', '<C-^>')
 -- Copy ✂️  Paste 📋 Actions
 -------------------------------------------------------------------------------
 -- To Clipboard
-nmap('<leader>y', '"*y')
-nmap('<leader>Y', '"*y$')
-vmap('<leader>y', '"*y')
-vmap('<leader>Y', '"*y$')
+local cr = '"' .. clipboard_register
+nmap('<leader>y', cr .. 'y')
+nmap('<leader>Y', cr .. 'y$')
+vmap('<leader>y', cr .. 'y')
+vmap('<leader>Y', cr .. 'y$')
 -- From Clipboard
-nmap('<leader>p', '"*p')
-nmap('<leader>P', '"*P')
-vmap('<leader>p', '"*p')
-vmap('<leader>P', '"*P')
+nmap('<leader>p', cr .. 'p')
+nmap('<leader>P', cr .. 'P')
+vmap('<leader>p', cr .. 'p')
+vmap('<leader>P', cr .. 'P')
 -- last yanked
 nmap('<leader>00', ':<C-u>echom "use leader 0p"<CR>')
 vmap('<leader>00', ':<C-u>echom "use leader 0p"<CR>')

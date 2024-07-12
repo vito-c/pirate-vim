@@ -28,6 +28,7 @@ opt.winminheight = 0  -- Windows can be 0 line high
 opt.listchars = 'tab:▸\\ ,eol:¬,extends:❯,precedes:❮'
 opt.mouse = "a"
 vim.opt_global.completeopt = { "menuone", "noinsert", "noselect" }
+vim.g.editorconfig = false
 
 
 ------------------------------------------------------------

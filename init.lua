@@ -30,6 +30,7 @@ if suitetype == "full" then
     require('plugins.hologram')   -- ./lua/plugins/hologram.lua
     require('plugins.luasnip')    -- ./lua/plugins/luasnip.lua
     require('plugins.airline')    -- ./lua/plugins/airline.lua
+    require('plugins.undotree')    -- ./lua/plugins/undotree.lua
 end
 if suitetype == "small" then
     require('core') -- ./lua/core.lua

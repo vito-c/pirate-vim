@@ -96,6 +96,16 @@ return require("packer").startup(function(use)
         'glacambre/firenvim',
         run = function() vim.fn['firenvim#install'](0) end
     }
+    use {
+        "AckslD/nvim-neoclip.lua",
+        requires = {
+            {'kkharji/sqlite.lua', module = 'sqlite'},
+            {'nvim-telescope/telescope.nvim'},
+        },
+        config = function()
+            require('neoclip').setup()
+        end,
+    }
 
     ------------------------------------------------------------
     -- Editing Plugins
