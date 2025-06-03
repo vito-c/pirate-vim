@@ -33,7 +33,7 @@ require('telescope').load_extension('media_files')
 require("telescope").setup({
   defaults = {
     color_devicons = true,
-    path_display = {"tail"},
+    path_display = {"absolute"},
     results_title = "foobar",
     layout_config = {
       bottom_pane = {

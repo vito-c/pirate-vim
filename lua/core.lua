@@ -7,7 +7,6 @@
 ------------------------------------------------------------
 -- local map = vim.api.nvim_set_keymap  -- set global keymap
 local cmd = vim.cmd            -- execute Vim commands
-local exec = vim.api.nvim_exec -- execute Vimscript
 -- local fn = vim.fn       		-- call Vim functions
 -- local g = vim.g         	    -- global variables
 local opt = vim.opt -- global/buffer/windows-scoped options
@@ -29,6 +28,9 @@ opt.listchars = 'tab:▸\\ ,eol:¬,extends:❯,precedes:❮'
 opt.mouse = "a"
 vim.opt_global.completeopt = { "menuone", "noinsert", "noselect" }
 vim.g.editorconfig = false
+-- Enable persistent undo
+vim.opt.undofile = true
+vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undo"
 
 
 ------------------------------------------------------------
@@ -88,7 +90,7 @@ opt.whichwrap = 'h,l,<,>,[,],b,s,~'
 ------------------------------------------------------------
 opt.hidden = true     -- enable background buffers
 opt.history = 800     -- remember n lines in history
-opt.lazyredraw = true -- faster scrolling
+opt.lazyredraw = false -- faster scrolling
 opt.synmaxcol = 240   -- max column for syntax highlight
 opt.tabpagemax = 15   -- Only show 15 tabs
 
@@ -120,11 +122,5 @@ cmd("iabbrev <expr> jpac 'package ' . substitute( join(split(expand('%:h'),'/'),
 --
 -- endif
 -- highlight on yank
-exec([[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=300}
-  augroup end
-]], false)
-
+-- Not sure what this does 2/2/2025
 opt.scrollback = 100000

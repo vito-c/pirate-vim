@@ -8,13 +8,48 @@ local fn = vim.fn   -- call Vim functions
 -- local g = vim.g         	    -- global variables
 local opt = vim.opt -- global/buffer/windows-scoped options
 local M = {}
-List = require 'pl.List'
 
-local ts = require("nvim-treesitter")
-local pretty = require 'pl.pretty'
-local plenary = require("plenary")
-local Path = require "plenary.path"
+-- Safe require with error handling
+local function safe_require(module)
+    local ok, result = pcall(require, module)
+    if not ok then
+        vim.notify("Failed to load module: " .. module .. "\nError: " .. result, vim.log.levels.WARN)
+        return nil
+    end
+    return result
+end
+
+local List = safe_require('pl.List')
+local ts = safe_require("nvim-treesitter")
+local pretty = safe_require('pl.pretty')
+local plenary = safe_require("plenary")
+local Path = safe_require("plenary.path")
+
+-- Check if essential dependencies are loaded
+if not List or not ts or not plenary or not Path then
+    vim.notify("Some dependencies for builtins.lua are missing. Some functions may not work.", vim.log.levels.WARN)
+end
+
+
+
+------------------------------------------------------------
+-- Neovim API aliases
+------------------------------------------------------------
+-- local map = vim.api.nvim_set_keymap  -- set global keymap
+-- local cmd = vim.cmd -- execute Vim commands
+-- -- local exec = vim.api.nvim_exec 	-- execute Vimscript
+-- local fn = vim.fn   -- call Vim functions
+-- -- local g = vim.g         	    -- global variables
+-- local opt = vim.opt -- global/buffer/windows-scoped options
+-- local M = {}
+-- List = require 'pl.List'
+--
+-- local ts = require("nvim-treesitter")
+-- local pretty = require 'pl.pretty'
+-- local plenary = require("plenary")
+-- local Path = require "plenary.path"
 local defaultpath = '~/code/**'
+local libpath = ',~/code/startup/opencv/**,~/code/startup/opencv_contrib/modules/**'
 -- when nvim is first opened we set the path to be the top levle code dir
 vim.o.path = defaultpath
 local prev_groot = defaultpath
@@ -23,7 +58,7 @@ function M.groot_path()
     if fn.getbufvar(fn.bufnr('%'), '&buftype') == 'terminal' then
         return prev_groot
     else
-        return M.groot_stub() .. '/**'
+        return M.groot_stub() .. '/**' .. libpath
     end
 end
 
@@ -266,6 +301,7 @@ end
 cmd [[
     command! -nargs=* -range Reload  lua require('builtins').reload(unpack({<f-args>}))
 ]]
+
 -- function! CustomgF()
 --     " are we in a terminal window?
 --     if win_getid()->getwininfo()->get(0, {})->get('terminal', 0)

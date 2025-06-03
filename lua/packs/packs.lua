@@ -1,4 +1,4 @@
-------------------------------------------------------------
+-----------------------------------------------------------
 -- Neovim plugin configurations
 ------------------------------------------------------------
 
@@ -80,7 +80,6 @@ return require("packer").startup(function(use)
             'junegunn/limelight.vim'
         }
     }
-    use 'mbbill/undotree'
     ------------------------------------------------------------
     -- GUI Plugins
     ------------------------------------------------------------
@@ -110,7 +109,37 @@ return require("packer").startup(function(use)
     ------------------------------------------------------------
     -- Editing Plugins
     ------------------------------------------------------------
-    use 'github/copilot.vim'
+    -- use 'github/copilot.vim'
+
+    -- Required plugins
+    -- use 'stevearc/dressing.nvim'
+    -- use 'nvim-lua/plenary.nvim'
+    -- use 'MunifTanjim/nui.nvim'
+    -- use 'MeanderingProgrammer/render-markdown.nvim'
+
+    -- Optional dependencies
+    -- use 'hrsh7th/nvim-cmp'
+    use 'nvim-tree/nvim-web-devicons'
+    -- use 'HakonHarnes/img-clip.nvim'
+
+    -- Avante.nvim with build process
+    -- use {
+    --     'yetone/avante.nvim',
+    --     branch = 'main',
+    --     run = 'make',
+    --     requires = {
+    --         'MeanderingProgrammer/render-markdown.nvim',
+    --         'MunifTanjim/nui.nvim',
+    --         'hrsh7th/nvim-cmp',
+    --         'nvim-lua/plenary.nvim',
+    --         'nvim-tree/nvim-web-devicons',
+    --         'nvim-treesitter/nvim-treesitter',
+    --         'stevearc/dressing.nvim'
+    --     },
+    --     config = function()
+    --         require('avante').setup({hints = { enabled = false } })
+    --     end
+    -- }
     use 'tomtom/tcomment_vim'
     use 'mbbill/undotree'
     use 'tpope/vim-repeat'

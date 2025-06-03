@@ -1,4 +1,4 @@
-local suitetype = "full"
+local suitetype = "lazy"
 -- Add the luarocks directory to package.path
 -- This will take care of the luarocks pelanry I installed
 local home = os.getenv("HOME")
@@ -11,47 +11,76 @@ if suitetype == "bootstrap" then
     require('plugins.packs') -- ./lua/plugins/packs.lua
 end
 
+if suitetype == "treesitter" then
+    require('plugins.packs_treesitter') -- ./lua/plugins/packs_treesitter.lua
+end
+
 if suitetype == "none" then
 	print("vanilla")
 end
 
-if suitetype == "full" then
-    require('plugins.packs')      -- ./lua/plugins/packs.lua
+if suitetype == "lazy" then
+    require("config.lazy")        -- ./lua/config/lazy.lua 
+    require("lazy").setup({
+        spec = {
+            -- import your plugins
+            { import = "plugins" },
+        },
+        install = { colorscheme = { "one" } },
+        checker = { enabled = true },
+    })
     require('autocmds')           -- ./lua/autocmds.lua
     require('builtins')           -- ./lua/builtins.lua
     require('core')               -- ./lua/core.lua
     require('leaders')            -- ./lua/leaders.lua
     require('mappings')           -- ./lua/mappings.lua
-    require('plugins.fugitive')   -- ./lua/plugins/fugitive.lua
-    require('plugins.metals')     -- ./lua/plugins/metals.lua
-    require('plugins.lsp')        -- ./lua/plugins/lsp.lua
-    require('plugins.tabularize') -- ./lua/plugins/tabularize.lua
-    require('plugins.telescope')  -- ./lua/plugins/telescope.lua
-    require('plugins.hologram')   -- ./lua/plugins/hologram.lua
-    require('plugins.luasnip')    -- ./lua/plugins/luasnip.lua
-    require('plugins.airline')    -- ./lua/plugins/airline.lua
-    require('plugins.undotree')    -- ./lua/plugins/undotree.lua
+    require('packs.fugitive')     -- ./lua/packs/fugitive.lua
+    require('packs.metals')       -- ./lua/packs/metals.lua
+    require('packs.lsp')          -- ./lua/packs/lsp.lua
+    require('packs.tabularize')   -- ./lua/packs/tabularize.lua
+    require('packs.telescope')    -- ./lua/packs/telescope.lua
+    require('packs.luasnip')      -- ./lua/packs/luasnip.lua
+    require('packs.airline')      -- ./lua/packs/airline.lua
+    require('packs.undotree')     -- ./lua/packs/undotree.lua
 end
-if suitetype == "small" then
-    require('core') -- ./lua/core.lua
-    -- require('leaders')             -- ./lua/leaders.lua
-    -- require('mappings')            -- ./lua/mappings.lua
-    require('plugins.metals') -- ./lua/plugins/metals.lua
-    vim.cmd [[packadd packer.nvim]]
 
-    return require('packer').startup(function(use)
-        use { 'neovim/nvim-lspconfig' }
-        -- Implementation for code snippets, allowing for quick insertion of templated code blocks.
-        use { 'hrsh7th/vim-vsnip' }
-        use({ 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" } })
-        -- Packer can manage itself
-        use 'wbthomason/packer.nvim'
-        use 'vito-c/vim-one'
-        use 'joshdick/onedark.vim'
-        use 'tpope/vim-vinegar'
-        use 'tomtom/tcomment_vim'
-    end)
+if suitetype == "packer" then
+    require('packs.packs')        -- ./lua/packs/packs.lua
+    require('autocmds')           -- ./lua/autocmds.lua
+    require('builtins')           -- ./lua/builtins.lua
+    require('core')               -- ./lua/core.lua
+    require('leaders')            -- ./lua/leaders.lua
+    require('mappings')           -- ./lua/mappings.lua
+    require('packs.fugitive')     -- ./lua/packs/fugitive.lua
+    require('packs.metals')       -- ./lua/packs/metals.lua
+    require('packs.lsp')          -- ./lua/packs/lsp.lua
+    require('packs.tabularize')   -- ./lua/packs/tabularize.lua
+    require('packs.telescope')    -- ./lua/packs/telescope.lua
+    require('packs.hologram')     -- ./lua/packs/hologram.lua
+    require('packs.luasnip')      -- ./lua/packs/luasnip.lua
+    require('packs.airline')      -- ./lua/packs/airline.lua
+    require('packs.undotree')     -- ./lua/packs/undotree.lua
 end
+-- if suitetype == "small" then
+--     require('core') -- ./lua/core.lua
+--     -- require('leaders')             -- ./lua/leaders.lua
+--     -- require('mappings')            -- ./lua/mappings.lua
+--     require('plugins.metals') -- ./lua/plugins/metals.lua
+--     vim.cmd [[packadd packer.nvim]]
+--
+--     return require('packer').startup(function(use)
+--         use { 'neovim/nvim-lspconfig' }
+--         -- Implementation for code snippets, allowing for quick insertion of templated code blocks.
+--         use { 'hrsh7th/vim-vsnip' }
+--         use({ 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" } })
+--         -- Packer can manage itself
+--         use 'wbthomason/packer.nvim'
+--         use 'vito-c/vim-one'
+--         use 'joshdick/onedark.vim'
+--         use 'tpope/vim-vinegar'
+--         use 'tomtom/tcomment_vim'
+--     end)
+-- end
 
 -- function bufdump()
 --     local l = List(vim.fn.getbufinfo({buflisted = 1})):filter(

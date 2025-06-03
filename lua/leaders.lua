@@ -5,6 +5,18 @@
 -- local exec = vim.api.nvim_exec 	-- execute Vimscript
 -- local fn = vim.fn       		-- call Vim functions
 local g = vim.g -- global variables
+
+---@diagnostic disable-next-line: undefined-global
+local tonumber = tonumber -- Silence linter while keeping it explicit
+---@diagnostic disable-next-line: undefined-global
+local table = table
+---@diagnostic disable-next-line: undefined-global
+local ipairs = ipairs
+---@diagnostic disable-next-line: undefined-global
+local math = math
+---@diagnostic disable-next-line: undefined-global
+local string = string
+
 -- local opt = vim.opt         	-- global/buffer/windows-scoped options local function nmap(keys, command)
 local function nmap(keys, command)
     vim.keymap.set('n', keys, command)
@@ -22,12 +34,12 @@ local is_mac = vim.fn.has("macunix") == 1
 local is_linux = vim.fn.has("unix") == 1
 
 -- Clipboard register based on OS
-local clipboard_register = ""
-if is_mac then
-    clipboard_register = "*"
-elseif is_linux then
-    clipboard_register = "+"
-end
+local clipboard_register = "*"
+-- if is_mac then
+--     clipboard_register = "*"
+-- elseif is_linux then
+--     clipboard_register = "+"
+-- end
 
 g.mapleader = ' '
 
@@ -42,6 +54,7 @@ nmap(
 nmap('<leader>ev', ':<C-u>execute "tabedit " . $MYVIMRC<CR>')
 nmap('<leader>eb', ':<C-U>tabedit $CODE_CONFIGS/pirate-setup/bashrc<CR>')
 nmap('<leader>eg', ':<C-U>tabedit $CODE_CONFIGS/pirate-setup/gitconfig<CR>')
+nmap('<leader>ee', ':<C-U>e %<CR>')
 -- to previous file
 nmap('<leader>o', '<C-^>')
 
@@ -77,7 +90,7 @@ nmap(
 
 nmap(
     '<leader>tc',
-    function() require('builtins').test_create_file("toots") end
+    function() require('builtins').test_create_file() end
 )
 
 nmap(
@@ -105,6 +118,106 @@ nmap(
     function()
         require('builtins').open_test_term()
         vim.fn.chansend(vim.o.channel, { '!!', '' })
+    end
+)
+nmap(
+    '<leader>tr',
+    function()
+        local bwd = "/home/nexus/code/startup/videoblast/build"
+        vim.api.nvim_echo({ { "➡️ Strating make", "QuickFixLine" } }, false, {})
+        -- local make_job = vim.fn.jobstart('make -j test_blast', { cwd = bwd })
+        -- Wait for make to complete
+        local stderr_output = {} -- Store stderr output
+        local progress = 0
+        local filename = vim.fn.expand("%:t")
+
+        local project = "video_blast"
+        if filename == "main_test.cpp" then
+            project = "test_blast"
+        end
+        vim.fn.jobstart('make -j ' .. project, {
+            cwd = bwd,
+            stdout_buffered = false,
+            stderr_buffered = true,
+            on_stdout = function(_, data, _)
+                if data then
+                    for _, line in ipairs(data) do
+                        -- Extract progress percentage using regex
+                        local percent = line:match("%[ *(%d+)%%]") -- Ensure this pattern is correct
+
+                        if percent then
+                            progress = tonumber(percent)
+
+                            -- Blingy progress bar
+                            local progress_bar = (
+                                string.rep("█", math.floor(progress / 5)) ..
+                                string.rep("░", 20 - math.floor(progress / 5))
+                            )
+                            vim.schedule(function()
+                                vim.api.nvim_echo({
+                                    { "🛠️ Building: " .. progress .. "% " .. progress_bar, "QuickFixLine" }
+                                }, false, {})
+                            end)
+                        end
+                    end
+                end
+            end,
+            on_stderr = function(_, data, _)
+                if data then
+                    for _, line in ipairs(data) do
+                        if line and line ~= "" then
+                            table.insert(stderr_output, line) -- Collect stderr lines
+                        end
+                    end
+                end
+            end,
+            on_exit = function(_, exit_code, _)
+                if exit_code ~= 0 then
+                    print("❌ 💀 Build failed! Populating quickfix list...")
+
+                    -- Convert collected stderr output into a single string for `errorformat`
+                    local error_string = table.concat(stderr_output, "\n")
+
+                    -- Use `cgetexpr` to feed errors into the quickfix list
+                    vim.cmd("cgetexpr " .. vim.fn.string(vim.split(error_string, "\n")))
+
+                    -- Open quickfix list if errors exist
+                    vim.cmd("copen")
+                    -- print("❌ LLDB encountered an error. Check quickfix.")
+                    -- vim.fn.setqflist(errors, "r")
+                    -- vim.cmd("copen")
+                else
+                    progress = 100
+                    local progress_bar = (
+                        string.rep("█", math.floor(progress / 5)) ..
+                        string.rep("░", 20 - math.floor(progress / 5))
+                    )
+                    vim.schedule(function()
+                        vim.api.nvim_echo({
+                            { "🛠️ Building: " .. progress .. "% " .. progress_bar, "QuickFixLine" }
+                        }, false, {})
+                    end)
+                    vim.schedule(function()
+                        vim.api.nvim_echo({
+                            { "✨ Make Completed ✨", "QuickFixLine" }
+                        }, false, {})
+                    end)
+                    require('builtins').open_test_term()
+                    vim.fn.chansend(vim.o.channel, { 'rf', '' })
+                end
+            end
+        })
+
+        -- vim.fn.chansend(vim.o.channel, { 'make -j test_blast', '' })
+        -- local status = vim.fn.jobwait({ make_job })[1]
+        -- print("make job completed")
+        -- -- If make was successful, continue
+        -- if status == 0 then
+        -- else
+        --     print("Make failed with status:", status)
+        --     vim.fn.chansend(vim.o.channel, { '\x1A', '' })
+        --     vim.fn.chansend(vim.o.channel, { 'make -j test_blast', '' })
+        -- end
     end
 )
 
