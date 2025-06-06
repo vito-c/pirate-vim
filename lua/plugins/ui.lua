@@ -1,9 +1,5 @@
 return {
     {
-        "hoob3rt/lualine.nvim",
-        dependencies = { "kyazdani42/nvim-web-devicons" }
-    },
-    {
         "nvim-tree/nvim-web-devicons",
         lazy = true
     },
@@ -19,11 +15,47 @@ return {
         "folke/noice.nvim",
         event = "VeryLazy",
         opts = {
-            -- add any options here
+            lsp = {
+                progress = { enabled = false },
+                message = { enabled = false },
+                hover = { enabled = false },
+                signature = { enabled = false },
+            },
+            messages = {
+                enabled = false,
+            },
+            notify = {
+                enabled = false,
+            },
+            popupmenu = {
+                enabled = false,
+            },
+            routes = {},
+            views = {},
+            cmdline = {
+                enabled = true, -- only this is on
+            },
+            presets = {
+                command_palette = false,
+                bottom_search = false,
+                long_message_to_split = false,
+                inc_rename = false,
+                lsp_doc_border = false,
+            },
         },
         dependencies = {
             "MunifTanjim/nui.nvim",
-            -- "rcarriga/nvim-notify",
-        }
+        },
     }
+    -- {
+    --     "folke/noice.nvim",
+    --     event = "VeryLazy",
+    --     opts = {
+    --         -- add any options here
+    --     },
+    --     dependencies = {
+    --         "MunifTanjim/nui.nvim",
+    --         -- "rcarriga/nvim-notify",
+    --     }
+    -- }
 }

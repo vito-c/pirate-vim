@@ -1,41 +1,18 @@
 -------------------------------------------------------------------------------
 -- Neovim API aliases
 -------------------------------------------------------------------------------
-local kmap = vim.api.nvim_set_keymap -- set global keymap
-local cmd  = vim.cmd                 -- execute Vim commands
-local exec = vim.api.nvim_exec       -- execute Vimscript
-local fn   = vim.fn                  -- call Vim functions
-local g    = vim.g                   -- global variables
-local opt  = vim.opt                 -- global/buffer/windows-scoped options
-
-function nmap(keys, command)
-    vim.api.nvim_set_keymap('n', keys, command, { noremap = true })
-end
-
-function vmap(keys, command)
-    vim.api.nvim_set_keymap('v', keys, command, { noremap = true })
-end
-
-function imap(keys, command)
-    vim.api.nvim_set_keymap('i', keys, command, { noremap = true })
-end
-
-function tmap(keys, command)
-    vim.api.nvim_set_keymap('t', keys, command, { noremap = true })
-end
-
-nmap('ZA', ':wqa<CR>')
-nmap('ZQ', ':qa!<CR>')
+vim.keymap.set('n', 'ZA', ':wqa<CR>', {noremap = true})
+vim.keymap.set('n', 'ZQ', ':qa!<CR>', {noremap = true})
 
 -- Wrapped lines goes down/up to next row, rather than next line in file.
-nmap('j', 'gj')
-nmap('k', 'gk')
+vim.keymap.set('n', 'j', 'gj', {noremap = true})
+vim.keymap.set('n', 'k', 'gk', {noremap = true})
 -- Yank from the cursor to the end of the line, to be consistent with C and D.
-nmap('Y', 'y$')
+vim.keymap.set('n', 'Y', 'y$', {noremap = true})
 -- Visual shifting (does not exit Visual mode)
-vmap('<', '<gv')
-vmap('>', '>gv')
-vmap('>', '>gv')
+vim.keymap.set('v', '<', '<gv', {noremap = true})
+vim.keymap.set('v', '>', '>gv', {noremap = true})
+vim.keymap.set('v', '>', '>gv', {noremap = true})
 
 -- insert mode
 -- imap('jj', '<ESC>')
@@ -44,8 +21,8 @@ vmap('>', '>gv')
 -- inoremap kj <ESC>
 -- inoremap <C-j> <C-r>"
 
-nmap('gf', 'gF')
-nmap('gF', 'gf')
+vim.keymap.set('n', 'gf', 'gF', {noremap = true})
+vim.keymap.set('n', 'gF', 'gf', {noremap = true})
 -- noremap <leader>gf :call EditFileUnder()<CR>
 -- "='test'<C-M>p
 -- "noremap <leader>tt "=strftime('%c')<C-M>p
@@ -62,20 +39,20 @@ nmap('gF', 'gf')
 --     echom df
 -- endfun
 
-tmap('<C-o>', "<C-\\><C-n>:lua require('builtins').clearterm()<CR>")
-tmap('<Esc>', '<C-\\><C-n>')
-tmap('kk', '<C-\\><C-n>')
+-- tmap('kk', '<C-\\><C-n>')
 -- tnoremap [k <C-\><C-n><Esc>[k
 -- tnoremap ]k <C-\><C-n><Esc>]k
-tmap('<A-h>', '<C-\\><C-n><C-w>h')
-tmap('<A-j>', '<C-\\><C-n><C-w>j')
-tmap('<A-k>', '<C-\\><C-n><C-w>k')
-tmap('<A-l>', '<C-\\><C-n><C-w>l')
-tmap('<A-w>', '<C-\\><C-n><C-w>w')
-tmap('<A-c>', '<C-\\><C-n><C-w>c')
+vim.keymap.set('t', '<C-o>', "<C-\\><C-n>:lua require('builtins').clearterm()<CR>", {noremap=true})
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {noremap=true})
+vim.keymap.set('t', '<A-h>', '<C-\\><C-n><C-w>h', {noremap=true})
+vim.keymap.set('t', '<A-j>', '<C-\\><C-n><C-w>j', {noremap=true})
+vim.keymap.set('t', '<A-k>', '<C-\\><C-n><C-w>k', {noremap=true})
+vim.keymap.set('t', '<A-l>', '<C-\\><C-n><C-w>l', {noremap=true})
+vim.keymap.set('t', '<A-w>', '<C-\\><C-n><C-w>w', {noremap=true})
+vim.keymap.set('t', '<A-c>', '<C-\\><C-n><C-w>c', {noremap=true})
 -- tnoremap <expr> <A-r> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 
-nmap('tg', 'gT')
+vim.keymap.set('n', 'tg', 'gT', {noremap = true})
 
 -- Alt bindings
 -- inoremap <A-h> <ESC><C-w>h
@@ -84,28 +61,28 @@ nmap('tg', 'gT')
 -- inoremap <A-l> <ESC><C-w>l
 -- inoremap <A-w> <ESC><C-w>w
 
-nmap('<A-h>', '<C-w>h')
-nmap('<A-j>', '<C-w>j')
-nmap('<A-k>', '<C-w>k')
-nmap('<A-l>', '<C-w>l')
-nmap('<A-w>', '<C-w>w')
--- nmap(']d', 'gt')
--- nmap('[d', 'gT')
-nmap('gy', 'gT')
-kmap(
+vim.keymap.set('n', '<A-h>', '<C-w>h', {noremap = true})
+vim.keymap.set('n', '<A-j>', '<C-w>j', {noremap = true})
+vim.keymap.set('n', '<A-k>', '<C-w>k', {noremap = true})
+vim.keymap.set('n', '<A-l>', '<C-w>l', {noremap = true})
+vim.keymap.set('n', '<A-w>', '<C-w>w', {noremap = true})
+-- vim.keymap.set('n', ']d', 'gt')
+-- vim.keymap.set('n', '[d', 'gT')
+vim.keymap.set('n', 'gy', 'gT')
+vim.keymap.set(
     'n',
     '*',
     '"zyiw*',
     { silent = true, noremap = true }
 )
-kmap(
+vim.keymap.set(
     'n',
     '#',
     '"zyiw*',
     { silent = true, noremap = true }
 )
 
-kmap(
+vim.keymap.set(
     'v',
     '*',
     string.gsub([[
@@ -118,7 +95,7 @@ kmap(
     { silent = true, noremap = true }
 )
 
-kmap(
+vim.keymap.set(
     'v',
     '#',
     string.gsub([[
@@ -132,7 +109,7 @@ kmap(
 )
 
 -- select the last changed or pasted text
-kmap(
+vim.keymap.set(
     'n',
     'gp',
     "'`[' . strpart(getregtype(), 0, 1) . '`]'",
@@ -150,5 +127,3 @@ kmap(
 -- command! -bang Q q<bang>
 -- command! -bang QA qa<bang>
 -- command! -bang Qa qa<bang>
-
---actions.move_selection_next

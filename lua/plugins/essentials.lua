@@ -10,9 +10,6 @@ return {
         end
     },
     {
-        "tpope/vim-vinegar"
-    },
-    {
         "nvim-lua/plenary.nvim",
         priority = 900,
         lazy = false,

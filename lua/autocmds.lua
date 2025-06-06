@@ -51,6 +51,9 @@ function M.delaywrite()
     if vim.bo.buftype == "terminal" then
         return
     end
+    if vim.bo.buftype == "acwrite" then
+        return
+    end
     if dont_write then
         return
     end

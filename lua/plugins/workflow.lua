@@ -36,7 +36,6 @@ return {
 			{ "nvim-lua/popup.nvim" },
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope-fzy-native.nvim" },
-			{ "pwntester/octo.nvim" },
 			{ "sudormrfbin/cheatsheet.nvim" },
 		}
 	},

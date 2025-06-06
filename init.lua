@@ -11,9 +11,9 @@ if suitetype == "bootstrap" then
     require('plugins.packs') -- ./lua/plugins/packs.lua
 end
 
-if suitetype == "treesitter" then
-    require('plugins.packs_treesitter') -- ./lua/plugins/packs_treesitter.lua
-end
+-- if suitetype == "treesitter" then
+--     require('plugins.packs_treesitter') -- ./lua/plugins/packs_treesitter.lua
+-- end
 
 if suitetype == "none" then
 	print("vanilla")
@@ -25,6 +25,10 @@ if suitetype == "lazy" then
         spec = {
             -- import your plugins
             { import = "plugins" },
+        },
+        change_detection = {
+            enabled = false,
+            notify = false,
         },
         install = { colorscheme = { "one" } },
         checker = { enabled = true },
@@ -61,6 +65,7 @@ if suitetype == "packer" then
     require('packs.airline')      -- ./lua/packs/airline.lua
     require('packs.undotree')     -- ./lua/packs/undotree.lua
 end
+
 -- if suitetype == "small" then
 --     require('core') -- ./lua/core.lua
 --     -- require('leaders')             -- ./lua/leaders.lua
