@@ -13,3 +13,5 @@ tmp
 autoload/plug.vim
 Session.vim
 plugin/packer_compiled.lua
+undo
+lazy-lock.json

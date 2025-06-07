@@ -1,15 +1,4 @@
--- return {
---     {
---         'nvim-lualine/lualine.nvim',
---         dependencies = { 'nvim-tree/nvim-web-devicons' },
---         config = function()
---             require('lualine').setup {
---                 options = { theme = 'onedark' },
---             }
---         end,
---     }
--- }
-_G.terminal_submode = 'i'  -- default
+_G.terminal_submode = 'i' -- default
 
 -- Exit to terminal-normal
 vim.keymap.set('t', '<C-[>', function()
@@ -35,6 +24,183 @@ vim.keymap.set('t', 'i', function()
     )
 end, { expr = true })
 
+-- local telescopic = {
+--     -- sections = { lualine_a = {'mode'} }, filetypes = {'lua'} }
+--     filetypes = { 'TelescopePrompt', 'TelescopeResults' },
+--     sections = {
+--         lualine_a = {
+--             {
+--                 function()
+--                     local icon = '🔭'
+--                     local title = _G.telescope_type or 'Telescope'
+--                     return icon .. ' ' .. title
+--                 end,
+--                 separator = { left = '' },
+--                 right_padding = 2,
+--             },
+--         },
+--         lualine_b = {},
+--         lualine_c = {},
+--         lualine_x = {},
+--         lualine_y = {},
+--         lualine_z = {
+--             {
+--                 function()
+--                     return '󱞩 ' .. vim.fn.getcwd()
+--                 end,
+--                 separator = { right = '' },
+--                 left_padding = 2,
+--             }
+--         }
+--     },
+--     inactive_sections = {
+--         lualine_a = {
+--             {
+--                 function() return 'Telescope (inactive)' end,
+--                 separator = { left = '' },
+--                 right_padding = 2,
+--             }
+--         },
+--         lualine_b = {},
+--         lualine_c = {},
+--         lualine_x = {},
+--         lualine_y = {},
+--         lualine_z = {
+--             {
+--                 function()
+--                     return ''
+--                 end,
+--                 separator = { right = '' },
+--             }
+--         }
+--     }
+-- }
+-- if vim.bo.filetype == 'TelescopePrompt' then
+--     local prompt_title = _G.telescope_type
+--     local file = ''
+--     local icon = ''
+--     if prompt_title:match('^find_files') then
+--         file = 'Telescope: Files'
+--         icon = '📁'
+--     elseif prompt_title:match('^buffers') then
+--         file = 'Telescope: Buffers'
+--         icon = '📄'
+--     elseif prompt_title:match('^grep_string') then
+--         file = 'Telescope: SGrep'
+--         icon = '🔍'
+--     elseif prompt_title:match('^live_grep') then
+--         file = 'Telescope: LGrep'
+--         icon = '🔍'
+--     elseif prompt_title:match('^git_bcommits') then
+--         file = 'Telescope: Git'
+--         icon = '🔍'
+--     elseif prompt_title:match('^lsp_refernces') then
+--         file = 'Telescope: Lsp'
+--         icon = '🔍'
+--     elseif prompt_title:match('^Help') then
+--         file = 'Telescope: Help'
+--         icon = '❓'
+--     else
+--         file = 'Telescope'
+--         icon = '🔭'
+--     end
+--     return icon .. ' ' .. file
+--     -- return 'Telescope'
+-- end
+--     local file = '' local icon = ''
+--     local prompt_title = vim.api.nvim_buf_get_var(0, 'telescope_prompt_title') or ''
+--     if prompt_title:match('^Find Files') then
+--         file = 'Telescope: Files'
+--         icon = '📁'
+--     elseif prompt_title:match('^Grep Preview') then
+--         file = 'Telescope: Buffers'
+--         icon = '📄'
+--     elseif prompt_title:match('^Live Grep') then
+--         file = 'Telescope: Grep'
+--         icon = '🔍'
+--     elseif prompt_title:match('^Help') then
+--         file = 'Telescope: Help'
+--         icon = '❓'
+--     else
+--         file = 'Telescope'
+--         icon = '🔭'
+--     end
+--     return icon .. ' ' .. file
+-- end
+--(_G.telescope_type or 'Telescope')
+local function telescopic()
+    return {
+      lualine_a = {
+        {
+            function()
+                if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
+                    return '󰭎 ' .. 'Telescope'
+                end
+            end,
+            color = function()
+                if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
+                    return 'lualine_a_visual'
+                end
+            end,
+            separator = { left = '', right = '', },
+            right_padding = 2,
+        }
+      },
+      lualine_b = {
+            function()
+                if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
+                    local prompt_title = _G.telescope_type
+                    local file = ''
+                    local icon = ''
+                    if prompt_title:match('^find_files') then
+                        file = 'Files'
+                        icon = '󰈞'
+                    elseif prompt_title:match('^buffers') then
+                        file = 'Buffers'
+                        icon = ''
+                    elseif prompt_title:match('^grep_string') then
+                        file = 'Cursor Grep'
+                        icon = '󱁵'
+                    elseif prompt_title:match('^live_grep') then
+                        file = 'Live Grep'
+                        icon = '󰜏'
+                    elseif prompt_title:match('^git_bcommits') then
+                        file = 'Git'
+                        icon = ''
+                    elseif prompt_title:match('^lsp_refernces') then
+                        file = 'References'
+                        icon = ''
+                    elseif prompt_title:match('^Help') then
+                        file = 'Help'
+                        icon = '󰮥'
+                    end
+                    return icon .. ' ' .. file
+                end
+            end,
+
+        },
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {
+        {
+          function()
+            if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
+                return '󱞩 ' .. vim.fn.bufname('%'), ':f'
+            end
+          end,
+          color = function()
+            if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
+                return 'lualine_a_visual'
+            end
+          end,
+          separator = { right = '', left = '' },
+          left_padding = 2,
+        }
+      }
+    }
+end
+
 return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -53,7 +219,7 @@ return {
             if mode == 't' and _G.terminal_submode == 'i' then
                 return 'lualine_a_insert'
             elseif mode == 't' and _G.terminal_submode == 'n' then
-                    return 'lualine_a_normal'
+                return 'lualine_a_normal'
             end
             return nil
         end
@@ -68,31 +234,36 @@ return {
                 lualine_b = {
                     {
                         function()
-                            local file = vim.fn.expand('%:~:.')
-                            if file == '' then
-                                file = '[No Name]'
-                            end
-
+                            local bufname = vim.api.nvim_buf_get_name(0)
+                            local file = ''
                             local icon = ''
-                            if vim.bo.buftype == 'terminal' then
+                            if bufname:match("^oil://") then
+                                file = bufname
+                                icon = '󱞊'
+                            elseif bufname:match("^fugitive://") then
+                                local short_sha, path = bufname:match("fugitive://.-%.git//([a-f0-9]+)/(.*)")
+                                if short_sha and path then
+                                    file = string.format("git:///%s/%s", short_sha:sub(1, 7), path)
+                                else
+                                    file = bufname
+                                end
+                                icon = '󰊢'
+                            elseif vim.bo.buftype == 'terminal' then
+                                file = vim.fn.expand('%:~:.')
                                 icon = '🖥️'
-                            elseif vim.bo.readonly then
-                                icon = '🔒'
+                            elseif bufname == '' then
+                                file = '[No Name]'
+                            else
+                                file = vim.fn.fnamemodify(bufname, ":~:.")
+                                if vim.bo.readonly then
+                                    icon = '🔒'
+                                end
+                                if vim.bo.modified then
+                                    icon = icon .. ' ●'
+                                end
                             end
-
-                            if vim.bo.modified then
-                                icon = icon .. ' ●'
-                            end
-
                             return file .. ' ' .. icon
                         end,
-                        -- 'filename',
-                        -- path = 1, -- 0 = just file name, 1 = relative path, 2 = absolute path
-                        -- symbols = {
-                        --     modified = ' ●', -- Text to show when the file is modified
-                        --     unnamed = '[No Name]', -- Text to show for unnamed buffers
-                        --     newfile = '[New]',     -- Text to show for newly created file before saving
-                        -- },
                     },
                     'branch'
                 },
@@ -111,14 +282,7 @@ return {
                     { 'location', separator = { right = '' }, left_padding = 2 },
                 },
             },
-            inactive_sections = {
-                lualine_a = {},
-                lualine_b = {},
-                lualine_c = { 'filename' },
-                lualine_x = { 'location' },
-                lualine_y = {},
-                lualine_z = {}
-            },
+            inactive_sections = telescopic(),
             tabline = {
                 lualine_a = {
                     { 'tabs',
@@ -129,12 +293,47 @@ return {
                             alternate_file = '#',
                             directory = '',
                         },
+                        max_length = vim.o.columns, -- use full window width
+                        tab_max_length = 25,        -- optional: max width per tab
+                        fmt = function(name, context)
+                            -- You can inspect context.tabnr here
+                            local buflist = vim.fn.tabpagebuflist(context.tabnr)
+                            local win = vim.fn.tabpagewinnr(context.tabnr)
+                            local bufnr = buflist[win]
+                            local bufname = vim.fn.bufname(bufnr)
+
+                            if vim.bo[bufnr].buftype == 'terminal' then
+                                return ' term'
+                            end
+                            if bufname:sub(1, 6) == "oil://" then
+                                return '󱞊 oil'
+                            end
+                            if name == '[No Name]' or bufname == '' or name == '' then
+                                if _G.telescope_open then
+                                    return vim.fn.fnamemodify(vim.fn.expand('#'), ':t')
+                                end
+                            end
+
+                            if bufname:match("^fugitive://") then
+                                local short_sha, path = bufname:match("fugitive://.-%.git//([a-f0-9]+)/(.*)")
+                                local file = ''
+                                if short_sha and path then
+                                    file = string.format("git:///%s/%s", short_sha:sub(1, 7), path)
+                                else
+                                    file = bufname
+                                end
+                                return '󰊢 ' .. file
+                            end
+
+                            -- fallback to default name
+                            return name
+                        end
                     }
                 },
             },
             winbar = {},
             inactive_winbar = {},
-            extensions = {}
+            extensions = { 'quickfix', 'fugitive', 'oil', 'mundo' }
         }
     end,
 }

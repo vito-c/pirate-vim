@@ -36,16 +36,15 @@ if suitetype == "lazy" then
     require('autocmds')           -- ./lua/autocmds.lua
     require('builtins')           -- ./lua/builtins.lua
     require('core')               -- ./lua/core.lua
+    require('imgwindow')          -- ./lua/imgwindow.lua
     require('leaders')            -- ./lua/leaders.lua
     require('mappings')           -- ./lua/mappings.lua
     require('packs.fugitive')     -- ./lua/packs/fugitive.lua
-    require('packs.metals')       -- ./lua/packs/metals.lua
+    -- require('packs.metals')       -- ./lua/packs/metals.lua
     require('packs.lsp')          -- ./lua/packs/lsp.lua
     require('packs.tabularize')   -- ./lua/packs/tabularize.lua
     require('packs.telescope')    -- ./lua/packs/telescope.lua
     require('packs.luasnip')      -- ./lua/packs/luasnip.lua
-    require('packs.airline')      -- ./lua/packs/airline.lua
-    require('packs.undotree')     -- ./lua/packs/undotree.lua
 end
 
 if suitetype == "packer" then
@@ -62,7 +61,6 @@ if suitetype == "packer" then
     require('packs.telescope')    -- ./lua/packs/telescope.lua
     require('packs.hologram')     -- ./lua/packs/hologram.lua
     require('packs.luasnip')      -- ./lua/packs/luasnip.lua
-    require('packs.airline')      -- ./lua/packs/airline.lua
     require('packs.undotree')     -- ./lua/packs/undotree.lua
 end
 
@@ -86,7 +84,6 @@ end
 --         use 'tomtom/tcomment_vim'
 --     end)
 -- end
-
 -- function bufdump()
 --     local l = List(vim.fn.getbufinfo({buflisted = 1})):filter(
 --         function(x)
