@@ -36,7 +36,6 @@ if suitetype == "lazy" then
     require('autocmds')           -- ./lua/autocmds.lua
     require('builtins')           -- ./lua/builtins.lua
     require('core')               -- ./lua/core.lua
-    require('imgwindow')          -- ./lua/imgwindow.lua
     require('leaders')            -- ./lua/leaders.lua
     require('mappings')           -- ./lua/mappings.lua
     require('packs.fugitive')     -- ./lua/packs/fugitive.lua
