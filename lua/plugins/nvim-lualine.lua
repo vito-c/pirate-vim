@@ -1,5 +1,7 @@
 _G.terminal_submode = 'i' -- default
-
+-- ============================================================================
+-- Terminal Keymappings for switching submodes
+-- ============================================================================
 -- Exit to terminal-normal
 vim.keymap.set('t', '<C-[>', function()
     if _G.terminal_submode == 'i' then
@@ -23,6 +25,9 @@ vim.keymap.set('t', 'i', function()
         'n', false
     )
 end, { expr = true })
+-- ============================================================================
+-- Helper functions
+-- ============================================================================
 local function shorten_path(cut_str, path, replacement)
 -- "󱞽"
     local output = ''
@@ -71,81 +76,153 @@ local function terminal_mode_color()
     return ''
 end
 
-local function telescopic()
-    return {
-      lualine_a = {
-        {
-            function()
-                if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
-                    return '󰭎 ' .. 'Telescope'
-                end
-            end,
-            color = function()
-                if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
-                    return 'lualine_a_visual'
-                else
-                    return 'lualine_a_inactive'
-                end
-            end,
-            separator = { left = '', right = '', },
-            right_padding = 2,
-        }
-      },
-      lualine_b = {
-            function()
-                if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
-                    local prompt_title = _G.telescope_type
-                    local file = ''
-                    local icon = ''
-                    if prompt_title:match('^find_files') then
-                        file = 'Files'
-                        icon = '󰈞'
-                    elseif prompt_title:match('^buffers') then
-                        file = 'Buffers'
-                        icon = ''
-                    elseif prompt_title:match('^grep_string') then
-                        file = 'Cursor Grep'
-                        icon = '󱁵'
-                    elseif prompt_title:match('^live_grep') then
-                        file = 'Live Grep'
-                        icon = '󰜏'
-                    elseif prompt_title:match('^git_bcommits') then
-                        file = 'Git'
-                        icon = ''
-                    elseif prompt_title:match('^lsp_refernces') then
-                        file = 'References'
-                        icon = ''
-                    elseif prompt_title:match('^Help') then
-                        file = 'Help'
-                        icon = '󰮥'
-                    end
-                    return icon .. ' ' .. file
-                end
-            end,
+local function has_split()
+    local win_count = #vim.api.nvim_tabpage_list_wins(0)
+    local is_cmd = vim.api.nvim_get_mode().mode == 'c'
+    if is_cmd and win_count > 3 then
+        return true
+    end
+    if not is_cmd and win_count > 1 then
+        return true
+    end
 
+    return false
+end
+-- ============================================================================
+-- Thematic Functions
+-- ============================================================================
+local function telescope_open()
+    return _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults'
+end
+local function inactive_sections()
+    return {
+        lualine_a = {
+            {
+                function()
+                    if telescope_open() then
+                        return ' ' .. 'TELESCOPE'
+                    end
+                    return 'IDLE'
+                    -- return '󰘓 ' .. 'IDLE'
+                end,
+                color = function()
+                    if telescope_open() then
+                        return {
+                            fg = "#282c34",
+                            bg = "#4287f5",
+                            gui = "bold",
+                        }
+                    end
+                    return {
+                        fg = "#282c34",
+                        bg = "#6c6c73",
+                        gui = "bold",
+                    }
+                end
+                ,
+                separator = { left = '', right = '', },
+                right_padding = 2,
+            }
         },
-      lualine_c = {},
-      lualine_x = {},
-      lualine_y = {},
-      lualine_z = {
-        {
-          function()
-            if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
-                return shorten_path(_G.groot(), vim.fn.bufname('%'), '󱞩 ..')
-            end
-          end,
-          color = function()
-            if _G.telescope_open or vim.bo.filetype == 'TelescopePrompt' or vim.bo.filetype == 'TelescopeResults' then
-                return 'lualine_a_visual'
-            end
-          end,
-          separator = { right = '', left = '' },
-          left_padding = 2,
+        lualine_b = {
+            {
+                function()
+                    local prompt_title = telescope_open() and _G.telescope_type or 'default'
+                    local telescope_types = {
+                        find_files = { icon = '󰈞', name = 'Files' },
+                        buffers = { icon = '', name = 'Buffers' },
+                        grep_string = { icon = '󱁵', name = 'Cursor Grep' },
+                        live_grep = { icon = '󰜏', name = 'Live Grep' },
+                        git_bcommits = { icon = '', name = 'Git' },
+                        lsp_references = { icon = '', name = 'References' },
+                        help = { icon = '', name = 'Help' },
+                    }
+                    for pattern, info in pairs(telescope_types) do
+                        if prompt_title:match('^' .. pattern) then
+                            return info.icon .. ' ' .. info.name
+                        end
+                    end
+                    -- local file = vim.fn.fnamemodify(bufname, ":~:.")
+                    if has_split() then
+                        local bufname = vim.api.nvim_buf_get_name(0)
+                        local file = vim.fn.fnamemodify(bufname, ":p")
+                        file = shorten_path(_G.groot(), file, '󱞽 ..')
+                        return file
+                    end
+                    return ' Telescope'
+                end,
+                color = { bg="#3e4452", fg="#abb2bf" },
+                separator = { right = ''},
+            }
+        },
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {
+            {
+                'filetype',
+                color = { bg="#3e4452", fg="#abb2bf" },
+                cond = function()
+                    return #vim.api.nvim_tabpage_list_wins(0) < 2
+                end,
+            },
+            {
+                'progress',
+                color = { bg="#3e4452", fg="#abb2bf" },
+                cond = function()
+                    return #vim.api.nvim_tabpage_list_wins(0) < 2
+                end
+            }
+        },
+        lualine_z = {
+            {
+                'location',  -- Built-in location component
+                cond = function()
+                    return not telescope_open()  -- Only show when telescope is NOT open
+                end,
+                color = {
+                    fg = "#282c34",
+                    bg = "#6c6c73",
+                    gui = "bold",
+                },
+                separator = { right = '', left = '' },
+                left_padding = 2,
+            },
+            {
+                function()
+                    return shorten_path(_G.groot(), vim.fn.bufname('%'), '󱞩 ..')
+                end,
+                cond = telescope_open,  -- Only show when telescope IS open
+                color = {
+                    fg = "#282c34",
+                    bg = "#4287f5",
+                },
+                separator = { right = '', left = '' },
+                left_padding = 2,
+            },
+            -- {
+            --   color = function()
+            --     if telescope_open() then
+            --         return {
+            --             fg = "#282c34",
+            --             bg = "#4287f5",
+            --         }
+            --     end
+            --     return {
+            --         fg = "#282c34",
+            --         bg = "#6c6c73",
+            --         gui = "bold",
+            --     }
+            --   end,
+            --   separator = { right = '', left = '' },
+            --   left_padding = 2,
+            -- },
         }
-      }
     }
 end
 
+-- ============================================================================
+-- Man Setup
+-- ============================================================================
 return {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -190,10 +267,10 @@ return {
                             elseif bufname == '' then
                                 file = '[No Name]'
                             else
-                                local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
                                 file = vim.fn.fnamemodify(bufname, ":~:.")
-                                if is_split then
-                                    file = shorten_path(_G.groot(), vim.expand(file), '󱞽 ..')
+                                if has_split() then
+                                    file = vim.fn.fnamemodify(bufname, ":p")
+                                    file = shorten_path(_G.groot(), file, '󱞽 ..')
                                 end
                                 if vim.bo.readonly then
                                     icon = '🔒'
@@ -205,12 +282,17 @@ return {
                             return file .. ' ' .. icon
                         end,
                     },
-                    'branch'
+                    {
+                        'branch',
+                        cond = function()
+                            local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
+                            return not is_split
+                        end
+                    }
                 },
                 lualine_c = {
                     {
                         terminal_mode,
-                        -- color = terminal_mode_color,
                         color = terminal_mode_color,
                         cond = function() return vim.bo.buftype == 'terminal' end,
                         separator = { right = '' }, -- ⬅️ this adds the left-side bubble
@@ -218,12 +300,27 @@ return {
                     },
                 },
                 lualine_x = {},
-                lualine_y = { 'filetype', 'progress' },
+                lualine_y = {
+                    {
+                        'filetype',
+                        cond = function()
+                            local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
+                            return not is_split
+                        end
+                    },
+                    {
+                        'progress',
+                        cond = function()
+                            local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
+                            return not is_split
+                        end
+                    }
+                },
                 lualine_z = {
                     { 'location', separator = { right = '' }, left_padding = 2 },
                 },
             },
-            inactive_sections = telescopic(),
+            inactive_sections =  inactive_sections(),
             tabline = {
                 lualine_a = {
                     { 'tabs',
@@ -254,7 +351,6 @@ return {
                                     return vim.fn.fnamemodify(vim.fn.expand('#'), ':t')
                                 end
                             end
-
                             if bufname:match("^fugitive://") then
                                 local short_sha, path = bufname:match("fugitive://.-%.git//([a-f0-9]+)/(.*)")
                                 local file = ''
@@ -265,8 +361,6 @@ return {
                                 end
                                 return '󰊢 ' .. file
                             end
-
-                            -- fallback to default name
                             return name
                         end
                     }
