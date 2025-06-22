@@ -32,10 +32,9 @@ local on_attach = function(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<leader>d', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', '<leader>kd', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<leader>ka', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<leader>td', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
@@ -48,25 +47,30 @@ local on_attach = function(client, bufnr)
         { noremap = true, silent = true })
 
     -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', 'gi', function() require('telescope.builtin').lsp_implementations() end,
+    vim.keymap.set('n', '<leader>ki', function() require('telescope.builtin').lsp_implementations() end,
         { noremap = true, silent = true })
-    vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end,
+    vim.keymap.set('n', '<leader>kr', function() require('telescope.builtin').lsp_references() end,
         { noremap = true, silent = true })
-    vim.keymap.set('n', 'gh', ':ClangdSwitchSourceHeader<CR>', { noremap = true, silent = true })
-    vim.keymap.set('n', 'gs', ':ClangdShowSymbolInfo<CR>', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>kh', ':ClangdSwitchSourceHeader<CR>', { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>ks', ':ClangdShowSymbolInfo<CR>', { noremap = true, silent = true })
     --   -- bmap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     --   -- bmap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    --   -- bmap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    vim.keymap.set('n', '<leader>F', function()
+        vim.lsp.buf.format { async = true }
+    end, { noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>fF', function()
+        vim.lsp.buf.format { async = true }
+    end, { noremap = true, silent = true })
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 -- Force utf-16 encoding for all clients to ensure compatibility with Copilot
 capabilities = vim.tbl_deep_extend('force', capabilities, {
-  offsetEncoding = { 'utf-16' },
-  general = {
-    positionEncodings = { 'utf-16' },
-  },
+    offsetEncoding = { 'utf-16' },
+    general = {
+        positionEncodings = { 'utf-16' },
+    },
 })
 
 -- Add additional capabilities supported by nvim-cmp
@@ -224,7 +228,7 @@ require 'lspconfig'.lua_ls.setup {
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = { 'vim', '_G' },
+                globals = { "vim", "_G", "io", "os" }
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
@@ -254,7 +258,7 @@ require 'lspconfig'.lua_ls.setup {
 --     flags = lsp_flags,
 --     capabilities = capabilities
 -- }
-require'lspconfig'.cmake.setup {
+require 'lspconfig'.cmake.setup {
     cmd = { "cmake-language-server" },
     capabilities = capabilities,
     filetypes = { "cmake" },
@@ -328,8 +332,7 @@ require 'nvim-treesitter.configs'.setup {
     -- A list of parser names, or "all"
     ensure_installed = { "c", "lua", "vim", "vimdoc", "rust", "python", "go", "bash", "toml", "json", "yaml", "scala" },
     sync_install = false,
-
-    -- ignore_install = { "javascript", "typescript" },
+    ignore_install = { "javascript", "typescript" },
     -- modules = {
     --     -- Load the parser for the language you want to use
     --     -- "c",

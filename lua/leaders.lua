@@ -203,7 +203,9 @@ nmap(
                         }, false, {})
                     end)
                     require('builtins').open_test_term()
-                    vim.fn.chansend(vim.o.channel, { 'rf', '' })
+                    vim.fn.chansend(vim.o.channel, { string.char(3), '' })
+                    vim.fn.chansend(vim.o.channel, { '!!', '' })
+                    -- vim.fn.chansend(vim.o.channel, { 'rf', '' })
                 end
             end
         })
@@ -251,5 +253,3 @@ vim.keymap.set(
 --     '<leader>tsq',
 --     ":<C-U>call rc#leaders#opensbt()<Bar>call chansend(&channel, ['testQuick' , ''])<CR>G"
 -- )
-
-nmap('<leader>ct', ':tabclose <CR>')

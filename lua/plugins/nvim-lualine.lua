@@ -43,6 +43,9 @@ local function shorten_path(cut_str, path, replacement)
             output = path
         end
     end
+    if #output > 36 then
+        output = "/" .. vim.fn.fnamemodify(path, ':t')
+    end
     output = replacement .. output
     return output
 end
@@ -175,9 +178,9 @@ local function inactive_sections()
         },
         lualine_z = {
             {
-                'location',  -- Built-in location component
+                'location',
                 cond = function()
-                    return not telescope_open()  -- Only show when telescope is NOT open
+                    return not telescope_open()
                 end,
                 color = {
                     fg = "#282c34",
@@ -189,9 +192,14 @@ local function inactive_sections()
             },
             {
                 function()
-                    return shorten_path(_G.groot(), vim.fn.bufname('%'), '󱞩 ..')
+                    local file = vim.fn.bufname('%')
+                    local win_count = #vim.api.nvim_tabpage_list_wins(0)
+                    if win_count > 7 then
+                        return '󱞩 ../' .. vim.fn.fnamemodify(file, ":t")
+                    end
+                    return shorten_path(_G.groot(), file, '󱞩 ..')
                 end,
-                cond = telescope_open,  -- Only show when telescope IS open
+                cond = telescope_open,
                 color = {
                     fg = "#282c34",
                     bg = "#4287f5",
@@ -199,23 +207,6 @@ local function inactive_sections()
                 separator = { right = '', left = '' },
                 left_padding = 2,
             },
-            -- {
-            --   color = function()
-            --     if telescope_open() then
-            --         return {
-            --             fg = "#282c34",
-            --             bg = "#4287f5",
-            --         }
-            --     end
-            --     return {
-            --         fg = "#282c34",
-            --         bg = "#6c6c73",
-            --         gui = "bold",
-            --     }
-            --   end,
-            --   separator = { right = '', left = '' },
-            --   left_padding = 2,
-            -- },
         }
     }
 end

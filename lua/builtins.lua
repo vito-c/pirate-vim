@@ -48,34 +48,7 @@ end
 -- local pretty = require 'pl.pretty'
 -- local plenary = require("plenary")
 -- local Path = require "plenary.path"
-local defaultpath = '~/code/**'
-local libpath = ',~/code/startup/opencv/**,~/code/startup/opencv_contrib/modules/**'
 -- when nvim is first opened we set the path to be the top levle code dir
-vim.o.path = defaultpath
-local prev_groot = defaultpath
--- I am groot (git + root)
-function M.groot_path()
-    if fn.getbufvar(fn.bufnr('%'), '&buftype') == 'terminal' then
-        return prev_groot
-    else
-        return M.groot_stub() .. '/**' .. libpath
-    end
-end
-
-function M.groot_stub()
-    prev_groot = vim.o.path
-    local cpath = fn.expand('%:p:h')
-    local pcmd = 'git -C ' .. cpath .. ' rev-parse --show-toplevel 2>&1'
-    local handle = io.popen(pcmd)
-    local groot = handle:read("*all"):gsub('\n', '')
-    handle:close()
-    if groot:match('fatal.*') then
-        vim.o.path = cpath
-        return cpath
-    end
-    return groot
-end
-
 function M.file_buffers()
     return List(fn.getbufinfo({ buflisted = 1 })):filter(
         function(x)
@@ -150,13 +123,6 @@ function M.reload(fname)
         end
     end
     require(fname)
-end
-
--- Tip: to call a something on the global table use v:lua
--- call v:lua.builtins_path()
--- to set something on the global table use _G
-function _G.groot()
-    return M.groot_stub()
 end
 
 function M.open_term(name, command)

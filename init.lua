@@ -20,6 +20,7 @@ if suitetype == "none" then
 end
 
 if suitetype == "lazy" then
+    require("groot")
     require("config.lazy")        -- ./lua/config/lazy.lua 
     require("lazy").setup({
         spec = {
