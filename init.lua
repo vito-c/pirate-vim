@@ -6,6 +6,14 @@ local home = os.getenv("HOME")
 package.path = package.path .. ";" .. home .. "/.luarocks/share/lua/5.1/?.lua"
 package.path = package.path .. ";" .. home .. "/.luarocks/share/lua/5.1/?/init.lua"
 
+local home = vim.loop.os_homedir() or os.getenv("HOME")
+
+vim.opt.path:append({
+  home .. "/code/startup/videoblast/**",
+  home .. "/code/startup/opencv/**",
+  home .. "/code/startup/opencv_contrib/modules/**",  -- note: 'modules', not 'ontrib/modules'
+})
+
 
 if suitetype == "bootstrap" then
     require('plugins.packs') -- ./lua/plugins/packs.lua

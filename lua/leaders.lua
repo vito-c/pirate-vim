@@ -26,7 +26,7 @@ local function vmap(keys, command)
 end
 
 function tmap(keys, command)
-    vim.api.nvim_set_keymap('t', keys, command, { noremap = true })
+    vim.keymap.set('t', keys, command, { buffer = buf, silent = true })
 end
 
 -- Check the operating system
@@ -120,6 +120,11 @@ nmap(
         vim.fn.chansend(vim.o.channel, { '!!', '' })
     end
 )
+nmap('<leader>tc',
+    function()
+        vim.fn.chansend(vim.o.channel, { 'c', '' })
+    end
+)
 nmap(
     '<leader>tr',
     function()
@@ -203,9 +208,9 @@ nmap(
                         }, false, {})
                     end)
                     require('builtins').open_test_term()
-                    vim.fn.chansend(vim.o.channel, { string.char(3), '' })
-                    vim.fn.chansend(vim.o.channel, { '!!', '' })
-                    -- vim.fn.chansend(vim.o.channel, { 'rf', '' })
+                    -- vim.fn.chansend(vim.o.channel, { string.char(3), '' })
+                    -- vim.fn.chansend(vim.o.channel, { '!!', '' })
+                    vim.fn.chansend(vim.o.channel, { 'rf', '' })
                 end
             end
         })
