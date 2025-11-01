@@ -12,6 +12,10 @@ vim.opt.path:append({
   home .. "/code/startup/videoblast/**",
   home .. "/code/startup/opencv/**",
   home .. "/code/startup/opencv_contrib/modules/**",  -- note: 'modules', not 'ontrib/modules'
+  ".",
+  vim.fn.expand("$HOME/code/startup/producer"),
+  vim.fn.expand("$HOME/code/startup/producer/src"),
+  "**",
 })
 
 

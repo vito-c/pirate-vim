@@ -99,9 +99,17 @@ return {
 
                 return function()
                     local opts = {}
-                    if static_opts.groot then
-                        opts.cwd = _G.groot()
+                    -- if static_opts.groot then
+                    --     opts.cwd = _G.groot()
+                    -- end
+                    for k, v in pairs(static_opts) do
+                        if k == 'groot' and v then
+                            opts.cwd = _G.groot()
+                        else
+                            opts[k] = v
+                        end
                     end
+
                     opts.layout_strategy = static_opts.layout_strategy or "vertical"
                     tscope[cmd](opts)
                 end
@@ -110,10 +118,14 @@ return {
             vim.keymap.set('n', '<leader>ff', t('find_files', { groot = true }))
             vim.keymap.set('n', '<leader>fc', t('find_files'))
             vim.keymap.set('n', '<leader>fr', t('lsp_references', { groot = true }))
-            vim.keymap.set('n', '<leader>l',  t('buffers'))
+            vim.keymap.set('n', '<leader>l', t('buffers'))
             vim.keymap.set('n', '<leader>gc', t('git_bcommits', { groot = true }))
             vim.keymap.set('n', '<leader>sg', t('grep_string', { groot = true }))
             vim.keymap.set('n', '<leader>sf', t('live_grep', { groot = true }))
+            vim.keymap.set('n', '<leader>xX', t('diagnostics', { groot = true, desc = 'Diagnostics (workspace)' }))
+            vim.keymap.set('n', '<leader>xx', t('diagnostics', {
+                groot = true, bufnr = 0, desc = 'diagnostics (buffer)'
+            }))
 
             -- TODO: Move these to autocmds.lua
             local set = vim.api.nvim_create_autocmd

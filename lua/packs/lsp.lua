@@ -1,12 +1,6 @@
 -------------------------------------------------------------------------------
 -- Neovim API aliases
 -------------------------------------------------------------------------------
--- local kmap = vim.api.nvim_set_keymap  -- set global keymap
--- local cmd  = vim.cmd     	          -- execute Vim commands
--- local exec = vim.api.nvim_exec 	      -- execute Vimscript
--- local fn   = vim.fn       		      -- call Vim functions
--- local g    = vim.g         	          -- global variables
--- local opt  = vim.opt         	      -- global/buffer/windows-scoped options
 local lsp = require("lspconfig") -------------------------------------------------------------------------------
 local M = {}
 -- Neovim API aliases
@@ -14,9 +8,42 @@ local M = {}
 
 
 local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+-- Float at cursor (default)
+vim.keymap.set('n', '<leader>ek', function()
+  vim.diagnostic.open_float({
+    bufnr = 0,
+    scope = 'cursor',
+    focus = false,
+  })
+end, { desc = 'Diagnostic float at cursor' })
+
+
+-- Force show for the whole line:
+vim.keymap.set('n', '<leader>eK', function()
+  vim.diagnostic.open_float({
+    bufnr = 0,
+    scope = 'line',
+    focus = false,
+  })
+end, { desc = 'Diagnostic float for line' })
+
+-- Next/prev diagnostic (new API)
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.jump({ count = 1, float = true })   -- show popup on jump
+end, { silent = true, desc = 'Next diagnostic' })
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.jump({ count = -1, float = true })
+end, { silent = true, desc = 'Prev diagnostic' })
+
+-- Only errors
+vim.keymap.set('n', ']e', function()
+  vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
+end, { silent = true, desc = 'Next error' })
+
+vim.keymap.set('n', '[e', function()
+  vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })
+end, { silent = true, desc = 'Prev error' })
+
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, opts)
 
 -- Use an on_attach function to only map the following keys
@@ -73,150 +100,113 @@ capabilities = vim.tbl_deep_extend('force', capabilities, {
     },
 })
 
--- Add additional capabilities supported by nvim-cmp
--- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+local cmp = require("cmp")
+local compare = require("cmp.config.compare")
 
--- Set completeopt to have a better completion experience
--- vim.o.completeo:pt = 'menuone,noselect'
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
 
--- luasnip setup
--- local luasnip = require('luasnip')
--- nvim-cmp setup
-local cmp = require('cmp')
-cmp.setup {
-    snippet = {
-        expand = function(args)
-            -- Comes from vsnip
-            vim.fn["vsnip#anonymous"](args.body)
-        end,
-    },
-    mapping = {
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-        },
-        -- ['<Tab>'] = function(fallback)
-        --     if vim.fn['copilot#Accept']() ~= '' then
-        --         -- Copilot accepted, do nothing
-        --     elseif cmp.visible() then
-        --         cmp.select_next_item()
-        --     else
-        --         fallback()
-        --     end
-        -- end,
-        -- ['<Tab>'] = function(fallback)
-        --     if cmp.visible() then
-        --         cmp.select_next_item()
-        --         -- elseif luasnip.expand_or_jumpable() then
-        --         --   luasnip.expand_or_jump()
-        --     else
-        --         fallback()
-        --     end
-        -- end,
-        -- ['<S-Tab>'] = function(fallback)
-        --     if cmp.visible() then
-        --         cmp.select_prev_item()
-        --         -- elseif luasnip.jumpable(-1) then
-        --         --   luasnip.jump(-1)
-        --     else
-        --         fallback()
-        --     end
-        -- end,
-    },
-    sources = {
-        { name = "nvim_lsp",               priority = 10 },
-        { name = "buffer" },
-        { name = "vsnip" },
-        { name = "path" },
-        { name = "nvim_lsp_signature_help" },
-    },
-    preselect = cmp.PreselectMode.None, -- disable preselection
-    sorting = {
-        priority_weight = 2,
-        comparators = {
-            cmp.config.offset,    -- we still want offset to be higher to order after 3rd letter
-            cmp.config.score,     -- same as above
-            cmp.config.recently_used,
-            cmp.config.sort_text, -- add higher precedence for sort_text, it must be above `kind`
-            cmp.config.kind,
-            cmp.config.length,
-            cmp.config.order,
-        },
-    },
-    -- if you want to add preselection you have to set completeopt to new values
-    completion = {
-        -- completeopt = 'menu,menuone,noselect', <---- this is default value,
-        completeopt = 'menu,menuone', -- remove noselect
-    },
-}
+  mapping = cmp.mapping.preset.insert({
+    ["<C-n>"]     = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-j>"]     = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-p>"]     = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-k>"]     = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-d>"]     = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"]     = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"]     = cmp.mapping.abort(),
+    ["<CR>"]      = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+    ["<Tab>"]      = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+  }),
 
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "path" },
+    { name = "vsnip" },
+    { name = "buffer" },
+    { name = "nvim_lsp_signature_help" },
+  }),
 
+  preselect = cmp.PreselectMode.None,
+
+  -- Tame fuzzy so exact/short matches win (e.g., Path)
+  matching = {
+    disallow_fuzzy_matching = true,
+    disallow_fullfuzzy_matching = true,
+    disallow_partial_fuzzy_matching = true,
+    disallow_partial_matching = true,           -- <- add this
+    disallow_prefix_unmatching = true,
+    disallow_symbol_nonprefix_matching = true,  -- <- and this
+  },
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      compare.exact,        -- exact prefix first
+      compare.locality,     -- prefer nearby symbols
+      compare.recently_used,
+      compare.score,        -- LSP score
+      -- prefer shorter labels (puts "Path" over long auto-imports)
+      function(e1, e2)
+        local l1 = #e1.completion_item.label
+        local l2 = #e2.completion_item.label
+        if l1 ~= l2 then return l1 < l2 end
+      end,
+      -- fewer dots earlier (de-prioritize deep dotted names)
+      function(e1, e2)
+        local function dots(s) local _, c = s:gsub("%.", ""); return c end
+        local d1, d2 = dots(e1.completion_item.label), dots(e2.completion_item.label)
+        if d1 ~= d2 then return d1 < d2 end
+      end,
+      compare.kind,
+      compare.sort_text,
+      compare.length,
+      compare.order,
+    },
+  },
+
+  completion = {
+    completeopt = "menu,menuone",
+  },
+
+  window = {
+    completion    = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+
+  performance = {
+    debounce = 60,                   -- ms to wait after input before requesting items
+    throttle = 30,                   -- ms minimum between refreshes
+    fetching_timeout = 200,          -- ms LSP/source fetch timeout
+    filtering_context_budget = 10,   -- ms budget to filter items
+    confirm_resolve_timeout = 80,    -- ms to resolve additional item info on confirm
+    async_budget = 8,                -- ms per tick for async work
+    max_view_entries = 40,           -- how many items to render
+  },
+  experimental = { ghost_text = true },
+})
 
 local lsp_flags = {
     -- This is the default in Nvim 0.7+
     debounce_text_changes = 150,
 }
 
--- lspconfig.sumneko_lua.setup {
---   settings = {
---     Lua = {
---       runtime = {
---         version = 'LuaJIT',
---         path = (function()
---           local rtp = vim.split(package.path, ';', { plain = true })
---           rtp[#rtp+1] = './lua/?.lua'
---           rtp[#rtp+1] = './lua/?/init.lua'
---           return rtp
---         end)(),
---         pathStrict = true,
---       },
---       workspace = {
---         library = (function()
---           local lib = {}
---           for _, path in ipairs(vim.api.nvim_get_runtime_file('lua', true)) do
---             lib[#lib+1] = path:sub(1, -5)
---           end
---           return lib
---         end)(),
---       },
---       telemetry = { enable = false },
---     },
---   },
--- }
-
-local uname = vim.loop.os_uname().sysname
-local sumneko_root_path = ""
-local sumneko_main = ""
-if uname == "Darwin" then
-    sumneko_root_path = '/opt/homebrew/opt/lua-language-server'
-    sumneko_main = sumneko_root_path .. "/libexec/main.lua"
-else
-    -- /usr/lib/lua-language-server/bin/lua-language-server
-    sumneko_root_path = '/usr/lib/lua-language-server'
-    sumneko_main = sumneko_root_path .. "/main.lua"
-end
-local sumneko_binary = sumneko_root_path .. '/bin/lua-language-server'
-
--- local runtime_path = vim.split(package.path, ';')
--- table.insert(runtime_path, "lua/?.lua")
--- table.insert(runtime_path, "lua/?/init.lua")
--- table.insert(runtime_path, "~/.luarocks/share/lua/5.1/?/?.lua")
+local state = vim.fn.stdpath('state') .. '/lua-language-server'
+vim.fn.mkdir(state, 'p')
 
 require 'lspconfig'.lua_ls.setup {
-    cmd = { sumneko_binary, "-E", sumneko_main },
+    cmd = {
+        'lua-language-server',
+        '--logpath=' .. state,
+        '--metapath=' .. (state .. '/meta'),
+    },
     settings = {
         Lua = {
             runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                 version = 'LuaJIT',
-                -- Setup your lua path
-                -- path = runtime_path,
                 path = (function()
                     local rtp = vim.split(package.path, ';')
                     rtp[#rtp + 1] = 'lua/?.lua'
@@ -253,11 +243,6 @@ require 'lspconfig'.lua_ls.setup {
     capabilities = capabilities
 }
 
--- require 'lspconfig'.cmake.setup {
---     on_attach = on_attach,
---     flags = lsp_flags,
---     capabilities = capabilities
--- }
 require 'lspconfig'.cmake.setup {
     cmd = { "cmake-language-server" },
     capabilities = capabilities,
@@ -272,36 +257,21 @@ require 'lspconfig'.ts_ls.setup {
     flags = lsp_flags,
     capabilities = capabilities
 }
-require('lspconfig')['pyright'].setup {
-    on_attach = on_attach,
-    flags = lsp_flags,
-    capabilities = capabilities
-}
+require('lspconfig').pyright.setup({
+  on_attach = on_attach,
+  flags = lsp_flags,
+  capabilities = capabilities,  -- keep your existing caps
+})
 require('lspconfig')['bashls'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
     capabilities = capabilities
 }
--- require('lspconfig')['tsserver'].setup{
---     on_attach = on_attach,
---     flags = lsp_flags,
---     capabilities = capabilities
--- }
 require('lspconfig')['gopls'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
     capabilities = capabilities
 }
-require('lspconfig')['rust_analyzer'].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = lsp_flags,
-    -- Server-specific settings...
-    settings = {
-        ["rust-analyzer"] = {}
-    }
-}
-
 require('lspconfig')['clangd'].setup {
     on_attach = on_attach,
     flags = lsp_flags,
@@ -316,40 +286,17 @@ require('lspconfig')['clangd'].setup {
     }
 }
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
--- local servers = { 'bashls', 'gopls', 'pyright', 'tsserver' }
--- for _, svr in ipairs(servers) do
---   lsp[svr].setup {
---     on_attach = on_attach,
---     flags = {
---       debounce_text_changes = 150,
---     }
---   }
--- end
-
 require 'nvim-treesitter.configs'.setup {
     -- A list of parser names, or "all"
-    ensure_installed = { "c", "lua", "vim", "vimdoc", "rust", "python", "go", "bash", "toml", "json", "yaml", "scala" },
+    modules = {},
+    ensure_installed = {
+        "c", "cpp", "lua", "vim", "vimdoc",
+        "rust", "python", "go", "bash",
+        "toml", "json", "yaml", "scala",
+        "cmake", "make", "markdown", "markdown_inline", "query", "regex"
+    },
     sync_install = false,
     ignore_install = { "javascript", "typescript" },
-    -- modules = {
-    --     -- Load the parser for the language you want to use
-    --     -- "c",
-    --     -- "rust",
-    --     -- "python",
-    --     -- "go",
-    --     -- "bash",
-    --     -- "toml",
-    --     -- "json",
-    --     -- "yaml",
-    --     -- "scala",
-    --     -- "lua",
-    --     -- "vim",
-    --     -- "vimdoc",
-    --     -- "typescript",
-    --     -- "javascript",
-    -- },
     -- Automatically install missing parsers when entering buffer
     auto_install = true,
     highlight = {
@@ -358,12 +305,10 @@ require 'nvim-treesitter.configs'.setup {
 
         -- list of language that will be disabled
         -- disable = { "rust" },
-
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
         -- Using this option may slow down your editor, and you may see some duplicate highlights.
         -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = { "jq" },
     },
     indent = {
         enable = true, -- Enable Treesitter-based indentation
@@ -373,10 +318,9 @@ require 'nvim-treesitter.configs'.setup {
     }
 }
 
--- Enable folding with Treesitter
 vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
--- vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
-vim.opt.foldlevel = 99     -- Start with all folds open
+vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
 vim.opt.foldenable = false -- Disable folding by default
 return M

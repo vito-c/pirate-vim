@@ -31,7 +31,20 @@ return {
                 enabled = false,
             },
             routes = {},
-            views = {},
+            views = {
+                cmdline_popup = {
+                    position = {
+                        row = "40%",   -- move up (smaller % = higher). Try "15%" or a fixed number like 3
+                        col = "50%",
+                    },
+                    size = {
+                        width = 80,
+                        height = "auto",
+                    },
+                    border = { style = "rounded" },
+                    win_options = { winblend = 0 },
+                },
+            },
             cmdline = {
                 enabled = true, -- only this is on
             },
