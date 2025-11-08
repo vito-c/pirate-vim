@@ -1,28 +1,56 @@
-local defaultpath = '~/code/**'
-local libpath = ',~/code/startup/opencv/**,~/code/startup/opencv_contrib/modules/**'
-vim.o.path = defaultpath
+local M = {}
+---@diagnostic disable-next-line: undefined-field
+local home = (vim.uv or vim.loop).os_homedir() or vim.env.HOME or vim.fn.expand("~")
+
+-- Extra search roots you want appended
+local libpaths = {
+  home .. "/code/startup/opencv/**",
+  home .. "/code/startup/opencv_contrib/modules/**",
+}
+local defaultpath = home .. '/code/**'
 local prev_groot = defaultpath
+vim.o.path = defaultpath
+
+local function oil_dir(buf)
+  local name = vim.api.nvim_buf_get_name(buf or 0)
+  if name:sub(1, 6) ~= "oil://" then return nil end
+  local ok, oil = pcall(require, "oil")
+  if ok and oil.get_current_dir then return oil.get_current_dir() end
+  return "/" .. name:gsub("^oil://+", ""):gsub("%?$","")
+end
+
+local function baby_groot(path, prev)
+  local fallback = (prev and #prev > 0) and prev or path
+  local res = vim.system(
+        { "git", "-C", path, "rev-parse", "--show-toplevel" }, { text = true }
+  ):wait()
+  if res.code ~= 0 then return fallback end
+  return vim.trim(res.stdout)
+end
 
 -- to set something on the global table use _G
 -- I am groot (git + root)
-function _G.groot()
+function M.groot()
     prev_groot = vim.o.path
-    local cpath = vim.fn.expand('%:p:h')
-    local pcmd = 'git -C ' .. cpath .. ' rev-parse --show-toplevel 2>&1'
-    local handle = io.popen(pcmd)
-    local groot_ = handle:read("*all"):gsub('\n', '')
-    handle:close()
-    if groot_:match('fatal.*') then
-        vim.o.path = cpath
-        return cpath
+    local buffer_name = vim.api.nvim_buf_get_name(0)
+    if vim.startswith(buffer_name or "", "oil://") then
+        return baby_groot(oil_dir())
     end
-    return groot_
+    return baby_groot(vim.fn.expand('%:p:h'), prev_groot)
 end
 
-function _G.groot_path()
+function M.groot_buff()
     if vim.fn.getbufvar(vim.fn.bufnr('%'), '&buftype') == 'terminal' then
         return prev_groot
     else
-        return _G.groot() .. '/**' .. libpath
+        return M.path_list(M.groot())
     end
 end
+
+function M.path_list(path)
+    local res = { path .. "/**" }
+    for _, lib in ipairs(libpaths) do table.insert(res, lib) end
+    return res
+end
+
+return M

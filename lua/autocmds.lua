@@ -101,21 +101,24 @@ vim.api.nvim_create_autocmd("FileType", {
 ------------------------------------------------------------
 -- Builtins Path Handling
 ------------------------------------------------------------
-local builtins_ok, builtins = pcall(require, "builtins")
-if builtins_ok then
-    vim.api.nvim_create_augroup("BuiltinsSettings", { clear = true })
-    vim.api.nvim_create_autocmd(
-        { "BufEnter", "BufWinEnter", "WinEnter", "TabEnter" },
-        {
-            group = "BuiltinsSettings",
-            callback = function()
-                local path = builtins.groot_path and builtins.groot_path()
-                if path then
-                    vim.o.path = path
-                end
+vim.api.nvim_create_augroup("BuiltinsSettings", { clear = true })
+local groot = require("groot")
+vim.api.nvim_create_autocmd(
+    { "BufEnter", "BufWinEnter", "WinEnter", "TabEnter" },
+    {
+        group = "BuiltinsSettings",
+        callback = function(args)
+            local bufnr = args.buf
+            local name  = vim.api.nvim_buf_get_name(bufnr)
+            if vim.startswith(name or "", "oil://") then
+                return
             end
-        }
-    )
-end
+            local path = groot.groot_buff()
+            if path then
+                vim.opt_local.path = path
+            end
+        end
+    }
+)
 
 return M

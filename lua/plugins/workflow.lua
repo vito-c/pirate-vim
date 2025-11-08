@@ -1,3 +1,4 @@
+local groot = require("groot")
 return {
     {
         "AckslD/nvim-neoclip.lua",
@@ -104,11 +105,12 @@ return {
                     -- end
                     for k, v in pairs(static_opts) do
                         if k == 'groot' and v then
-                            opts.cwd = _G.groot()
+                            opts.cwd = groot.groot()
                         else
                             opts[k] = v
                         end
                     end
+                    opts.preview_title = opts.cwd
 
                     opts.layout_strategy = static_opts.layout_strategy or "vertical"
                     tscope[cmd](opts)
