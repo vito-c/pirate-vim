@@ -18,8 +18,8 @@ local math = math
 local string = string
 
 -- local opt = vim.opt         	-- global/buffer/windows-scoped options local function nmap(keys, command)
-local function nmap(keys, command)
-    vim.keymap.set('n', keys, command)
+local function nmap(keys, command, opts)
+    vim.keymap.set("n", keys, command, opts or {})
 end
 local function vmap(keys, command)
     vim.api.nvim_set_keymap('v', keys, command, { noremap = true })
@@ -50,7 +50,7 @@ nmap('<leader>w', ':<C-u>wa<CR>')
 nmap(
     '<leader><leader>jt',
     ':<C-u>%!python -m json.tool<CR><Esc>:set filetype=json<CR>'
-)
+) -- %! jq '.'
 nmap('<leader>ev', ':<C-u>execute "tabedit " . $MYVIMRC<CR>')
 nmap('<leader>eb', ':<C-U>tabedit $CODE_CONFIGS/pirate-setup/bashrc<CR>')
 nmap('<leader>eg', ':<C-U>tabedit $CODE_CONFIGS/pirate-setup/gitconfig<CR>')
@@ -88,14 +88,21 @@ nmap(
     require('builtins').test_only_file
 )
 
-nmap(
-    '<leader>tc',
-    function() require('builtins').test_create_file() end
-)
+-- nmap(
+--     '<leader>tc',
+--     function() require('builtins').test_create_file() end
+-- )
+-- nmap('<leader>tc',
+--     function()
+--         vim.fn.chansend(vim.o.channel, { 'c', '' })
+--     end
+-- )
 
 nmap(
     '<leader>tf',
-    require('builtins').test_function
+    function()
+        require('builtins').test_function()
+    end
 )
 
 -- "$:call chansend(&channel, ['testOnly '. expand('<cfile>'), ''])<CR>"
@@ -104,7 +111,15 @@ nmap(
 -- nmap('<leader>tl', "$:call chansend(&channel, ['!!', ''])<CR>G")
 nmap(
     '<leader>tt',
-    require('builtins').open_test_term
+    function()
+        require('builtins').open_test_term(nil, 'test.term')
+    end
+)
+nmap(
+    '<leader>tc',
+    function()
+        require('builtins').open_test_term(nil, 'claude.term')
+    end
 )
 nmap(
     '<leader>ts',
@@ -118,11 +133,6 @@ nmap(
     function()
         require('builtins').open_test_term()
         vim.fn.chansend(vim.o.channel, { '!!', '' })
-    end
-)
-nmap('<leader>tc',
-    function()
-        vim.fn.chansend(vim.o.channel, { 'c', '' })
     end
 )
 nmap(

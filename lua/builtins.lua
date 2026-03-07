@@ -130,9 +130,12 @@ function M.open_term(name, command)
     cmd('wincmd s')
     cmd('wincmd T')
     cmd('terminal')
-    cmd('file ' .. name)
+    -- cmd('file ' .. name)
+    vim.b.vito_term_title = name:gsub("%.term$", "")
+
+    pcall(vim.api.nvim_buf_set_name, 0, name)
     if command then
-        fn.chansend(vim.o.channel, { command, '' })
+        fn.chansend(vim.bo.channel, { command, '' })
     end
 end
 
@@ -223,34 +226,34 @@ function M.jump_tab_win(t, w)
     cmd(w .. ' wincmd w')
 end
 
-function M.open_test_term(command)
+function M.open_test_term(command, termname)
     if vim.bo.modifiable then
         cmd(":update")
     end
-    if fn.bufexists('test.term') == 1 then
-        if fn.getbufvar(fn.bufnr('test.term'), '&buftype') == 'terminal' then
-            if fn.len(fn.win_findbuf(fn.bufnr('test.term'))) == 0 then
+    if fn.bufexists(termname) == 1 then
+        if fn.getbufvar(fn.bufnr(termname), '&buftype') == 'terminal' then
+            if fn.len(fn.win_findbuf(fn.bufnr(termname))) == 0 then
                 cmd('wall')
                 if fn.winnr('$') ~= 1 then
                     cmd('wincmd s')
                     cmd('wincmd T')
                 end
-                cmd("buffer test.term")
+                cmd("buffer " .. termname)
                 if command then
                     fn.chansend(vim.o.channel, { command, '' })
                 end
             else
-                M.jump_to_buffer('test.term')
+                M.jump_to_buffer(termname)
                 if command then
                     fn.chansend(vim.o.channel, { command, '' })
                 end
             end
         else
-            cmd("bw! test.term")
-            M.open_term('test.term', command)
+            cmd("bw! " .. termname)
+            M.open_term(termname, command)
         end
     else
-        M.open_term('test.term', command)
+        M.open_term(termname, command)
     end
 end
 

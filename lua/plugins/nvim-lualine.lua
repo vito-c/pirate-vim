@@ -330,9 +330,13 @@ return {
                             local win = vim.fn.tabpagewinnr(context.tabnr)
                             local bufnr = buflist[win]
                             local bufname = vim.fn.bufname(bufnr)
-
-                            if vim.bo[bufnr].buftype == 'terminal' then
-                                return ' term'
+                            local filename = vim.fn.fnamemodify(name, ":t")
+                            if vim.bo[bufnr].buftype == "terminal" then
+                                local ok, title = pcall(vim.api.nvim_buf_get_var, bufnr, "vito_term_title")
+                                if ok and title ~= "" then
+                                    return " " .. title
+                                end
+                                return " term"
                             end
                             if bufname:sub(1, 6) == "oil://" then
                                 return '󱞊 oil'

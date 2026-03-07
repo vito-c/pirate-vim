@@ -85,17 +85,46 @@ cmp.setup({
   },
 
   mapping = cmp.mapping.preset.insert({
-    ['<C-n>']     = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-    ['<C-j>']     = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-    ['<C-p>']     = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-    ['<C-k>']     = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-    ['<C-d>']     = cmp.mapping.scroll_docs(-4),
-    ['<C-f>']     = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>']     = cmp.mapping.abort(),
-    ['<CR>']      = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-    ['<Tab>']     = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+    -- menu navigation (vim-friendly)
+    ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+
+    -- Tab: keep it for snippet jumping + fallback to normal tab
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+      elseif vim.fn == 1 then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Plug>(vsnip-expand-or-jump)", true, true, true), "", true)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Plug>(vsnip-jump-prev)", true, true, true), "", true)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
   }),
+  -- mapping = cmp.mapping.preset.insert({
+  --   ['<C-n>']     = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+  --   ['<C-j>']     = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+  --   ['<C-p>']     = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+  --   ['<C-k>']     = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+  --   ['<C-d>']     = cmp.mapping.scroll_docs(-4),
+  --   ['<C-f>']     = cmp.mapping.scroll_docs(4),
+  --   ['<C-Space>'] = cmp.mapping.complete(),
+  --   ['<C-e>']     = cmp.mapping.abort(),
+  --   ['<CR>']      = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+  --   ['<Tab>']     = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+  -- }),
 
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -248,9 +277,10 @@ vim.lsp.config['clangd'] = {
   flags = lsp_flags,
   capabilities = capabilities,
   filetypes = { 'c', 'cu', 'cpp', 'objc', 'objcpp', 'cuda' },
+    -- '--query-driver=/usr/bin/g++,/usr/bin/clang++',
   cmd = {
     'clangd',
-    '--query-driver=/usr/bin/clang++,/opt/cuda/bin/nvcc',
+    '--query-driver=/usr/bin/clang++', -- ,/opt/cuda/bin/nvcc',
     '--compile-commands-dir=build',
     '--background-index',
     '--all-scopes-completion',
@@ -259,6 +289,7 @@ vim.lsp.config['clangd'] = {
 
 -- Enable them all -----------------------------------------------------------
 enable_servers({ 'lua_ls', 'cmake', 'ts_ls', 'pyright', 'bashls', 'gopls', 'clangd' })
+-- enable_servers({ 'lua_ls', 'clangd' })
 
 -- Treesitter ---------------------------------------------------------------
 require('nvim-treesitter.configs').setup({
