@@ -122,6 +122,12 @@ nmap(
     end
 )
 nmap(
+    '<leader>tq',
+    function()
+        require('builtins').open_test_term(nil, 'codex.term')
+    end
+)
+nmap(
     '<leader>ts',
     function()
         require('builtins').open_test_term()

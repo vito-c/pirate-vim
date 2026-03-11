@@ -23,6 +23,13 @@ return {
         event = "InsertEnter",
         config = function()
             require("copilot").setup({
+                should_attach = function(_, bufname)
+                    if string.match(bufname, "test.term") then
+                        return false
+                    end
+
+                    return true
+                end,
                 suggestion = {
                     enabled = true,
                     auto_trigger = true,
@@ -34,6 +41,13 @@ return {
                     },
                 },
                 panel = { enabled = false },
+                filetypes = {
+                    terminal = false,
+                    help = false,
+                    json = false,
+                    gitcommit = true,
+                    markdown = true,
+                }
             })
         end,
     }

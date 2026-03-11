@@ -15,7 +15,13 @@ return {
         config = vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
     },
     { "tpope/vim-repeat" },
-    { "tpope/vim-surround" },
+    {
+        "tpope/vim-surround",
+        config = function()
+            vim.keymap.del("i", "<C-g>s")
+            vim.keymap.del("i", "<C-g>S")
+        end,
+    },
     { "AndrewRadev/splitjoin.vim" },
     { "tommcdo/vim-exchange" },
     { "godlygeek/tabular" },
@@ -93,8 +99,8 @@ return {
             })
 
             require("telescope").load_extension("fzy_native")
-
             local tscope = require("telescope.builtin")
+
             local function t(cmd, static_opts)
                 static_opts = static_opts or {}
 
@@ -117,15 +123,42 @@ return {
                 end
             end
 
+            local function is_test_path(path)
+                if not path or path == "" then
+                    return false
+                end
+
+                path = path:gsub("\\", "/"):lower()
+
+                return path:match("/test/")
+                    or path:match("/tests/")
+                    or path:match("/testing/")
+                    or path:match("/gtest/")
+                    or path:match("_test%.cc$")
+                    or path:match("_test%.cpp$")
+                    or path:match("_test%.cxx$")
+                    or path:match("_test%.h$")
+                    or path:match("_test%.hpp$")
+                    or path:match("%.test%.ts$")
+                    or path:match("%.spec%.ts$")
+                    or path:match("/test_[^/]*%.py$")
+                    or path:match("_spec%.py$")
+            end
+
             vim.keymap.set('n', '<leader>ff', t('find_files', { groot = true }))
             vim.keymap.set('n', '<leader>fc', t('find_files'))
-            vim.keymap.set('n', '<leader>fr', t('lsp_references', { groot = true }))
+            vim.keymap.set('n', '<leader>ft', t('lsp_references', { groot = true, path_display = {"smart"} }))
+            vim.keymap.set('n', 'fr', t('lsp_references', {
+                groot = true,
+                file_ignore_patterns = { "test", "spec" },
+                path_display = { "smart" },
+                desc = "LSP References (No Tests)"}))
             vim.keymap.set('n', '<leader>l', t('buffers'))
             vim.keymap.set('n', '<leader>gc', t('git_bcommits', { groot = true }))
             vim.keymap.set('n', '<leader>sg', t('grep_string', { groot = true }))
             vim.keymap.set('n', '<leader>sf', t('live_grep', { groot = true }))
-            vim.keymap.set('n', '<leader>xX', t('diagnostics', { groot = true, desc = 'Diagnostics (workspace)' }))
-            vim.keymap.set('n', '<leader>xx', t('diagnostics', {
+            vim.keymap.set('n', '<leader>xx', t('diagnostics', { groot = true, desc = 'Diagnostics (workspace)' }))
+            vim.keymap.set('n', '<leader>xl', t('diagnostics', {
                 groot = true, bufnr = 0, desc = 'diagnostics (buffer)'
             }))
 

@@ -125,6 +125,7 @@ function M.reload(fname)
     require(fname)
 end
 
+
 function M.open_term(name, command)
     cmd('wall')
     cmd('wincmd s')
@@ -132,6 +133,9 @@ function M.open_term(name, command)
     cmd('terminal')
     -- cmd('file ' .. name)
     vim.b.vito_term_title = name:gsub("%.term$", "")
+    if vim.g.loaded_copilot or vim.g.copilot_enabled ~= nil then
+      vim.b.copilot_enabled = false
+    end
 
     pcall(vim.api.nvim_buf_set_name, 0, name)
     if command then

@@ -1,21 +1,20 @@
 local suitetype = "lazy"
+local home = vim.env.HOME -- or vim.uv.os_homedir() or os.getenv("HOME")
+
 -- Add the luarocks directory to package.path
 -- This will take care of the luarocks pelanry I installed
-local home = os.getenv("HOME")
 -- Alternatively, you can use package.path directly
 package.path = package.path .. ";" .. home .. "/.luarocks/share/lua/5.1/?.lua"
 package.path = package.path .. ";" .. home .. "/.luarocks/share/lua/5.1/?/init.lua"
 
-local home = vim.loop.os_homedir() or os.getenv("HOME")
-
 vim.opt.path:append({
+  ".",
+  "src/**",
+  "include/**",
   home .. "/code/startup/videoblast/**",
   home .. "/code/startup/opencv/**",
   home .. "/code/startup/opencv_contrib/modules/**",  -- note: 'modules', not 'ontrib/modules'
-  ".",
-  vim.fn.expand("$HOME/code/startup/producer"),
-  vim.fn.expand("$HOME/code/startup/producer/src"),
-  "**",
+  home .. "/code/startup/producer/**",
 })
 
 
