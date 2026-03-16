@@ -15,3 +15,4 @@ Session.vim
 plugin/packer_compiled.lua
 undo
 lazy-lock.json
+node_modules/
