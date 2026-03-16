@@ -292,24 +292,27 @@ enable_servers({ 'lua_ls', 'cmake', 'ts_ls', 'pyright', 'bashls', 'gopls', 'clan
 -- enable_servers({ 'lua_ls', 'clangd' })
 
 -- Treesitter ---------------------------------------------------------------
-require('nvim-treesitter.configs').setup({
-  modules = {},
-  ensure_installed = {
-    'c','cpp','lua','vim','vimdoc','rust','python','go','bash',
-    'toml','json','yaml','scala','cmake','make','markdown','markdown_inline','query','regex'
-  },
-  sync_install = false,
-  ignore_install = { 'javascript', 'typescript' },
-  auto_install = true,
-  highlight = { enable = true },
-  indent = { enable = true },
-  fold = { enable = true },
-})
+local has_treesitter, treesitter = pcall(require, 'nvim-treesitter.configs')
+if has_treesitter then
+  treesitter.setup({
+    modules = {},
+    ensure_installed = {
+      'c','cpp','lua','vim','vimdoc','rust','python','go','bash',
+      'toml','json','yaml','scala','cmake','make','markdown','markdown_inline','query','regex'
+    },
+    sync_install = false,
+    ignore_install = { 'javascript', 'typescript' },
+    auto_install = true,
+    highlight = { enable = true },
+    indent = { enable = true },
+    fold = { enable = true },
+  })
 
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
-vim.opt.foldenable = false
+  vim.opt.foldmethod = 'expr'
+  vim.opt.foldexpr   = 'nvim_treesitter#foldexpr()'
+  vim.opt.foldlevel = 99
+  vim.opt.foldlevelstart = 99
+  vim.opt.foldenable = false
+end
 
 return M
