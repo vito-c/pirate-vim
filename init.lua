@@ -51,7 +51,7 @@ if suitetype == "lazy" then
     require('leaders')            -- ./lua/leaders.lua
     require('mappings')           -- ./lua/mappings.lua
     -- require('packs.metals')       -- ./lua/packs/metals.lua
-    require('packs.lsp')          -- ./lua/packs/lsp.lua
+    require('config.lsp')         -- ./lua/config/lsp.lua
 end
 
 if suitetype == "packer" then
@@ -63,7 +63,7 @@ if suitetype == "packer" then
     require('mappings')           -- ./lua/mappings.lua
     require('packs.fugitive')     -- ./lua/packs/fugitive.lua
     require('packs.metals')       -- ./lua/packs/metals.lua
-    require('packs.lsp')          -- ./lua/packs/lsp.lua
+    require('config.lsp')         -- ./lua/config/lsp.lua
     require('packs.tabularize')   -- ./lua/packs/tabularize.lua
     require('packs.telescope')    -- ./lua/packs/telescope.lua
     require('packs.hologram')     -- ./lua/packs/hologram.lua

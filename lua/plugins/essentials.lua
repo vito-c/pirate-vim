@@ -19,8 +19,4 @@ return {
         priority = 900,
         lazy = false,
     },
-    {
-        'nvim-treesitter/playground',
-        requires = { 'nvim-treesitter/nvim-treesitter' }
-    },
 }
