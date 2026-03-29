@@ -18,8 +18,14 @@ return {
             lsp = {
                 progress = { enabled = false },
                 message = { enabled = false },
-                hover = { enabled = false },
-                signature = { enabled = false },
+                hover = { enabled = true },
+                signature = { enabled = true },
+                -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+                override = {
+                    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                    ["vim.lsp.util.stylize_markdown"] = true,
+                    ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+                }
             },
             messages = {
                 enabled = false,
@@ -28,36 +34,61 @@ return {
                 enabled = false,
             },
             popupmenu = {
-                enabled = false,
+                enabled = true,
             },
-            routes = {},
+            -- routes = {},
             views = {
                 cmdline_popup = {
                     position = {
-                        row = "40%",   -- move up (smaller % = higher). Try "15%" or a fixed number like 3
+                        row = 5,
                         col = "50%",
                     },
                     size = {
                         width = 80,
                         height = "auto",
                     },
-                    border = { style = "rounded" },
-                    win_options = { winblend = 0 },
+                },
+                cmdline_popupmenu = {
+                    relative = "editor",
+                    position = {
+                        row = 8,
+                        col = "50%",
+                    },
+                    size = {
+                        width = 80,
+                        height = 10,
+                    },
+                    border = {
+                        style = "rounded",
+                        padding = { 0, 1 },
+                    },
+                    win_options = {
+                        winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+                    },
                 },
             },
             cmdline = {
                 enabled = true, -- only this is on
             },
             presets = {
-                command_palette = false,
+                command_palette = true,
                 bottom_search = false,
                 long_message_to_split = false,
                 inc_rename = false,
-                lsp_doc_border = false,
+                lsp_doc_border = true,
             },
         },
         dependencies = {
             "MunifTanjim/nui.nvim",
         },
+    },
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
+        keys = {
+          { "<leader>m", "<cmd>RenderMarkdown toggle<CR>", desc = "Toggle RenderMarkdown" },
+        },
+        -- ft = { "markdown" },
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+        opts = {},
     }
 }
