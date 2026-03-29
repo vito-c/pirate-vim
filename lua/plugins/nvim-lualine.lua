@@ -1,4 +1,5 @@
 _G.terminal_submode = 'i' -- default
+local groot = require("groot")
 -- ============================================================================
 -- Terminal Keymappings for switching submodes
 -- ============================================================================
@@ -25,6 +26,7 @@ vim.keymap.set('t', 'i', function()
         'n', false
     )
 end, { expr = true })
+
 -- ============================================================================
 -- Helper functions
 -- ============================================================================
@@ -149,7 +151,7 @@ local function inactive_sections()
                     if has_split() then
                         local bufname = vim.api.nvim_buf_get_name(0)
                         local file = vim.fn.fnamemodify(bufname, ":p")
-                        file = shorten_path(_G.groot(), file, '󱞽 ..')
+                        file = shorten_path(groot.groot(), file, '󱞽 ..')
                         return file
                     end
                     return ' Telescope'
@@ -197,7 +199,7 @@ local function inactive_sections()
                     if win_count > 7 then
                         return '󱞩 ../' .. vim.fn.fnamemodify(file, ":t")
                     end
-                    return shorten_path(_G.groot(), file, '󱞩 ..')
+                    return shorten_path(groot.groot(), file, '󱞩 ..')
                 end,
                 cond = telescope_open,
                 color = {
@@ -211,8 +213,128 @@ local function inactive_sections()
     }
 end
 
+local last_gpu_check = 0
+local last_gpu_value = ""
+
+local function gpu_memory()
+    local uv = vim.uv or vim.loop
+    local now = uv and uv.now and uv.now() or 0
+
+    if now > 0 and (now - last_gpu_check) < 2000 then
+        return last_gpu_value
+    end
+
+    last_gpu_check = now
+
+    local ok, handle = pcall(
+        io.popen,
+        "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits 2>/dev/null"
+    )
+
+    if not ok or not handle then
+        last_gpu_value = ""
+        return last_gpu_value
+    end
+
+    local result = handle:read("*a")
+    handle:close()
+
+    local used, total = result:match("(%d+),%s*(%d+)")
+    used = tonumber(used)
+    total = tonumber(total)
+
+    if not used or not total or total == 0 then
+        last_gpu_value = ""
+        return last_gpu_value
+    end
+
+    local pct = math.floor((used / total) * 100 + 0.5)
+
+    -- hide when basically unused
+    if pct < 5 then
+        last_gpu_value = ""
+        return last_gpu_value
+    end
+
+    last_gpu_value = string.format(" %d%%%%", pct)
+    return last_gpu_value
+end
+
+local function gpu_color()
+    local ok, handle = pcall(
+        io.popen,
+        "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits 2>/dev/null"
+    )
+
+    if not ok or not handle then
+        return nil
+    end
+
+    local result = handle:read("*a")
+    handle:close()
+
+    local used, total = result:match("(%d+),%s*(%d+)")
+    used = tonumber(used)
+    total = tonumber(total)
+
+    if not used or not total or total == 0 then
+        return nil
+    end
+
+    local pct = (used / total) * 100
+
+    if pct >= 90 then
+        return { fg = "#1e1e2e", bg = "#f38ba8", gui = "bold" } -- red
+    elseif pct >= 60 then
+        return { fg = "#1e1e2e", bg = "#f9e2af", gui = "bold" } -- yellow
+    else
+        return { fg = "#1e1e2e", bg = "#a6e3a1", gui = "bold" } -- green
+    end
+end
+local function filepath_shorter()
+    local bufname = vim.api.nvim_buf_get_name(0)
+    local file = ''
+    local icon = ''
+    if bufname:match("^oil://") then
+        file = bufname
+        icon = '󱞊'
+    elseif bufname:match("^fugitive://") then
+        local short_sha, path = bufname:match("fugitive://.-%.git//([a-f0-9]+)/(.*)")
+        if short_sha and path then
+            file = string.format("git:///%s/%s", short_sha:sub(1, 7), path)
+        else
+            file = bufname
+        end
+        icon = '󰊢'
+    elseif vim.bo.buftype == 'terminal' then
+        file = vim.fn.expand('%:~:.')
+        icon = '🖥️' --     
+    elseif bufname == '' then
+        file = '[No Name]'
+    else
+        file = vim.fn.fnamemodify(bufname, ":~:.")
+        if vim.bo.readonly then
+            icon = '🔒' --  
+        end
+        if vim.bo.modified then
+            icon = icon .. ' ●'
+        end
+    end
+
+    if has_split() then
+        bufname = vim.api.nvim_buf_get_name(0)
+        file = vim.fn.fnamemodify(bufname, ":p")
+        file = shorten_path(groot.groot(), file, '󱞽 ..')
+    end
+    -- if has_split() then
+    --     file = vim.fn.fnamemodify(bufname, ":p")
+    --     file = shorten_path(groot.groot(), file, '󱞽 ..')
+    -- end
+    return file .. ' ' .. icon
+end
+
 -- ============================================================================
--- Man Setup
+-- Main Setup
 -- ============================================================================
 return {
     'nvim-lualine/lualine.nvim',
@@ -237,41 +359,7 @@ return {
                 lualine_a = { { 'mode', separator = { left = '' }, right_padding = 2 } },
                 lualine_b = {
                     {
-                        function()
-                            local bufname = vim.api.nvim_buf_get_name(0)
-                            local file = ''
-                            local icon = ''
-                            if bufname:match("^oil://") then
-                                file = bufname
-                                icon = '󱞊'
-                            elseif bufname:match("^fugitive://") then
-                                local short_sha, path = bufname:match("fugitive://.-%.git//([a-f0-9]+)/(.*)")
-                                if short_sha and path then
-                                    file = string.format("git:///%s/%s", short_sha:sub(1, 7), path)
-                                else
-                                    file = bufname
-                                end
-                                icon = '󰊢'
-                            elseif vim.bo.buftype == 'terminal' then
-                                file = vim.fn.expand('%:~:.')
-                                icon = '🖥️'
-                            elseif bufname == '' then
-                                file = '[No Name]'
-                            else
-                                file = vim.fn.fnamemodify(bufname, ":~:.")
-                                if has_split() then
-                                    file = vim.fn.fnamemodify(bufname, ":p")
-                                    file = shorten_path(_G.groot(), file, '󱞽 ..')
-                                end
-                                if vim.bo.readonly then
-                                    icon = '🔒'
-                                end
-                                if vim.bo.modified then
-                                    icon = icon .. ' ●'
-                                end
-                            end
-                            return file .. ' ' .. icon
-                        end,
+                        filepath_shorter
                     },
                     {
                         'branch',
@@ -290,7 +378,16 @@ return {
                         right_padding = 1,
                     },
                 },
-                lualine_x = {},
+                lualine_x = {
+                    {
+                        gpu_memory,
+                        color = gpu_color,
+                        separator = { left = '' },
+                        -- separator = { left = '', right = '' },
+                        --   pipeline:logs   34%   lua 72% 266:1 
+                        right_padding = 1,
+                    },
+                },
                 lualine_y = {
                     {
                         'filetype',

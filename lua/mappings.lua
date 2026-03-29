@@ -116,6 +116,17 @@ vim.keymap.set(
     { expr = true, noremap = true }
 )
 
+vim.keymap.set("n", "q:", "q:", { noremap = true, desc = "Native cmdwin" })
+
+vim.keymap.set("c", "<C-f>", function()
+    require("noice").cmd("dismiss")
+    -- small delay to let noice close, then send <C-f>
+    vim.schedule(function()
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-f>", true, true, true), "n")
+    end)
+end, { desc = "Open cmdline window" })
+
+
 -- alternate select pasted text only nmap gp `[v`]
 -- command shift keys?
 -- command! -bang -nargs=* -complete=file E e<bang> <args>

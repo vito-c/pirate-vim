@@ -8,9 +8,7 @@ local libpaths = {
   home .. "/code/startup/opencv_contrib/modules/**",
 }
 local defaultpath = home .. '/code/**'
-local prev_groot = defaultpath
-vim.o.path = defaultpath
-
+local prev_groot = home
 local function oil_dir(buf)
   local name = vim.api.nvim_buf_get_name(buf or 0)
   if name:sub(1, 6) ~= "oil://" then return nil end
@@ -20,27 +18,38 @@ local function oil_dir(buf)
 end
 
 local function baby_groot(path, prev)
-  local fallback = (prev and #prev > 0) and prev or path
-  local res = vim.system(
-        { "git", "-C", path, "rev-parse", "--show-toplevel" }, { text = true }
-  ):wait()
-  if res.code ~= 0 then return fallback end
-  return vim.trim(res.stdout)
+    local fallback = (prev and #prev > 0) and prev or path
+
+    local res = vim.system(
+        { "git", "-C", path, "rev-parse", "--show-toplevel" },
+        { text = true }
+    ):wait()
+
+    if res.code ~= 0 then
+        return fallback
+    end
+
+    return vim.trim(res.stdout)
 end
 
--- to set something on the global table use _G
 -- I am groot (git + root)
 function M.groot()
-    prev_groot = vim.o.path
     local buffer_name = vim.api.nvim_buf_get_name(0)
+    local path
+
     if vim.startswith(buffer_name or "", "oil://") then
-        return baby_groot(oil_dir())
+        path = oil_dir()
+    else
+        path = vim.fn.expand("%:p:h")
     end
-    return baby_groot(vim.fn.expand('%:p:h'), prev_groot)
+
+    local root = baby_groot(path, prev_groot)
+    prev_groot = root
+    return root
 end
 
 function M.groot_buff()
-    if vim.fn.getbufvar(vim.fn.bufnr('%'), '&buftype') == 'terminal' then
+    if vim.fn.getbufvar(vim.fn.bufnr("%"), "&buftype") == "terminal" then
         return prev_groot
     else
         return M.path_list(M.groot())
@@ -49,7 +58,11 @@ end
 
 function M.path_list(path)
     local res = { path .. "/**" }
-    for _, lib in ipairs(libpaths) do table.insert(res, lib) end
+
+    for _, lib in ipairs(libpaths or {}) do
+        table.insert(res, lib)
+    end
+
     return res
 end
 
