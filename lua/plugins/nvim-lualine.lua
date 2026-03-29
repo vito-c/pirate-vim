@@ -216,7 +216,39 @@ end
 local last_gpu_check = 0
 local last_gpu_value = ""
 
-local function gpu_memory()
+local tmux_cache = {
+  value = "",
+  at = 0,
+}
+
+local tmux_cache_ttl_ms = 1000
+
+
+local function tmux_location()
+    if not vim.env.TMUX or vim.env.TMUX == "" then
+      tmux_cache.value = ""
+      tmux_cache.at = 0
+      return ""
+    end
+
+    local now = vim.uv.hrtime() / 1e6
+    if (now - tmux_cache.at) < tmux_cache_ttl_ms then
+      return tmux_cache.value ~= "" and (" " .. tmux_cache.value) or ""
+    end
+
+    local result = vim.system(
+      -- { "tmux", "display-message", "-p", "#S:#W" },
+      { "tmux", "display-message", "-p", "#W" },
+      { text = true }
+    ):wait()
+
+    tmux_cache.at = now
+    tmux_cache.value = result.code == 0 and vim.trim(result.stdout) or ""
+    return tmux_cache.value ~= "" and (" " .. tmux_cache.value) or ""
+end
+
+
+local function tmux_gpu_memory()
     local uv = vim.uv or vim.loop
     local now = uv and uv.now and uv.now() or 0
 
@@ -232,7 +264,7 @@ local function gpu_memory()
     )
 
     if not ok or not handle then
-        last_gpu_value = ""
+        last_gpu_value = tmux_location()
         return last_gpu_value
     end
 
@@ -244,7 +276,7 @@ local function gpu_memory()
     total = tonumber(total)
 
     if not used or not total or total == 0 then
-        last_gpu_value = ""
+        last_gpu_value = tmux_location()
         return last_gpu_value
     end
 
@@ -252,7 +284,7 @@ local function gpu_memory()
 
     -- hide when basically unused
     if pct < 5 then
-        last_gpu_value = ""
+        last_gpu_value = tmux_location()
         return last_gpu_value
     end
 
@@ -261,27 +293,23 @@ local function gpu_memory()
 end
 
 local function gpu_color()
-    local ok, handle = pcall(
-        io.popen,
-        "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits 2>/dev/null"
-    )
+    local uv = vim.uv or vim.loop
+    local now = uv and uv.now and uv.now() or 0
+    local display = last_gpu_value
 
-    if not ok or not handle then
-        return nil
+    if now == 0 or (now - last_gpu_check) >= 2000 then
+        display = tmux_gpu_memory()
     end
 
-    local result = handle:read("*a")
-    handle:close()
-
-    local used, total = result:match("(%d+),%s*(%d+)")
-    used = tonumber(used)
-    total = tonumber(total)
-
-    if not used or not total or total == 0 then
-        return nil
+    if display == "" or display:match("^ ") then
+        return { fg = "#3e4452", bg = "#abb2bf" }
+        -- return nil
     end
 
-    local pct = (used / total) * 100
+    local pct = tonumber(display:match("(%d+)%%%%"))
+    if not pct then
+        return nil
+    end
 
     if pct >= 90 then
         return { fg = "#1e1e2e", bg = "#f38ba8", gui = "bold" } -- red
@@ -291,6 +319,7 @@ local function gpu_color()
         return { fg = "#1e1e2e", bg = "#a6e3a1", gui = "bold" } -- green
     end
 end
+
 local function filepath_shorter()
     local bufname = vim.api.nvim_buf_get_name(0)
     local file = ''
@@ -308,17 +337,17 @@ local function filepath_shorter()
         icon = '󰊢'
     elseif vim.bo.buftype == 'terminal' then
         file = vim.fn.expand('%:~:.')
-        icon = '🖥️' --     
+        icon = '' --     🖥️ 
     elseif bufname == '' then
         file = '[No Name]'
     else
         file = vim.fn.fnamemodify(bufname, ":~:.")
         if vim.bo.readonly then
-            icon = '🔒' --  
+            icon = '' -- '🔒' --  
         end
-        if vim.bo.modified then
-            icon = icon .. ' ●'
-        end
+        -- if vim.bo.modified then
+        --     icon = icon .. '●'
+        -- end
     end
 
     if has_split() then
@@ -326,11 +355,11 @@ local function filepath_shorter()
         file = vim.fn.fnamemodify(bufname, ":p")
         file = shorten_path(groot.groot(), file, '󱞽 ..')
     end
-    -- if has_split() then
-    --     file = vim.fn.fnamemodify(bufname, ":p")
-    --     file = shorten_path(groot.groot(), file, '󱞽 ..')
-    -- end
-    return file .. ' ' .. icon
+    if icon ~= '' then
+        return file .. ' ' .. icon
+    end
+
+    return file
 end
 
 -- ============================================================================
@@ -359,14 +388,34 @@ return {
                 lualine_a = { { 'mode', separator = { left = '' }, right_padding = 2 } },
                 lualine_b = {
                     {
-                        filepath_shorter
+                        filepath_shorter,
+                        padding = { left = 1, right = 1 }
                     },
                     {
-                        'branch',
+                        'filetype',
+                        icon_only = true,
+                        separator = { right = '' },
+                        padding = { left = 1, right = 1 },
+                    },
+                    {
+                        function()
+                          local head = vim.fn.FugitiveHead()
+                          return head ~= "" and (head .. " ") or ""
+                        end,
                         cond = function()
-                            local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
-                            return not is_split
-                        end
+                          local is_term = vim.bo.buftype == "terminal"
+                          local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
+                          return not is_split and not is_term
+                        end,
+                        padding = { left = 1, right = 1 },
+                        color = { fg = "#3e4452", bg = "#abb2bf" },
+                        separator = { right = '' },
+                        -- 'branch',
+                        -- icon = "",
+                        -- cond = function()
+                        --     local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
+                        --     return not is_split
+                        -- end
                     }
                 },
                 lualine_c = {
@@ -380,22 +429,14 @@ return {
                 },
                 lualine_x = {
                     {
-                        gpu_memory,
+                        tmux_gpu_memory,
                         color = gpu_color,
                         separator = { left = '' },
                         -- separator = { left = '', right = '' },
-                        --   pipeline:logs   34%   lua 72% 266:1 
                         right_padding = 1,
                     },
                 },
                 lualine_y = {
-                    {
-                        'filetype',
-                        cond = function()
-                            local is_split = #vim.api.nvim_tabpage_list_wins(0) > 1
-                            return not is_split
-                        end
-                    },
                     {
                         'progress',
                         cond = function()

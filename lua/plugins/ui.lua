@@ -90,5 +90,13 @@ return {
         -- ft = { "markdown" },
         dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
         opts = {},
+    },
+    {
+        "catgoose/nvim-colorizer.lua",
+        event = "BufReadPre",
+        keys = {
+            { "<leader>ct", "<cmd>ColorizerToggle<CR>", desc = "Toggle Colorizer" },
+        },
+        opts = {},
     }
 }
