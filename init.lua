@@ -29,18 +29,6 @@ end
 if suitetype == "none" then
 	print("vanilla")
 end
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    os.execute("tmux set-option -g status off")
-  end,
-})
-
--- Restore when exiting
-vim.api.nvim_create_autocmd("VimLeavePre", {
-  callback = function()
-    os.execute("tmux set-option -g status on")
-  end,
-})
 
 if suitetype == "lazy" then
     require("groot")

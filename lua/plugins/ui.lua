@@ -83,19 +83,46 @@ return {
     },
     {
         "MeanderingProgrammer/render-markdown.nvim",
+        lazy = false,
         keys = {
           { "<leader>m", "<cmd>RenderMarkdown toggle<CR>", desc = "Toggle RenderMarkdown" },
         },
-        -- ft = { "markdown" },
-        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons",
+        },
         opts = {},
     },
     {
         "catgoose/nvim-colorizer.lua",
         event = "BufReadPre",
-        keys = {
-            { "<leader>ct", "<cmd>ColorizerToggle<CR>", desc = "Toggle Colorizer" },
+        opts = {
+            filetypes = { "*" },
+            options = {
+                parsers = {
+                    custom = {
+                        {
+                            name = "rgb_semicolon",
+                            parse = function(ctx)
+                                local chunk = ctx.line:sub(ctx.col)
+                                local r, g, b = chunk:match("^(%d%d?%d?);(%d%d?%d?);(%d%d?%d?)")
+                                r, g, b = tonumber(r), tonumber(g), tonumber(b)
+
+                                if not (r and g and b) then
+                                    return
+                                end
+
+                                if r > 255 or g > 255 or b > 255 then
+                                    return
+                                end
+
+                                local matched = ("%d;%d;%d"):format(r, g, b)
+                                return #matched, ("%02x%02x%02x"):format(r, g, b)
+                            end,
+                        },
+                    },
+                },
+            },
         },
-        opts = {},
-    }
+    },
 }
