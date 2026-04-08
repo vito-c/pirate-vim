@@ -1,6 +1,6 @@
 return {
     {
-        dir = '/Users/mars/code/configs/nvim-icat',
+        dir = vim.fn.expand('~/code/configs/nvim-icat'),
         dependencies = { 'folke/snacks.nvim' },
         file_browser = {
             enabled = true,
