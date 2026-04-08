@@ -42,8 +42,7 @@ return {
                     position = {
                         row = 5,
                         col = "50%",
-                    },
-                    size = {
+                    }, size = {
                         width = 80,
                         height = "auto",
                     },

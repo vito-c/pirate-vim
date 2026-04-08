@@ -156,6 +156,7 @@ nmap(
         if filename == "main_test.cpp" then
             project = "test_blast"
         end
+        -- change this to use cmake
         vim.fn.jobstart('make -j ' .. project, {
             cwd = bwd,
             stdout_buffered = false,
