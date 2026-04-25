@@ -242,5 +242,50 @@ return {
     -- },
     { "tpope/vim-obsession" },
     { "mhinz/vim-startify" },
-    { 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" } }
+    { 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" } },
+    {
+      dir = "~/code/configs/claude.nvim",
+      name = "claude.nvim",
+      dependencies = { "folke/snacks.nvim" }, -- optional
+      build = "cd bridge && npm install && npm run build",
+      config = function()
+        require("claude").setup({
+      -- Backend
+      node_path = "node",
+      model = "claude-sonnet-4-6",
+      allowed_tools = { "Bash", "Read", "Edit", "Write", "Glob", "Grep" },
+      max_turns = 50,
+
+      -- UI
+      window = {
+        default_mode = "float", -- "float" | "tab"
+        float = {
+          width = 0.9,
+          height = 0.9,
+          border = "rounded",
+        },
+        input_height = 5,
+      },
+
+      -- Keymaps (buffer-local)
+      keymaps = {
+        isend = "<C-s>",
+        send = "<leader>cs",          -- Send message
+        -- cancel = "<C-c>",        -- Cancel stream
+        history_prev = "<C-p>",  -- Previous input history
+        history_next = "<C-n>",  -- Next input history
+        hide = "<leader>ch",          -- Hide window
+        toggle_fullscreen = "<leader>cf", -- Toggle float/tab
+        toggle_block = "<CR>",   -- Expand/collapse block
+        expand_all = "zR",       -- Expand all blocks
+        collapse_all = "zM",     -- Collapse all blocks
+      },
+
+      -- Logging
+      log = {
+        level = "warn", -- "debug" | "info" | "warn" | "error"
+      },
+            })
+      end,
+    }
 }

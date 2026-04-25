@@ -116,6 +116,12 @@ nmap(
     end
 )
 nmap(
+    '<leader>to',
+    function()
+        require('builtins').open_test_term(nil, 'opencode.term')
+    end
+)
+nmap(
     '<leader>tc',
     function()
         require('builtins').open_test_term(nil, 'claude.term')
