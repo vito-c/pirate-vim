@@ -115,7 +115,25 @@ vim.api.nvim_create_autocmd(
             end
             local path = groot.groot_buff()
             if path then
-                vim.opt_local.path = path
+                local head = ""
+                if type(path) == "string" then
+                    head = path
+                else
+                    head = path[1]
+                end
+                if head == "" or head == nil then
+                    local buf_type = vim.bo.buftype
+                    if buf_type == "terminal" then
+                        head = vim.fn.getcwd()
+                    else
+                        head = vim.fn.expand('%:p:h')
+                    end
+                end
+                if string.sub(head, -2) == "**" then
+                    vim.opt_local.path = path
+                else
+                    vim.opt_local.path = head .. "/**"
+                end
             end
         end
     }
