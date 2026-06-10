@@ -18,7 +18,7 @@ return {
         'nvim-treesitter/nvim-treesitter',
         priority = 900,
         lazy = false,
-        branch = "master",
+        branch = "main",
         build = ":TSUpdate",
     },
 }
